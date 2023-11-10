@@ -1,0 +1,21 @@
+{
+  "name": "express-starter-product",
+  "version": "1.0.0",
+  "description": "Sample server for CSCI 467",
+  "main": "app.js",
+  "scripts": {
+    "start": "set PORT=3100 && node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaimundEge/express-starter-product.git"
+  },
+  "author": "Raimund Ege",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "sqlite3": "^5.1.6"
+  }
+}
