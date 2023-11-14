@@ -4,7 +4,26 @@
     </head>
 
     <body>
-        <h3>Warehouse System: Receiving Desk</h3>
-        Receiving Desk duties can be performed here.
+        <%- include('partials/navbar_warehouse') %>
+        <h3>Receiving Desk</h3>
+        Search for a part to update its quantity on hand.
+        <br><br>
+
+        Search by:
+        <div>
+            <input type="radio"
+                   id="Description"
+                   name="searchType"
+                   value="Description"
+            <label for="Description">Description</label>
+        </div>
+
+        <div>
+        <input type="radio"
+               id="Part ID"
+               name="searchType"
+               value="Part ID"
+        <label for="Part ID">Part ID</label>
+        </div>
     </body>
 </html>

@@ -24,11 +24,11 @@ app.get('/warehouseHomepage', (req, res) => {
   res.render('warehouseHomepage.ejs');
 })
 
-app.post('/workstation', (req, res) => {
+app.all('/workstation', (req, res) => {
   res.render('workstation.ejs');
 })
 
-app.post('/receivingDesk', (req, res) => {
+app.all('/receivingDesk', (req, res) => {
   res.render('receivingDesk.ejs');
 })
 
