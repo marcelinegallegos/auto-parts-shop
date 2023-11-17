@@ -33,6 +33,14 @@
             margin-right: -0.5rem;
         }
 
+        .part-display {
+            flex: 1; 
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            margin-right: -0.5rem;
+        }
+
         #query {
             height: 2.8rem;
             width: 35rem;
@@ -96,5 +104,22 @@
             </form>
           </div>
 
+          <div class="part-display">
+            <table border="1", padding="15px">
+                <tr>
+                    <th style="text-align: center; padding: 20px">Part ID</th>
+                    <th style="padding: 20px">Description</th>
+                    <th style="padding: 20px">Quantity on Hand</th>
+                </tr>
+
+                <% for (part in all) { %>
+                    <tr>
+                        <td style="text-align: center; padding: 20px"><%= all[part].partNumber %></td>
+                        <td style="text-align: center;">description here</td>
+                        <td style="text-align: center;"><%= all[part].quantity %></td>
+                    </tr>
+                <% }; %>
+            </table>
+          </div>
     </body>
 </html>
