@@ -22,7 +22,7 @@ class InventoryRepository {
 
     update(partNumber, quantity) {
         return this.dao.run(
-            `UPDATE inventory SET quantity = ? WHERE partNumber = ?`
+            `UPDATE inventory SET quantity = ? WHERE partNumber = ?`,
             [quantity, partNumber]
         )
     }

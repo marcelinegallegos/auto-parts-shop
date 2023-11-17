@@ -28,7 +28,7 @@ class ShippingRepository {
             SET minWeight = ?
                 maxWeight = ?
                 cost = ?
-            WHERE id = ?`
+            WHERE id = ?`,
             [minWeight, maxWeight, cost, id]
         )
     }
