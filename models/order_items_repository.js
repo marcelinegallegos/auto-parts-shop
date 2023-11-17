@@ -5,7 +5,7 @@ class OrderItemsRepository {
     
     createTable() {
         const sql = `
-        CREATE TABLE orderItems (
+        CREATE TABLE IF NOT EXISTS orderItems (
             orderId INTEGER NOT NULL,
             partNumber INTEGER NOT NULL,
             quantity INTEGER NOT NULL,

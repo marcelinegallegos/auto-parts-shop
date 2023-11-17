@@ -5,7 +5,7 @@ class ShippingRepository {
 
     createTable() {
         const sql = `
-        CREATE TABLE shipping (
+        CREATE TABLE IF NOT EXISTS shipping (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             minWeight REAL NOT NULL,
             maxWeight REAL NOT NULL,
