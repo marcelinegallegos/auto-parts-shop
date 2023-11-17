@@ -36,12 +36,12 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
-app.post('/workstation', (req, res) => {
-	res.render('workstation.ejs');
+app.all('/workstation', (req, res) => {
+  res.render('workstation.ejs');
 })
 
-app.post('/receivingDesk', (req, res) => {
-	res.render('receivingDesk.ejs');
+app.all('/receivingDesk', (req, res) => {
+  res.render('receivingDesk.ejs');
 })
 
 const credit = require('./controllers/credit');
