@@ -31,29 +31,8 @@ function main() {
                 resolve('success')
             })
         })
-        .catch((err) => {
-            console.error(err.message)
-        })
-
-        orderRepo.createTable()
-        .then(() => orderRepo.getAll())
-        .then((rows) => {
-            return new Promise((resolve, reject) => {
-                rows.forEach((row) => {
-                    orderRepo.create("Megan", "Moisant", "megmoisant@gmail.com", 39.99, 20, "400 E Hillcrest Dr", "Dekalb", "IL", "60031", "United States")
-                })
-                resolve('success')
-            })
-        })
-        .then(() => orderRepo.getAll())
-        .then((rows) => {
-            return new Promise((resolve, reject) => {
-                rows.forEach((row) => {
-                    console.log(`date = ${row.date} order_id = ${row.id}`)
-                })
-                resolve('success')
-            })
-        })
+        .then(() => orderRepo.createTable())
+        .then(() => orderRepo.create("Megan", "Moisant", "megmoisant@gmail.com", 39.99, 20, "400 E Hillcrest Dr", "Dekalb", "IL", "60031", "United States"))
         .catch((err) => {
             console.error(err.message)
         })

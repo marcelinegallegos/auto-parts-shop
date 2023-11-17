@@ -38,7 +38,8 @@
                 </tr>
                 <% for (part in all) { %>
                 <tr>
-                    <td style="text-align: center;"<%= all[part].date %>></td>
+                    <%= console.log(all[part].date) %>
+                    <td style="text-align: center;"><%= all[part].date %></td>
                     <td style="text-align: center;"><%= all[part].id %></td>
                     <td style="text-align: center;">Received</td>
                     <td><input type="button" id="printPackingList" name="printPackingList" value="Print Packing List">

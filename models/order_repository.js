@@ -27,14 +27,14 @@ class OrderRepository {
     create(firstName, lastName, email, amount, weight, address, city, state, zip, country) {
         return this.dao.run(
             `INSERT INTO orders (firstName, lastName, email, amount, weight, address, city, state, zip, country)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [firstName, lastName, email, amount, weight, address, city, state, zip, country]
         )
     }
 
     update(status, id) {
         return this.dao.run(
-            `UPDATE orders SET status = ? WHERE id = ?`
+            `UPDATE orders SET status = ? WHERE id = ?`,
             [status, id]
         )
     }
