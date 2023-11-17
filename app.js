@@ -1,9 +1,13 @@
 const express = require('express')
+const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao');
 const ProductRepository = require('./models/product_repository');
+const OrderRepo = require('./models/order_repository');
 
+const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO();
 const productRepo = new ProductRepository(legacyDao);
+const orderRepo = new OrderRepo(dao);
 
 
 const app = express()
@@ -37,7 +41,10 @@ app.get('/warehouseHomepage', (req, res) => {
 })
 
 app.all('/workstation', (req, res) => {
-  res.render('workstation.ejs');
+	orderRepo.getAll()
+		.then((list) => {
+			res.render('workstation.ejs', { all: list })
+		})
 })
 
 app.all('/receivingDesk', (req, res) => {
