@@ -1,15 +1,16 @@
 const express = require('express')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const AppDAO = require('./models/app_dao')
-const LegacyDAO = require('./models/legacy_dao');
-const ProductRepository = require('./models/product_repository');
-const OrderRepo = require('./models/order_repository');
+const LegacyDAO = require('./models/legacy_dao')
+const PartRepository = require('./models/part_repository')
+const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const shopRouter = require('./routes/shop')
 
 const dao = new AppDAO('./db/database.db')
-const legacyDao = new LegacyDAO();
-const productRepo = new ProductRepository(legacyDao);
-const orderRepo = new OrderRepo(dao);
+const legacyDao = new LegacyDAO()
+const partRepo = new PartRepository(legacyDao)
+const orderRepo = new OrderRepo(dao)
 const inventoryRepo = new InventoryRepo(dao)
 
 const app = express()
@@ -18,11 +19,12 @@ var port = process.env.PORT || 3000;
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-
+app.use(express.static('public'))
+app.use(express.static('./node_modules/bootstrap/dist/'))
+app.use(express.static('./node_modules/bootstrap-icons/'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use("/shop", shopRouter)
 
 app.get('/', (req, res) => {
 	res.render('index');
@@ -30,16 +32,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getParts', (req, res) => {
-	productRepo.getAll()
-		.then((list) => {
-			res.render('parts.ejs', { all: list })
+	partRepo.getAll()
+		.then((rows) => {
+			res.render('parts.ejs', { rows: rows})
 		})
 })
 
 app.get('/api/parts', (req, res) => {
-	productRepo.getAll()
-		.then((list) => {
-			res.json({ all: list })
+	partRepo.getAll()
+		.then((rows) => {
+			res.json({ rows: rows })
 		})
 })
 
