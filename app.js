@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
 	res.render('index');
+  console.log(req.body.query);
 })
 
 app.get('/getParts', (req, res) => {
@@ -46,15 +47,6 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
-// app.all('/workstation', (req, res) => {	
-// 	orderRepo.getAll()
-// 		.then((list) => {
-// 			res.render('workstation.ejs', { 
-// 				all: list 
-
-// 			})
-// 		})
-// })
 // Route to render the workstation view
 app.all('/workstation', (req, res) => {
     orderRepo.getAll()
