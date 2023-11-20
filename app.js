@@ -3,12 +3,13 @@ const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao');
 const ProductRepository = require('./models/product_repository');
 const OrderRepo = require('./models/order_repository');
+const InventoryRepo = require('./models/inventory_repository')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO();
 const productRepo = new ProductRepository(legacyDao);
 const orderRepo = new OrderRepo(dao);
-
+const inventoryRepo = new InventoryRepo(dao)
 
 const app = express()
 var port = process.env.PORT || 3000;
@@ -48,7 +49,10 @@ app.all('/workstation', (req, res) => {
 })
 
 app.all('/receivingDesk', (req, res) => {
-  res.render('receivingDesk.ejs');
+	inventoryRepo.getAll()
+		.then((list) => {
+			res.render('receivingDesk.ejs', { all: list })
+		})
 })
 
 const credit = require('./controllers/credit');
