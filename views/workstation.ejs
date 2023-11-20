@@ -40,8 +40,8 @@
                 <tr>
                     <td style="text-align: center; padding: 20px"><%= all[part].date %></td>
                     <td style="text-align: center;"><%= all[part].id %></td>
-                    <td style="text-align: center; id="orderStatus_<%= all[part].id %>""><%= all[part].status %></td>
-                    <td style="text-align: center; padding: 20px"><input type="button" id="printPackingList" name="printPackingList" value="Print Packing List">
+                    <td style="text-align: center;" id="orderStatus_<%= all[part].id %>""><%= all[part].status %></td>
+                    <td style="text-align: center;" padding: 20px"><input type="button" id="printPackingList" name="printPackingList" value="Print Packing List">
                     <br><input type="button" id="printLabels" name="printLabels" value="Print Invoice and Shipping Label"></td>
                     <td style="text-align: center;">
                         <input type="button" id="shipped" name="shipped" value="Mark Shipped" onclick="markShipped('<%= all[part].id %>', '<%= all[part].status %>')">                    </td>                
@@ -67,6 +67,7 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+                location.reload();
             }
         </script>
     </body>
