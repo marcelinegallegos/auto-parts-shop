@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require("body-parser");
 const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao');
 const ProductRepository = require('./models/product_repository');
@@ -18,9 +19,13 @@ var port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
+
+
 
 app.get('/', (req, res) => {
 	res.render('index');
+  console.log(req.body.query);
 })
 
 app.get('/getParts', (req, res) => {
