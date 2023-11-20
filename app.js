@@ -1,5 +1,15 @@
 const express = require('express')
-var db = require('./controllers/database.js')
+const bodyParser = require("body-parser");
+const AppDAO = require('./models/app_dao')
+const LegacyDAO = require('./models/legacy_dao');
+const ProductRepository = require('./models/product_repository');
+const OrderRepo = require('./models/order_repository');
+
+const dao = new AppDAO('./db/database.db')
+const legacyDao = new LegacyDAO();
+const productRepo = new ProductRepository(legacyDao);
+const orderRepo = new OrderRepo(dao);
+
 
 const app = express()
 var port = process.env.PORT || 3000;
@@ -8,9 +18,13 @@ var port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
+
+
 
 app.get('/', (req, res) => {
-  res.render('index');
+	res.render('index');
+  console.log(req.body.query);
 })
 
 const parts = require('./controllers/parts');

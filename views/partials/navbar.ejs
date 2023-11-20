@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+      position: relative;
+      display: flex;
+      justify-content: space-between; 
+    }
+
+    .cart {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .search-box {
+      flex: 1; 
+      display: flex;
+      align-items: center;
+      justify-content: right; 
+      margin-right: 5rem;
+    }
+
+    #query {
+      height: 2.8rem;
+      background: #f5f5f5;
+      outline: none;
+      border: none;
+      border-radius: 1.625rem;
+      padding: 0 1rem;
+      font-size: 1.rem;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .search-form {
+      display: flex;
+      align-items: right;
+    }
+
+    .search-button {
+      width: 3.5rem;
+      height: 2.8rem;
+      margin-left: -3.5rem;
+      background: none;
+      border: none;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+
+  <div class="search-box">
+    <form class="search-form" action="/getParts" method="get">
+      <input type="search" id="query" name="query" placeholder="Search...">
+
+      <button class="search-button">
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+          <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+        </svg>
+      </button>
+
+    </form>
+  </div>
+
+  <a class="cart" href="/ShoppingCart">
+    <span class="glyphicon glyphicon-shopping-cart"></span>
+  </a>
+</div>
+
+<div style="padding-left:16px">
+</body>
+</html>
