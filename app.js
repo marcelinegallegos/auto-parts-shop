@@ -1,11 +1,17 @@
 const express = require('express')
-const shopRouter = require('./routes/shop')
+const bodyParser = require('body-parser')
+const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
+const OrderRepo = require('./models/order_repository')
+const InventoryRepo = require('./models/inventory_repository')
+const shopRouter = require('./routes/shop')
 
-const legacyDao = new LegacyDAO();
-const partRepo = new PartRepository(legacyDao);
-
+const dao = new AppDAO('./db/database.db')
+const legacyDao = new LegacyDAO()
+const partRepo = new PartRepository(legacyDao)
+const orderRepo = new OrderRepo(dao)
+const inventoryRepo = new InventoryRepo(dao)
 
 const app = express()
 var port = process.env.PORT || 3000;
@@ -13,14 +19,16 @@ var port = process.env.PORT || 3000;
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-app.use(express.static("public"))
-app.use(express.static("./node_modules/bootstrap/dist/"))
-app.use(express.static("./node_modules/bootstrap-icons/"))
-
+app.use(express.static('public'))
+app.use(express.static('./node_modules/bootstrap/dist/'))
+app.use(express.static('./node_modules/bootstrap-icons/'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use("/shop", shopRouter)
 
 app.get('/', (req, res) => {
 	res.render('index');
+  console.log(req.body.query);
 })
 
 app.get('/getParts', (req, res) => {
@@ -41,12 +49,41 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
+// Route to render the workstation view
 app.all('/workstation', (req, res) => {
-  res.render('workstation.ejs');
-})
+    orderRepo.getAll()
+        .then((list) => {
+            res.render('workstation.ejs', {
+                all: list
+            });
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
+// Route to update order status
+app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
+    const orderId = req.params.orderId;
+    const currentStatus = req.params.currentStatus;
+
+    orderRepo.update('shipped', orderId)
+        .then(() => {
+            res.json({ message: 'Order status updated successfully' });
+        })
+        .catch(error => {
+            console.error('Error updating order status:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+  
 
 app.all('/receivingDesk', (req, res) => {
-  res.render('receivingDesk.ejs');
+	inventoryRepo.getAll()
+		.then((list) => {
+			res.render('receivingDesk.ejs', { all: list })
+		})
 })
 
 const credit = require('./controllers/credit');

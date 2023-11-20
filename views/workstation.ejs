@@ -21,7 +21,7 @@
     </head>
 
     <body>
-        <%- include('partials/navbar_warehouse') %>
+        <%- include('partials/navbar_workstation') %>
         <div class="workstation">
             <h3>Workstation</h3>
             <br><br>
@@ -30,24 +30,45 @@
         <div class="order-display">
             <table border="1", padding="15px">
                 <tr>
-                    <th style="padding: 20px">Order Date</th>
+                    <th style="text-align: center; padding: 20px">Order Date</th>
                     <th style="padding: 20px">Order ID</th>
                     <th style="padding: 20px">Order Status</th>
-                    <th style="padding: 20px"></th>
-                    <th style="padding: 20px">Mark Packed</th>
-                    <th style="padding: 20px"></th>
-                    <th style="padding: 20px">Mark Shipped</th>
+                    <th style="text-align: center; padding: 20px">Print</th>
+                    <th style="padding: 20px">Update Status</th>
                 </tr>
+                <% for (part in all) { %>
                 <tr>
-                    <td>01-01-2001</td>
-                    <td>1</td>
-                    <td>Received</td>
-                    <td><input type="button" id="printPackingList" name="printPackingList" value="Print Packing List"></td>
-                    <td style="text-align: center;"><input type="checkbox" id="packed" name="packed"></td>
-                    <td><input type="button" id="printLabels" name="printLabels" value="Print Invoice and Shipping Label"></td>
-                    <td style="text-align: center;"><input type="checkbox" id="shipped" name="shipped"></td>
+                    <td style="text-align: center; padding: 20px"><%= all[part].date %></td>
+                    <td style="text-align: center;"><%= all[part].id %></td>
+                    <td style="text-align: center;" id="orderStatus_<%= all[part].id %>""><%= all[part].status %></td>
+                    <td style="text-align: center;" padding: 20px"><input type="button" id="printPackingList" name="printPackingList" value="Print Packing List">
+                    <br><input type="button" id="printLabels" name="printLabels" value="Print Invoice and Shipping Label"></td>
+                    <td style="text-align: center;">
+                        <input type="button" id="shipped" name="shipped" value="Mark Shipped" onclick="markShipped('<%= all[part].id %>', '<%= all[part].status %>')">                    </td>                
                 </tr>
+                <% }; %>
             </table>
         </div>
+
+        <script>
+            function markShipped(orderId, currentStatus) {
+                fetch(`/updateOrderStatus/${orderId}/${currentStatus}`, {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Update the order status on the page without a full refresh
+                    const orderStatusElement = document.getElementById(`orderStatus_${orderId}`);
+                    if (orderStatusElement) {
+                        orderStatusElement.innerText = 'shipped'; // Update to the new status
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                location.reload();
+            }
+        </script>
     </body>
 </html>

@@ -19,7 +19,7 @@ class OrderItemsRepository {
     create(orderId, partNumber, quantity) {
         return this.dao.run(
             `INSERT INTO orderItems (orderId, partNumber, quantity)
-                VALUES (?, ?, ?)`
+                VALUES (?, ?, ?)`,
             [orderId, partNumber, quantity]
         )
     }

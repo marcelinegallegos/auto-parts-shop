@@ -3,12 +3,14 @@ const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao')
 const InventoryRepository = require('./models/inventory_repository')
 const PartRepository = require('./models/part_repository')
+const OrderRepository = require('./models/order_repository')
 
 function main() {
     const legacyDao = new LegacyDAO()
     const dao = new AppDAO('./db/database.db')
     const inventoryRepo = new InventoryRepository(dao)
     const partRepo = new PartRepository(legacyDao)
+    const orderRepo = new OrderRepository(dao)
 
     inventoryRepo.createTable()
         .then(() => partRepo.getAll())
@@ -29,6 +31,9 @@ function main() {
                 resolve('success')
             })
         })
+        .then(() => orderRepo.createTable())
+        .then(() => orderRepo.create("Jane", "Doe", "janedoe@gmail.com", 999.99, 50, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
+        .then(() => orderRepo.create("John", "Doe", "johndoe@gmail.com", 39.99, 20, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
         .catch((err) => {
             console.error(err.message)
         })

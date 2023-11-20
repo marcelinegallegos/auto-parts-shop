@@ -12,10 +12,11 @@
   },
   "author": "Raimund Ege",
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^1.6.2",
     "bluebird": "^3.7.2",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
+    "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
