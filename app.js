@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser');
 const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao');
 const ProductRepository = require('./models/product_repository');
@@ -18,6 +19,10 @@ var port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
 
 app.get('/', (req, res) => {
 	res.render('index');
@@ -41,12 +46,44 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
+// app.all('/workstation', (req, res) => {	
+// 	orderRepo.getAll()
+// 		.then((list) => {
+// 			res.render('workstation.ejs', { 
+// 				all: list 
+
+// 			})
+// 		})
+// })
+// Route to render the workstation view
 app.all('/workstation', (req, res) => {
-	orderRepo.getAll()
-		.then((list) => {
-			res.render('workstation.ejs', { all: list })
-		})
-})
+    orderRepo.getAll()
+        .then((list) => {
+            res.render('workstation.ejs', {
+                all: list
+            });
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
+// Route to update order status
+app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
+    const orderId = req.params.orderId;
+    const currentStatus = req.params.currentStatus;
+
+    orderRepo.update('shipped', orderId)
+        .then(() => {
+            res.json({ message: 'Order status updated successfully' });
+        })
+        .catch(error => {
+            console.error('Error updating order status:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+  
 
 app.all('/receivingDesk', (req, res) => {
 	inventoryRepo.getAll()
