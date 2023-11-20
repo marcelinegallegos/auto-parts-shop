@@ -1,4 +1,4 @@
-class ProductRepository {
+class PartRepository {
     constructor(dao) {
         this.dao = dao
     }
@@ -15,4 +15,4 @@ class ProductRepository {
     }
 }
 
-module.exports = ProductRepository
+module.exports = PartRepository
