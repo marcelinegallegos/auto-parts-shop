@@ -50,11 +50,20 @@
 <body>
 
 <div class="topnav">
-    <a class="active" href="/warehouseHomepage">Warehouse Home</a>
+    <a href="/warehouseHomepage">Warehouse Home</a>
     <a href="/workstation">Workstation</a>
     <a href="/receivingDesk">Receiving Desk</a>
 </div>
 
 <div style="padding-left:16px">
 
-
+    <script>
+        // Get the current URL path
+        var path = window.location.pathname;
+      
+        // Set the corresponding link as active based on the current path
+        var activeLink = document.querySelector('.topnav a[href="' + path + '"]');
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      </script>
