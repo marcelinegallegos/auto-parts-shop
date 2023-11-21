@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Part Catalog</title>
+    <%- include('partials/navbar') %>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     </link>
     <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -12,7 +13,7 @@
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
+    
     <div class="container-md">
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <% for(row in rows) { %>

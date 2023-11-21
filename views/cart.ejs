@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Shopping Cart</title>
+    <%- include('partials/navbar') %>
     <style>
         h1 {
             text-align: center;
@@ -160,7 +161,7 @@
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
+    
     <h1>Shopping Cart</h1>
 
     <% currentCart.forEach(item => { %>

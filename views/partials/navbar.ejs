@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+  
+  <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
+  </link>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  </link>
 
-    .topnav {
+  <style>
+
+    .custom-topnav {
       overflow: hidden;
       background-color: #333;
       position: relative;
-
     }
 
-    .cart {
+    .custom-cart {
       position: absolute;
       top: 0;
       right: 0;
     }
 
-    .topnav a {
+    .custom-topnav a {
       float: left;
       color: #f2f2f2;
       text-align: center;
@@ -31,30 +30,34 @@
       font-size: 17px;
     }
 
-    .topnav a:hover {
+    .custom-topnav a:hover {
       background-color: #ddd;
       color: black;
     }
 
-    .topnav a.active {
+    .custom-topnav a.active {
       background-color: #e8c7c8;
       color: white;
     }
-
-    
    
   </style>
 </head>
 <body>
 
-<div class="topnav">
+<div class="custom-topnav">
   <a class="home" href="/">Home</a>
 
   <a class="catalog" id="catalog" href="/shop">Catalog</a>
 
-  <a class="cart" href="/ShoppingCart">
-    <span class="glyphicon glyphicon-shopping-cart"></span>
+  <a class="custom-cart" href="/ShoppingCart">
+    <!-- <span class="glyphicon glyphicon-shopping-cart"></span></a> -->
+    
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+      </svg>
   </a>
+    
+  
 </div>
 
 <div style="padding-left:16px">
@@ -64,7 +67,7 @@
     var path = window.location.pathname;
   
     // Set the corresponding link as active based on the current path
-    var activeLink = document.querySelector('.topnav a[href="' + path + '"]');
+    var activeLink = document.querySelector('.custom-topnav a[href="' + path + '"]');
     if (activeLink) {
       activeLink.classList.add('active');
     }
