@@ -86,6 +86,10 @@ app.all('/receivingDesk', (req, res) => {
 		})
 })
 
+app.all('/shippingBracket', (req, res) => {
+	res.render('shippingBracket');
+})
+
 const credit = require('./controllers/credit');
 app.get('/processCC', (req, res) => {
 	credit.processSample((result) => {
