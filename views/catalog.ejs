@@ -31,8 +31,20 @@
                                     <p class="card-text text-success fw-semibold">
                                         <%= rows[row].quantity %> In Stock
                                     </p>
-                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modal<%= rows[row].number %>">Add to Cart</a>
+                                    <!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modal<%= rows[row].number %>">Add to Cart</a> -->
+                                       
+                                        <form action="/addToCart" method="post">
+                                            <input type="hidden" name="productId" value="<%= rows[row].id %>">
+                                            <input type="hidden" name="quantity" value="1"> 
+                                        
+                                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<%= rows[row].number %>">
+                                                Add to Cart
+                                            </button>
+                                        </form>
+                                        
+
+
                                     <div class="modal fade" id="modal<%= rows[row].number %>" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">

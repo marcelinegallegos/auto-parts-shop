@@ -6,6 +6,7 @@ const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
 const shopRouter = require('./routes/shop')
+const catalogController = require('./controllers/catalog_controller')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -94,7 +95,6 @@ app.get('/processCC', (req, res) => {
 })
 
 
-const cart = require('./controllers/cart');
 app.get('/shoppingCart', function (req, res) {
 	const currentCart = [
 		{
@@ -124,7 +124,7 @@ app.get('/shoppingCart', function (req, res) {
 	res.render('cart.ejs', { currentCart });
 });
 
-
+app.post('/addToCart', catalogController.addToCart)
 
 
 app.listen(port, () => {
