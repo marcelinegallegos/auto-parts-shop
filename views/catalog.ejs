@@ -35,7 +35,7 @@
                                         data-bs-target="#modal<%= rows[row].number %>">Add to Cart</a> -->
                                        
                                         <form action="/addToCart" method="post">
-                                            <input type="hidden" name="productId" value="<%= rows[row].id %>">
+                                            <input type="hidden" name="productId" value="<%= rows[row].number %>">
                                             <input type="hidden" name="quantity" value="1"> 
                                         
                                             <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<%= rows[row].number %>">

@@ -20,7 +20,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 })
 
 exports.addToCart = asyncHandler(async (req, res, next) => {
+    console.log('Request Body:', req.body);
     const addedPart = await partRepo.getById(req.body.productId);
+    console.log('Added Part:', addedPart);
 
     if (addedPart) {
         Cart.save(addedPart);
