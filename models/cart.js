@@ -1,36 +1,28 @@
-// class cart
-// class Cart {
-//     constructor() {
-//         this.cart = { parts: [], totalPrice: 0 };
-//     }
-
-//     save(part) {
-//         part.quantity = 1;
-//         this.cart.parts.push(part);
-//         this.cart.totalPrice += part.price;
-//     }
-
-//     getCart() {
-//         return this.cart;
-//     }
-// }
-
-// module.exports = Cart;
-
-
 let cart = null;
-
 module.exports = class Cart {
 
     static save(part) {
-        if (cart) {
+
+        if (cart) { //if cart is not empty
 
         }
-        else {
-            cart = { parts: [], totalPrice: 0 };
+        else {  //if cart is currently empty
+
+            //initialize empty cart
+            cart = { parts: [], totalPrice: 0 };   
             part.quantity = 1;
-            cart.parts.push(part);
-            cart.totalPrice = part.price;
+
+            //add part to the array of parts
+            cart.parts.push(part);  
+
+            const price = part[0].price;
+            console.log('Price:', price);
+
+            
+            cart.totalPrice = price;
+            
+            console.log("Part price:", part.price);
+            console.log("Part: ", part)
         }
     }
 
