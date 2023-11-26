@@ -167,7 +167,7 @@
     <% cart.parts.forEach(item => { %> 
          <div class="cart-item">
             <div class="image-box">
-                <img src="<%= item.image %>" alt="<%= item.description %>" style="height: 120px;" />
+                <img src="<%= item.pictureURL %>" alt="<%= item.description %>" style="height: 120px;" />
             </div>
             <div class="about">
                 <h2 class="name"><%= item.description %></h2>
@@ -185,11 +185,6 @@
             </div>
         </div>
     <% }); %>
-
-
-
-
-
 
     <hr> 
         <div class="checkout">
