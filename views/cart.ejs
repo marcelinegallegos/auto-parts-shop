@@ -6,10 +6,11 @@
     <style>
         h1 {
             text-align: center;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin-bottom: 5%;
         }
 
+        
         .cart-item {
             margin: auto;
             width: 90%;
@@ -23,30 +24,36 @@
         }
 
         .image-box {
-            width: 15%;
+            width: 0%;
             text-align: center;
         }
 
         .about {
-            flex-grow: 1;
             padding: 0 10px;
-            text-align: center;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .text-details {
+            width: 70%; 
         }
 
         .name {
             padding-top: 5px;
             line-height: 1.2;
             font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 600;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #202020;
         }
 
         .weight {
             line-height: 1.2;
             font-size: 18px;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 600;
+            align-items: left;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #909090;
         }
 
@@ -57,29 +64,34 @@
             align-items: center;
         }
 
-        .btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #d9d9d9;
+        .product-quantity {
+            width: 5%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
-            color: #202020;
+            color: #bbb9b9;
             cursor: pointer;
         }
 
+        .quantity-input {
+            width: 30px; /* Adjust the width of the input field */
+            max-width: 30px; /* Set the maximum width of the input field */
+            margin-left: 10px; /* Adjust the margin as needed */
+        }
+
+
         .count {
             font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
 
         .prices {
+            width: 100px;
             height: 100%;
             text-align: right;
         }
@@ -87,15 +99,15 @@
         .amount {
             padding-top: 20px;
             font-size: 26px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 800;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #202020;
         }
 
         .save {
             padding-top: 5px;
             font-size: 14px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #1687d9;
             cursor: pointer;
@@ -104,7 +116,7 @@
         .remove {
             padding-top: 5px;
             font-size: 14px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #E44C4C;
             cursor: pointer;
@@ -127,24 +139,24 @@
         }
         .subtotal {
             font-size: 22px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 700;
             color: #202020;
         }
         .items {
             font-size: 16px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 500;
             color: #909090;
             line-height: 10px;
         }
-        .total-amount{
+        .total-amount {
             font-size: 36px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
-        .button{
+        .button {
             margin-top: 5px;
             width: 100%;
             height: 40px;
@@ -153,7 +165,7 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 16px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #202020;
         }
@@ -165,35 +177,35 @@
     <h1>Shopping Cart</h1>
 
     <% cart.parts.forEach(item => { %> 
-         <div class="cart-item">
+        <div class="cart-item">
             <div class="image-box">
                 <img src="<%= item.pictureURL %>" alt="<%= item.description %>" style="height: 120px;" />
             </div>
             <div class="about">
-                <h2 class="name"><%= item.description %></h2>
-                <h3 class="weight"><%= item.weight %> lbs</h3>
+                <div class="text-details">
+                    <h2 class="name"><%= item.description %></h2>
+                    <h3 class="weight"><%= item.weight %> lbs</h3>
+                </div>
             </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count">2</div>
-                <div class="btn">-</div>
-            </div>
+            <div class="product-quantity">
+                <input type="number" class="quantity-input" value="<%= item.quantity %>" min="1">
+              </div>
             <div class="prices">
-                <div class="amount"><%= item.price %></div>
-                <div class="save"><u>Save for later</u></div>
+                <div class="amount">$<%= item.price %></div>
                 <div class="remove"><u>Remove</u></div>
             </div>
         </div>
     <% }); %>
+    
 
     <hr> 
         <div class="checkout">
         <div class="total">
         <div>
-        <div class="subtotal">Sub-Total</div>
+        <div class="subtotal">Subtotal</div>
         <div class="items">2 items</div>
         </div>
-        <div class="total-amount">$6.18</div>
+        <div class="total-amount">$<%= cart.totalPrice %></div>
         </div>
         <button class="button">Checkout</button>
         </div>
