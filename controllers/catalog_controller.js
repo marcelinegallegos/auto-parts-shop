@@ -31,3 +31,9 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
     }
 });
 
+exports.getCart = asyncHandler(async (req, res, next) => {
+	res.render('cart.ejs', { cart: Cart.getCart() });
+});
+   
+
+

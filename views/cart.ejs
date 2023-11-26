@@ -164,13 +164,13 @@
     
     <h1>Shopping Cart</h1>
 
-    <% currentCart.forEach(item => { %>
-        <div class="cart-item">
+    <% cart.parts.forEach(item => { %> 
+         <div class="cart-item">
             <div class="image-box">
-                <img src="<%= item.image %>" alt="<%= item.name %>" style="height: 120px;" />
+                <img src="<%= item.image %>" alt="<%= item.description %>" style="height: 120px;" />
             </div>
             <div class="about">
-                <h2 class="name"><%= item.name %></h2>
+                <h2 class="name"><%= item.description %></h2>
                 <h3 class="weight"><%= item.weight %> lbs</h3>
             </div>
             <div class="counter">
@@ -185,6 +185,11 @@
             </div>
         </div>
     <% }); %>
+
+
+
+
+
 
     <hr> 
         <div class="checkout">

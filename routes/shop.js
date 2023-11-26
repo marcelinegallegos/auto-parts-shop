@@ -7,4 +7,6 @@ router.get('/', catalogController.index)
 
 router.post('/add_to_cart', catalogController.addToCart)
 
+router.get('/shoppingCart', catalogController.getCart)
+
 module.exports = router
