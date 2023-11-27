@@ -67,7 +67,58 @@
             From 0 to 1 lbs     free shipping
             <br><br>
             From 1 to 5 lbs     $500
+            <br><br>
         </div>
 
-    </body>
+        <div class="weight-brackets">
+            <!-- Add form for new shipping cost -->
+            <form id="add-cost-form">
+                <input type="number" id="maxWeight" min="0" placeholder="Enter weight" required>
+                <input type="text" id="cost" min="0" placeholder="Enter cost" required>
+                <button type="submit">Add</button>
+            </form>            
+
+            <!-- Display existing shipping costs -->
+            <div id="shipping-costs">
+                <!-- Each shipping cost will be a div with this structure:
+                <div class="shipping-cost">
+                    <span>From 0 to 1 lbs free shipping</span>
+                    <button class="remove-button">Remove</button>
+                </div>
+                -->
+            </div>
+        </div>
+
+        <script src="/shipping.js">
+            document.getElementById('add-cost-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                const minWeight = 0;
+                const maxWeight = document.getElementById('maxWeight').value;
+                const cost = document.getElementById('cost').value;
+        
+                // Send a POST request to the server
+                fetch('/add-cost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', 
+                    },
+                    body: JSON.stringify({ minWeight, maxWeight, cost }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Optionally, update the UI or show a success message
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle the error, show an error message, etc.
+                });
+            });
+        </script>
+        
+</body>
+
+    
 </html>
+
