@@ -2,7 +2,7 @@
  * Shopping Cart Model
  */
 
-let cart = null;
+let cart = { parts: [], totalPrice: 0 };
 module.exports = class Cart {
 
     static save(part) {
