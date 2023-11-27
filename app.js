@@ -5,7 +5,6 @@ const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
-const shopRouter = require('./routes/shop')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -24,11 +23,15 @@ app.use(express.static('./node_modules/bootstrap/dist/'))
 app.use(express.static('./node_modules/bootstrap-icons/'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+const shopRouter = require('./routes/shop')
+const catalogController = require('./controllers/catalog_controller')
+
 app.use("/shop", shopRouter)
+
 
 app.get('/', (req, res) => {
 	res.render('index');
-  console.log(req.body.query);
 })
 
 app.get('/getParts', (req, res) => {
@@ -93,39 +96,13 @@ app.get('/processCC', (req, res) => {
 	});
 })
 
+app.post('/addToCart', catalogController.addToCart)
 
-const cart = require('./controllers/cart');
-app.get('/shoppingCart', function (req, res) {
-	const currentCart = [
-		{
-			id: 1,
-			name: 'windshield w/ polymer',
-			price: 178.76, weight: 0.55,
-			image: 'https://blitz.cs.niu.edu/pics/shi.jpg'
-		},
+app.get('/shoppingCart', catalogController.getCart)
 
-		{
-			id: 2,
-			name: 'wiper blade pair',
-			price: 23.37,
-			weight: 2.5,
-			image: 'https://blitz.cs.niu.edu/pics/wip.jpg'
-		},
+app.post('/removeItem', catalogController.removeFromCart)
 
-		{
-			id: 8,
-			name: 'supercharger',
-			price: 711.14,
-			weight: 99.99,
-			image: 'https://blitz.cs.niu.edu/pics/anc.jpg'
-		},
-	];
-
-	res.render('cart.ejs', { currentCart });
-});
-
-
-
+app.post('/updateQuantity', catalogController.updateQuantity)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)

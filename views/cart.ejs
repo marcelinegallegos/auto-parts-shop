@@ -4,12 +4,14 @@
     <title>Shopping Cart</title>
     <%- include('partials/navbar') %>
     <style>
+        
         h1 {
             text-align: center;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin-bottom: 5%;
         }
 
+        
         .cart-item {
             margin: auto;
             width: 90%;
@@ -23,32 +25,40 @@
         }
 
         .image-box {
-            width: 15%;
+            width: 0%;
             text-align: center;
         }
 
         .about {
             flex-grow: 1;
             padding: 0 10px;
-            text-align: center;
+            text-align: left;
+        }
+
+        .text-details {
+            width: 70%; 
+            margin-left: 20%;
         }
 
         .name {
             padding-top: 5px;
             line-height: 1.2;
             font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 600;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #202020;
         }
 
         .weight {
             line-height: 1.2;
             font-size: 18px;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 600;
+            align-items: left;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #909090;
         }
+
+      
 
         .counter {
             width: 15%;
@@ -57,29 +67,47 @@
             align-items: center;
         }
 
-        .btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #d9d9d9;
+        .qty-container {
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 900;
-            color: #202020;
-            cursor: pointer;
+            justify-content: center;
+            padding-right: 1.5%;
+        }
+
+        .qty-container .input-qty {
+            text-align: center;
+            padding: 6px 10px;
+            border: 1px solid #d4d4d4;
+            max-width: 50px;
+        }
+
+        .qty-container .qty-btn-minus,
+        .qty-container .qty-btn-plus {
+            border: 1px solid #d4d4d4;
+            padding: 10px 13px;
+            font-size: 10px;
+            height: 38px;
+            width: 38px;
+            transition: 0.3s;
+        }
+
+        .qty-container .qty-btn-plus {
+            margin-left: -1px;
+        }
+        
+        .qty-container .qty-btn-minus {
+            margin-right: -1px;
         }
 
         .count {
             font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
 
         .prices {
+            width: 100px;
             height: 100%;
             text-align: right;
         }
@@ -87,15 +115,15 @@
         .amount {
             padding-top: 20px;
             font-size: 26px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 800;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
             color: #202020;
         }
 
         .save {
             padding-top: 5px;
             font-size: 14px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #1687d9;
             cursor: pointer;
@@ -103,11 +131,18 @@
 
         .remove {
             padding-top: 5px;
+            
+        }
+
+        .remove-button {
+            background: none;
+            border: none;
             font-size: 14px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #E44C4C;
             cursor: pointer;
+            text-decoration: underline;
         }
 
         hr {
@@ -127,24 +162,24 @@
         }
         .subtotal {
             font-size: 22px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 700;
             color: #202020;
         }
         .items {
             font-size: 16px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 500;
             color: #909090;
             line-height: 10px;
         }
-        .total-amount{
+        .total-amount {
             font-size: 36px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
-        .button{
+        .button {
             margin-top: 5px;
             width: 100%;
             height: 40px;
@@ -153,7 +188,7 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 16px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #202020;
         }
@@ -164,36 +199,48 @@
     
     <h1>Shopping Cart</h1>
 
-    <% currentCart.forEach(item => { %>
+    <% cart.parts.forEach(item => { %> 
         <div class="cart-item">
             <div class="image-box">
-                <img src="<%= item.image %>" alt="<%= item.name %>" style="height: 120px;" />
+                <img src="<%= item.pictureURL %>" alt="<%= item.description %>" style="height: 120px;" />
             </div>
             <div class="about">
-                <h2 class="name"><%= item.name %></h2>
-                <h3 class="weight"><%= item.weight %> lbs</h3>
+                <div class="text-details">
+                    <h2 class="name"><%= item.description %></h2>
+                    <h3 class="weight"><%= item.weight %> lbs</h3>
+                </div>
             </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count">2</div>
-                <div class="btn">-</div>
-            </div>
+                <form action="/updateQuantity" method="post" class="qty-container">
+                    <input type="hidden" name="productId" value="<%= item.number %>">
+                    <button class="qty-btn-minus btn-light" type="submit" name="action" value="decrement">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+                    <input type="text" name="qty" value="<%= item.quantity %>" class="input-qty"/>
+                    <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </form>
             <div class="prices">
-                <div class="amount"><%= item.price %></div>
-                <div class="save"><u>Save for later</u></div>
-                <div class="remove"><u>Remove</u></div>
+                <div class="amount">$<%= item.price %></div>
+                <div class="remove">
+                    <form action="/removeItem" method="post">
+                        <input type="hidden" name="productId" value="<%= item.number %>">
+                        <button type="submit" class="remove-button">Remove</button>
+                    </form>
+                </div>
             </div>
         </div>
     <% }); %>
+    
 
     <hr> 
         <div class="checkout">
         <div class="total">
         <div>
-        <div class="subtotal">Sub-Total</div>
+        <div class="subtotal">Subtotal</div>
         <div class="items">2 items</div>
         </div>
-        <div class="total-amount">$6.18</div>
+        <div class="total-amount">$<%= cart.totalPrice %></div>
         </div>
         <button class="button">Checkout</button>
         </div>
