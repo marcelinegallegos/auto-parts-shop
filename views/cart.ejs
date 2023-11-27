@@ -4,6 +4,7 @@
     <title>Shopping Cart</title>
     <%- include('partials/navbar') %>
     <style>
+        
         h1 {
             text-align: center;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -66,27 +67,37 @@
             align-items: center;
         }
 
-        .btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #d9d9d9;
+        .qty-container {
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 20px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: 900;
-            color: #202020;
-            cursor: pointer;
+            justify-content: center;
+            padding-right: 1.5%;
         }
 
-        .quantity-input {
-            width: 30px; /* Adjust the width of the input field */
-            max-width: 30px; /* Set the maximum width of the input field */
-            margin-left: 10px; /* Adjust the margin as needed */
+        .qty-container .input-qty {
+            text-align: center;
+            padding: 6px 10px;
+            border: 1px solid #d4d4d4;
+            max-width: 50px;
         }
 
+        .qty-container .qty-btn-minus,
+        .qty-container .qty-btn-plus {
+            border: 1px solid #d4d4d4;
+            padding: 10px 13px;
+            font-size: 10px;
+            height: 38px;
+            width: 38px;
+            transition: 0.3s;
+        }
+
+        .qty-container .qty-btn-plus {
+            margin-left: -1px;
+        }
+        
+        .qty-container .qty-btn-minus {
+            margin-right: -1px;
+        }
 
         .count {
             font-size: 20px;
@@ -192,11 +203,11 @@
                     <h3 class="weight"><%= item.weight %> lbs</h3>
                 </div>
             </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count"><%= item.quantity %></div>
-                <div class="btn">-</div>
-            </div>
+            <div class="qty-container">
+		        <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
+		    	<input type="text" name="qty" value="<%= item.quantity %>" class="input-qty"/>
+		        <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
+		    </div>
             <div class="prices">
                 <div class="amount">$<%= item.price %></div>
                 <div class="remove"><u>Remove</u></div>
