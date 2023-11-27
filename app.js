@@ -102,6 +102,8 @@ app.get('/shoppingCart', catalogController.getCart)
 
 app.post('/removeItem', catalogController.removeFromCart)
 
+app.post('/updateQuantity', catalogController.updateQuantity)
+
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
 })

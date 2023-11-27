@@ -210,11 +210,16 @@
                     <h3 class="weight"><%= item.weight %> lbs</h3>
                 </div>
             </div>
-            <div class="qty-container">
-		        <button class="qty-btn-minus btn-light" type="button"><i class="bi bi-dash-lg"></i></button>
-		    	<input type="text" name="qty" value="<%= item.quantity %>" class="input-qty"/>
-		        <button class="qty-btn-plus btn-light" type="button"><i class="bi bi-plus-lg"></i></button>
-		    </div>
+                <form action="/updateQuantity" method="post" class="qty-container">
+                    <input type="hidden" name="productId" value="<%= item.number %>">
+                    <button class="qty-btn-minus btn-light" type="submit" name="action" value="decrement">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+                    <input type="text" name="qty" value="<%= item.quantity %>" class="input-qty"/>
+                    <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </form>
             <div class="prices">
                 <div class="amount">$<%= item.price %></div>
                 <div class="remove">

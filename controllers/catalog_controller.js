@@ -39,4 +39,15 @@ exports.removeFromCart = asyncHandler(async (req, res, next) => {
     res.redirect('/ShoppingCart');
 });
 
+exports.updateQuantity = asyncHandler(async (req, res, next) => {
+    const productId = req.body.productId;
+    const action = req.body.action;
 
+    if (action === 'increment') {
+        Cart.increment(productId);
+    } else if (action === 'decrement') {
+        Cart.decrement(productId);
+    }
+
+    res.redirect('/ShoppingCart');
+});
