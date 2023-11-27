@@ -25,7 +25,6 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
     if (addedPart) {
         Cart.save(addedPart);
         console.log(Cart.getCart());
-        res.end('saved successfully');
     } else {
         res.status(404).send('Part not found');
     }
@@ -35,5 +34,9 @@ exports.getCart = asyncHandler(async (req, res, next) => {
 	res.render('cart.ejs', { cart: Cart.getCart() });
 });
    
+exports.removeFromCart = asyncHandler(async (req, res, next) => {
+    Cart.remove(req.body.productId);
+    res.redirect('/ShoppingCart');
+});
 
 

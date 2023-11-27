@@ -29,4 +29,13 @@ module.exports = class Cart {
     static getCart() {
         return cart;
     }
+
+    static remove(partID) {
+        const indexOfPart = cart.parts.findIndex(p => p.number == partID);
+
+        if (indexOfPart >= 0) {
+            const removedPart = cart.parts.splice(indexOfPart, 1)[0];
+            cart.totalPrice -= removedPart.price * removedPart.quantity;
+        }
+    }
 };

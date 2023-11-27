@@ -5,7 +5,7 @@ const catalogController = require ('../controllers/catalog_controller')
 
 router.get('/', catalogController.index)
 
-router.post('/add_to_cart', catalogController.addToCart)
+router.post('/addToCart', catalogController.addToCart)
 
 router.get('/shoppingCart', catalogController.getCart)
 

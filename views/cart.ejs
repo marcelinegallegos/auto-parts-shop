@@ -131,11 +131,18 @@
 
         .remove {
             padding-top: 5px;
+            
+        }
+
+        .remove-button {
+            background: none;
+            border: none;
             font-size: 14px;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 600;
             color: #E44C4C;
             cursor: pointer;
+            text-decoration: underline;
         }
 
         hr {
@@ -210,7 +217,12 @@
 		    </div>
             <div class="prices">
                 <div class="amount">$<%= item.price %></div>
-                <div class="remove"><u>Remove</u></div>
+                <div class="remove">
+                    <form action="/removeItem" method="post">
+                        <input type="hidden" name="productId" value="<%= item.number %>">
+                        <button type="submit" class="remove-button">Remove</button>
+                    </form>
+                </div>
             </div>
         </div>
     <% }); %>
