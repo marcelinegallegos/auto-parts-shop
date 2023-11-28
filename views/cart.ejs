@@ -242,7 +242,9 @@
         </div>
         <div class="total-amount">$<%= cart.totalPrice %></div>
         </div>
-        <button class="button">Checkout</button>
+        <form action="/checkout" method="post">
+            <button class="button">Checkout</button>
+        </form>
         </div>
 
      
