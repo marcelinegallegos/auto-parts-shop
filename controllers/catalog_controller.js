@@ -55,3 +55,8 @@ exports.updateQuantity = asyncHandler(async (req, res, next) => {
 
     res.redirect('/ShoppingCart');
 });
+
+exports.checkout = asyncHandler(async (req, res, next) => {
+
+    res.render('checkout.ejs')
+});
