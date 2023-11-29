@@ -6,6 +6,7 @@ const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
 const shopRouter = require('./routes/shop')
+const shippingRouter = require('./routes/shipping_cost')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -25,6 +26,7 @@ app.use(express.static('./node_modules/bootstrap-icons/'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use("/shop", shopRouter)
+app.use("/shipping_cost", shippingRouter)
 
 app.get('/', (req, res) => {
 	res.render('index');
