@@ -25,9 +25,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 const shopRouter = require('./routes/shop')
+const receivingDeskRouter = require('./routes/receivingDesk')
 const catalogController = require('./controllers/catalog_controller')
+//const receivingController = require('./controllers/receiving_desk_controller')
 
 app.use("/shop", shopRouter)
+app.use("/receivingDesk", receivingDeskRouter)
 
 
 app.get('/', (req, res) => {
@@ -80,14 +83,6 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
-  
-
-app.all('/receivingDesk', (req, res) => {
-	inventoryRepo.getAll()
-		.then((list) => {
-			res.render('receivingDesk.ejs', { all: list })
-		})
-})
 
 const credit = require('./controllers/credit');
 app.get('/processCC', (req, res) => {
