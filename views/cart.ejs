@@ -199,7 +199,7 @@
     
     <h1>Shopping Cart</h1>
 
-    <% cart.parts.forEach(item => { %> 
+    <% cart.parts.forEach(item => { %>
         <div class="cart-item">
             <div class="image-box">
                 <img src="<%= item.pictureURL %>" alt="<%= item.description %>" style="height: 120px;" />
@@ -216,9 +216,15 @@
                         <i class="bi bi-dash-lg"></i>
                     </button>
                     <input type="text" name="qty" value="<%= item.quantity %>" class="input-qty"/>
-                    <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
+                    <% if (item.quantity < item.inStockQuantity) { %>
+                        <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    <% } else { %>
+                        <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment" disabled>
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    <% } %>
                 </form>
             <div class="prices">
                 <div class="amount">$<%= item.price %></div>
@@ -238,9 +244,9 @@
         <div class="total">
         <div>
         <div class="subtotal">Subtotal</div>
-        <div class="items">2 items</div>
+        <div class="items"><%= cart.itemCount %> items</div>
         </div>
-        <div class="total-amount">$<%= cart.totalPrice %></div>
+        <div class="total-amount">$<%= cart.totalPrice.toFixed(2) %></div>
         </div>
         <button class="button">Checkout</button>
         </div>
