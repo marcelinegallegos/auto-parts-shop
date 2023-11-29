@@ -10,10 +10,24 @@ const legacyDao = new LegacyDAO()
 const partRepo = new PartRepository(legacyDao)
 const inventoryRepo = new InventoryRepository(dao)
 
-exports.index  = asyncHandler(async (req, res, next) => {
-    let parts = await inventoryRepo.getAll()
+exports.index = asyncHandler(async (req, res, next) => {
+    let parts = await partRepo.getAll()
     for (part of parts) {
-        part.description = (await partRepo.getById(part.partNumber)).description
+        part.quantity = (await inventoryRepo.getById(part.number)).quantity
     }
     res.render('receivingDesk.ejs', { all: parts })
+})
+
+exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
+    const partNumber = req.body.partNumber
+    const quantity = req.body.quantity
+    const action = req.body.action
+
+    if (action === 'increment') {
+        InventoryRepository.update(partNumber, quantity + 1)
+    } else if (action === 'decrement') {
+        InventoryRepository.update(partNumber, quantity - 1)
+    }
+
+    res.redirect('/receivingDesk')
 })

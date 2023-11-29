@@ -108,15 +108,25 @@
             <table border="1", padding="15px">
                 <tr>
                     <th style="text-align: center; padding: 20px">Part ID</th>
-                    <th style="padding: 20px">Description</th>
+                    <th style="text-align: center; padding: 20px">Description</th>
                     <th style="padding: 20px">Quantity on Hand</th>
                 </tr>
 
                 <% for (part in all) { %>
                     <tr>
-                        <td style="text-align: center; padding: 20px"><%= all[part].partNumber %></td>
-                        <td style="text-align: center;"><%= all[part].description %></td>
-                        <td style="text-align: center;"><%= all[part].quantity %></td>
+                        <td style="text-align: center; padding: 20px"><%= all[part].number %></td>
+                        <td style="text-align: center;" class="text-capitalize"><%= all[part].description %></td>
+                        <form action="/updateQuantityOnHand" method="post">
+                        <td style="text-align: center;">
+                            <button type="submit" name="action" value="decrement">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                            <%= all[part].quantity %>
+                            <button type="submit" name="action" value="increment">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </td>
+                        </form>
                     </tr>
                 <% }; %>
             </table>
