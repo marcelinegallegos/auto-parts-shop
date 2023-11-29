@@ -60,7 +60,7 @@
                 <tr>
                     <td style="text-align: center; padding: 20px"><%= all[part].date %></td>
                     <td style="text-align: center;"><%= all[part].id %></td>
-                    <td style="text-align: center;" id="orderStatus_<%= all[part].id %>""><%= all[part].status %></td>
+                    <td style="text-align: center;" id="orderStatus_<%= all[part].id %>" class="text-capitalize"><%= all[part].status %></td>
                     <td style="text-align: center; padding: 20px"><button type="button" id="printPackingListBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printPackingListModal">Print Packing List</button>
                         <div class="modal fade" id="printPackingListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
