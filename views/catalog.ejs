@@ -20,7 +20,7 @@
 
 <body>
     
-    <div class="container-md">
+    <div class="container-md" id="myDiv">
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <% for(part of parts) { %>
                 <div class="col">
@@ -34,76 +34,43 @@
                                 $<%= part.price %>
                             </p>
                             <div class="mt-auto">
-                                <% if (part.quantity> 0) { %>
+                                <% if (part.quantity > 0) { %>
                                     <p class="card-text text-success fw-semibold">
                                         <%= part.quantity %> In Stock
-                                    </p>
-                                    <% if (part.inCartQuantity > 0) { %>
-                                        <div class="dropdown">
-                                            <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <%= part.inCartQuantity %> In Cart
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <% for (let i = 0; i <= part.quantity; i++) { %>
-                                                    <li><a class="dropdown-item" href="#"><%= i %></a></li>
-                                                <% } %>
-                                            </ul>
-                                        </div>
-                                    <% } else{ %>
-                                        <form action="/addToCart" method="post">
-                                            <input type="hidden" name="productId" value="<%= part.number %>">
-                                            <input type="hidden" name="quantity" value="1">
-                                        
-                                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<%= part.number %>">
-                                                Add to Cart
-                                            </button>
-                                        </form>
-                                    <% } %>
-                                        
-
-
-                                    <div class="modal fade" id="modal<%= part.number %>" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel"><i
-                                                            class="bi bi-check-lg"></i> Added to
-                                                        Cart!</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="container text-start">
-                                                        <div class="row justify-content-start">
-                                                            <div class="col-md-auto">
-                                                                <img src="<%= part.pictureURL %>"
-                                                                    class="rounded float-start" alt="...">
-                                                            </div>
-                                                            <div class="col">
-                                                                <p class="text-capitalize fw-semibold">
-                                                                    <%= part.description %>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a href="/ShoppingCart" class="btn btn-secondary">View Cart</a>
-                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue Shopping</button>
-                                                </div>
-                                                
+                                    </p>                     
+                                    <form action="/addToCart" method="post">     
+                                        <input type="hidden" name="productId" value="<%= part.number %>">
+                                        <% if (part.inCartQuantity > 0) { %>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <%= part.inCartQuantity %> In Cart
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <% for (let i=0; i <=part.quantity; i++) { %>
+                                                        <% if (i !=part.inCartQuantity) { %>
+                                                            <li><button class="dropdown-item" type="submit" name="quantity" value="<%= i %>">
+                                                                <%= i %>
+                                                            </button></li>
+                                                        <% } else{ %>
+                                                            <li><button class="dropdown-item disabled" aria-disabled="true">
+                                                                <%= i %> <i class="bi bi-check-lg"></i>
+                                                            </button></li>
+                                                        <% } %>
+                                                    <% } %>
+                                                </ul>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <% } else{ %>
-                                        <button type="button" class="btn btn-primary" disabled>Sold Out</button>
+                                        <% } else { %>
+                                            <button type="submit" class="btn btn-primary" name="quantity" value="1">Add to Cart</button>
                                         <% } %>
+                                    </form>
+                                <% } else{ %>
+                                    <button type="button" class="btn btn-primary" disabled>Sold Out</button>
+                                <% } %>
                             </div>
                         </div>
                     </div>
                 </div>
-                <% } %>
+            <% } %>
         </div>
     </div>
     <script src="/umd/popper.min.js"></script>

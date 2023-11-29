@@ -19,6 +19,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
     } else {
         res.status(404).send('Part not found')
     }
+    res.redirect('/shop')
 })
 
 exports.getCart = asyncHandler(async (req, res, next) => {
