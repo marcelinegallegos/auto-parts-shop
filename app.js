@@ -27,7 +27,7 @@ app.use(bodyParser.json())
 const shopRouter = require('./routes/shop')
 const receivingDeskRouter = require('./routes/receivingDesk')
 const catalogController = require('./controllers/catalog_controller')
-//const receivingController = require('./controllers/receiving_desk_controller')
+const receivingController = require('./controllers/receiving_desk_controller')
 
 app.use("/shop", shopRouter)
 app.use("/receivingDesk", receivingDeskRouter)
@@ -100,6 +100,8 @@ app.post('/removeItem', catalogController.removeFromCart)
 app.post('/updateQuantity', catalogController.updateQuantity)
 
 app.post('/checkout', catalogController.checkout)
+
+app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)

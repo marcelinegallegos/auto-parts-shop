@@ -24,9 +24,9 @@ exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
     const action = req.body.action
 
     if (action === 'increment') {
-        InventoryRepository.update(partNumber, quantity + 1)
+        inventoryRepo.update(partNumber, quantity + 1)
     } else if (action === 'decrement') {
-        InventoryRepository.update(partNumber, quantity - 1)
+       inventoryRepo.update(partNumber, quantity - 1)
     }
 
     res.redirect('/receivingDesk')
