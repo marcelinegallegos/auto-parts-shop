@@ -27,11 +27,12 @@ app.use(express.static('./node_modules/@popperjs/core/dist'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const shopRouter = require('./routes/shop')
+const catalogController = require('./controllers/catalog_controller')
 const cartController = require('./controllers/cart_controller')
+const checkoutController = require('./controllers/checkout_controller')
 
-app.use("/shop", shopRouter)
-app.use("/shipping_cost", shippingRouter)
+app.use('/shop', shopRouter)
+app.use('/shipping_cost', shippingRouter)
 
 
 app.get('/', (req, res) => {
@@ -112,7 +113,7 @@ app.post('/removeItem', cartController.removeFromCart)
 
 app.post('/updateQuantity', cartController.updateQuantity)
 
-app.post('/checkout', catalogController.checkout)
+app.post('/checkout', checkoutController.checkout)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
