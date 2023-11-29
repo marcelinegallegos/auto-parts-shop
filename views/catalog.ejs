@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Part Catalog</title>
-    <%- include('partials/navbar') %>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     </link>
     <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
     </link>
+    <%- include('partials/navbar') %>
 </head>
 
 <body>
@@ -32,8 +32,17 @@
                                     <p class="card-text text-success fw-semibold">
                                         <%= rows[row].quantity %> In Stock
                                     </p>
-                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modal<%= rows[row].number %>">Add to Cart</a>
+                                        <form action="/addToCart" method="post">
+                                            <input type="hidden" name="productId" value="<%= rows[row].number %>">
+                                            <input type="hidden" name="quantity" value="1"> 
+                                        
+                                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<%= rows[row].number %>">
+                                                Add to Cart
+                                            </button>
+                                        </form>
+                                        
+
+
                                     <div class="modal fade" id="modal<%= rows[row].number %>" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
@@ -61,11 +70,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary">View Cart</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        data-bs-dismiss="modal">Continue
-                                                        Shopping</button>
+                                                    <a href="/ShoppingCart" class="btn btn-secondary">View Cart</a>
+                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue Shopping</button>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
