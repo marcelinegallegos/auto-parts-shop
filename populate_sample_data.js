@@ -4,6 +4,7 @@ const LegacyDAO = require('./models/legacy_dao')
 const InventoryRepository = require('./models/inventory_repository')
 const PartRepository = require('./models/part_repository')
 const OrderRepository = require('./models/order_repository')
+const ShippingRepository = require('./models/shipping_repository')
 
 function main() {
     const legacyDao = new LegacyDAO()
@@ -11,6 +12,9 @@ function main() {
     const inventoryRepo = new InventoryRepository(dao)
     const partRepo = new PartRepository(legacyDao)
     const orderRepo = new OrderRepository(dao)
+    const shippingRepo = new ShippingRepository(dao)
+
+    shippingRepo.createTable();
 
     inventoryRepo.createTable()
         .then(() => partRepo.getAll())
