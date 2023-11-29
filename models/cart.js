@@ -63,11 +63,12 @@ module.exports = class Cart {
             if (cart.parts[indexOfPart].quantity > 1) {
                 cart.parts[indexOfPart].quantity -= 1;
                 cart.totalPrice -= cart.parts[indexOfPart].price;
+                cart.itemCount -= 1
             }
             //if quantity is 1, remove on item on decrement
             if (cart.parts[indexOfPart].quantity == 1) {    
+                cart.totalPrice -= cart.parts * removedPart.quantity;
                 const removedPart = cart.parts.splice(indexOfPart, 1)[0];
-                cart.totalPrice -= removedPart.price * removedPart.quantity;
             }
             cart.totalPrice = Number(cart.totalPrice.toFixed(2))
             cart.itemCount -= 1
