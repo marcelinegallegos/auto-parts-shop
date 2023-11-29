@@ -33,6 +33,14 @@ module.exports = class Cart {
         return cart;
     }
 
+    static getInCartQuantity(number) {
+        const indexOfPart = cart.parts.findIndex(p => p.number == number)
+        if (indexOfPart >= 0) {
+            return cart.parts[indexOfPart].quantity
+        }
+        return 0
+    }
+
     static remove(partID) {
         
         const indexOfPart = cart.parts.findIndex(p => p.number == partID);
