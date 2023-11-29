@@ -62,60 +62,102 @@
             <br><br>
         </div>
 
-        <div class="weight-brackets">
-            <br><br>
-            From 0 to 1 lbs     free shipping
-            <br><br>
-            From 1 to 5 lbs     $500
-            <br><br>
-        </div>
+        <!-- Display existing shipping costs -->
+        <div id="shipping-costs"></div>
 
         <div class="weight-brackets">
             <!-- Add form for new shipping cost -->
             <form id="add-cost-form">
+                <label for="maxWeight">Weight:</label>
                 <input type="number" id="maxWeight" min="0" placeholder="Enter weight" required>
+                <label for="maxWeight">Cost:</label>
                 <input type="text" id="cost" min="0" placeholder="Enter cost" required>
                 <button type="submit">Add</button>
             </form>            
 
-            <!-- Display existing shipping costs -->
-            <div id="shipping-costs">
-                <!-- Each shipping cost will be a div with this structure:
-                <div class="shipping-cost">
-                    <span>From 0 to 1 lbs free shipping</span>
-                    <button class="remove-button">Remove</button>
-                </div>
-                -->
-            </div>
         </div>
 
-        <script src="/shipping.js">
+        <script>
+            function fetchAndDisplayCosts() {
+                fetch('/shipping_cost/get-costs')
+                    .then(response => response.json())
+                    .then(costs => {
+                        const shippingCostsContainer = document.getElementById('shipping-costs');
+                        shippingCostsContainer.innerHTML = '';
+        
+                        costs.forEach(cost => {
+                            const costDiv = document.createElement('div');
+                            costDiv.className = 'shipping-cost';
+                            costDiv.setAttribute('data-id', cost.id); 
+                            costDiv.innerHTML = `<span>From ${cost.minWeight} to ${cost.maxWeight} lbs $${cost.cost}</span>`;
+        
+                            const removeButton = document.createElement('button');
+                            removeButton.className = 'remove-button';
+                            removeButton.textContent = 'Remove';
+                            removeButton.addEventListener('click', () => removeCost(cost.id));
+        
+                            costDiv.appendChild(removeButton);
+                            shippingCostsContainer.appendChild(costDiv);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching costs:', error);
+                    });
+            }
+        
             document.getElementById('add-cost-form').addEventListener('submit', function(event) {
                 event.preventDefault();
         
-                const minWeight = 0;
                 const maxWeight = document.getElementById('maxWeight').value;
+                const minWeight = 0;
                 const cost = document.getElementById('cost').value;
         
-                // Send a POST request to the server
-                fetch('/add-cost', {
+                // Send a POST request to add a new cost
+                fetch('/shipping_cost/add-cost', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json', 
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ minWeight, maxWeight, cost }),
                 })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    // Optionally, update the UI or show a success message
+                    console.log('new cost added');
+
+                    // After adding a new cost, fetch and display all costs
+                    fetchAndDisplayCosts();
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Handle the error, show an error message, etc.
                 });
             });
+        
+            // Function to remove a cost
+            function removeCost(costId) {
+                fetch('/shipping_cost/remove-cost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: costId }),
+                })
+                .then(data => {
+                    console.log(data);
+                    console.log('Cost removed successfully');
+        
+                    // Fetch and display costs after removing a cost
+                    fetchAndDisplayCosts();
+                })
+                .catch(error => {
+                    console.error('Error removing cost:', error);
+                });
+            }
+        
+            // Fetch and display existing costs on page load
+            window.addEventListener('load', fetchAndDisplayCosts);
         </script>
+        
         
 </body>
 
