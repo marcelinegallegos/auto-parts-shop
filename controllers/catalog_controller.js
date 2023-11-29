@@ -33,8 +33,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 exports.getCart = asyncHandler(async (req, res, next) => {
     let cart = Cart.getCart()
     for (part of cart.parts) {
-        part.in_stock_quantity = (await inventoryRepo.getById(part.number)).quantity
-        console.log(part.in_stock_quantity)
+        part.inStockQuantity = (await inventoryRepo.getById(part.number)).quantity
     }
 	res.render('cart.ejs', { cart: cart });
 });

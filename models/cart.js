@@ -2,14 +2,14 @@
  * Shopping Cart Model
  */
 
-let cart = { parts: [], totalPrice: 0 };
+let cart = { parts: [], itemCount: 0, totalPrice: 0 };
 module.exports = class Cart {
 
     static save(part) {
 
         //if cart is empty, initialize it
         if (!cart) {    
-            cart = { parts: [], totalPrice: 0 };    
+            cart = { parts: [], itemCount: 0, totalPrice: 0 };    
         }
 
         const price = part[0].price;
@@ -26,6 +26,7 @@ module.exports = class Cart {
         cart.totalPrice += price;
         // Round totalPrice to two decimals
         cart.totalPrice = Number(cart.totalPrice.toFixed(2));
+        cart.itemCount += 1
     }
 
     static getCart() {
@@ -40,6 +41,7 @@ module.exports = class Cart {
             const removedPart = cart.parts.splice(indexOfPart, 1)[0];
             cart.totalPrice -= removedPart.price * removedPart.quantity;
             cart.totalPrice = Number(cart.totalPrice.toFixed(2));
+            cart.itemCount -= removedPart.quantity
         }
     }
 
@@ -50,6 +52,7 @@ module.exports = class Cart {
             cart.parts[indexOfPart].quantity += 1;
             cart.totalPrice += cart.parts[indexOfPart].price;
             cart.totalPrice = Number(cart.totalPrice.toFixed(2));
+            cart.itemCount += 1
         }
     }
 
@@ -66,7 +69,8 @@ module.exports = class Cart {
                 const removedPart = cart.parts.splice(indexOfPart, 1)[0];
                 cart.totalPrice -= removedPart.price * removedPart.quantity;
             }
+            cart.totalPrice = Number(cart.totalPrice.toFixed(2))
+            cart.itemCount -= 1
         }
-        cart.totalPrice = Number(cart.totalPrice.toFixed(2));
     }
 };
