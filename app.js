@@ -5,6 +5,8 @@ const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const shopRouter = require('./routes/shop')
+const shippingRouter = require('./routes/shipping_cost')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -28,6 +30,7 @@ const shopRouter = require('./routes/shop')
 const catalogController = require('./controllers/catalog_controller')
 
 app.use("/shop", shopRouter)
+app.use("/shipping_cost", shippingRouter)
 
 
 app.get('/', (req, res) => {
@@ -87,6 +90,10 @@ app.all('/receivingDesk', (req, res) => {
 		.then((list) => {
 			res.render('receivingDesk.ejs', { all: list })
 		})
+})
+
+app.all('/shippingBracket', (req, res) => {
+	res.render('shippingBracket');
 })
 
 const credit = require('./controllers/credit');
