@@ -58,19 +58,24 @@ module.exports = class Cart {
 
     static decrement(partID) {
         const indexOfPart = cart.parts.findIndex(p => p.number == partID);
-
+    
         if (indexOfPart >= 0) {
             if (cart.parts[indexOfPart].quantity > 1) {
                 cart.parts[indexOfPart].quantity -= 1;
                 cart.totalPrice -= cart.parts[indexOfPart].price;
-            }
-            //if quantity is 1, remove on item on decrement
-            if (cart.parts[indexOfPart].quantity == 1) {    
+                cart.totalPrice = Number(cart.totalPrice.toFixed(2));
+                cart.itemCount -= 1;
+            } 
+            //if quantity is 1, remove on decrement
+            else if (cart.parts[indexOfPart].quantity === 1) {
+                cart.totalPrice -= cart.parts[indexOfPart].price * cart.parts[indexOfPart].quantity;
+                cart.totalPrice = Number(cart.totalPrice.toFixed(2));
+                
+                // remove the item from the cart
                 const removedPart = cart.parts.splice(indexOfPart, 1)[0];
-                cart.totalPrice -= removedPart.price * removedPart.quantity;
+                cart.itemCount -= 1;
             }
-            cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-            cart.itemCount -= 1
         }
     }
+    
 };
