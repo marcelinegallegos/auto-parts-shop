@@ -19,14 +19,14 @@ exports.index = asyncHandler(async (req, res, next) => {
 })
 
 exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
-    const partNumber = req.body.partNumber
-    const quantity = req.body.quantity
-    const action = req.body.action
+    const partNumber = req.body.partId
+    const quantity = req.body.quantityOnHand
+    console.log(action)
 
     if (action === 'increment') {
         inventoryRepo.update(partNumber, quantity + 1)
     } else if (action === 'decrement') {
-       inventoryRepo.update(partNumber, quantity - 1)
+        inventoryRepo.update(partNumber, quantity - 1)
     }
 
     res.redirect('/receivingDesk')

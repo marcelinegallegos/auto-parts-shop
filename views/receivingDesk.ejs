@@ -117,6 +117,8 @@
                         <td style="text-align: center; padding: 20px"><%= all[part].number %></td>
                         <td style="text-align: center;" class="text-capitalize"><%= all[part].description %></td>
                         <form action="/updateQuantityOnHand" method="post">
+                            <input type="hidden" name="partId" value="<%= all[part].number %>">
+                            <input type="hidden" name="quantityOnHand" value="<%= all[part].quantity %>">
                         <td style="text-align: center;">
                             <button type="submit" name="action" value="decrement">
                                 <i class="bi bi-dash-lg"></i>
