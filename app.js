@@ -27,6 +27,8 @@ app.use(express.static('./node_modules/@popperjs/core/dist'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+const shopRouter = require('./routes/shop')
+const receivingDeskRouter = require('./routes/receivingDesk')
 const catalogController = require('./controllers/catalog_controller')
 const cartController = require('./controllers/cart_controller')
 const checkoutController = require('./controllers/checkout_controller')
@@ -85,14 +87,6 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
-  
-
-app.all('/receivingDesk', (req, res) => {
-	inventoryRepo.getAll()
-		.then((list) => {
-			res.render('receivingDesk.ejs', { all: list })
-		})
-})
 
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
@@ -114,6 +108,8 @@ app.post('/removeItem', cartController.removeFromCart)
 app.post('/updateQuantity', cartController.updateQuantity)
 
 app.post('/checkout', checkoutController.checkout)
+
+app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
