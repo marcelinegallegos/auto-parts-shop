@@ -11,15 +11,24 @@ const partRepo = new PartRepository(legacyDao)
 const inventoryRepo = new InventoryRepository(dao)
 
 exports.addToCart = asyncHandler(async (req, res, next) => {
-    const addedPart = await partRepo.getById(req.body.productId)
+    const addedPart = await partRepo.getById(req.body.partNumber)
 
     if (addedPart) {
         Cart.save(addedPart)
         console.log(Cart.getCart())
+        res.json({ message: 'Part added to cart successfully' })
     } else {
-        res.status(404).send('Part not found')
+        console.error('Error:', error)
+        res.status(500).json({ message: 'Error adding part to cart' })
     }
-    res.redirect('/shop')
+})
+
+exports.setInCartQuantity = asyncHandler(async (req, res, next) => {
+    const partNumber = req.body.partNumber
+    const quantity = req.body.quantity
+
+    Cart.setQuantity(partNumber, quantity)
+    res.json({ message: 'Updated cart' })
 })
 
 exports.getCart = asyncHandler(async (req, res, next) => {

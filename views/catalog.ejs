@@ -1,80 +1,260 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Part Catalog</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    </link>
-    <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
-    </link>
     <%- include('partials/navbar') %>
     <style>
         .dropdown-menu {
             max-height: 280px;
             overflow-y: auto;
         }
+        .btn-bd-primary {
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-black);
+            --bs-btn-bg: #e8c7c8;
+            --bs-btn-border-color: #e8c7c8;
+            --bs-btn-hover-color: var(--bs-black);
+            --bs-btn-hover-bg: #b86d7e;
+            --bs-btn-hover-border-color: #b86d7e;
+            --bs-btn-focus-shadow-rgb: 232, 199, 200;
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #935765;
+            --bs-btn-active-border-color: #935765;
+        }
     </style>
 </head>
 
 <body>
     
-    <div class="container-md" id="myDiv">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            <% for(part of parts) { %>
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-light mb-3">
-                        <img src="<%= part.pictureURL %>" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-capitalize fw-semibold">
-                                <%= part.description %>
-                            </h5>
-                            <p class="card-text fs-5">
-                                $<%= part.price %>
-                            </p>
-                            <div class="mt-auto">
-                                <% if (part.quantity > 0) { %>
-                                    <p class="card-text text-success fw-semibold">
-                                        <%= part.quantity %> In Stock
-                                    </p>                     
-                                    <form action="/addToCart" method="post">     
-                                        <input type="hidden" name="productId" value="<%= part.number %>">
-                                        <% if (part.inCartQuantity > 0) { %>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <%= part.inCartQuantity %> In Cart
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <% for (let i=0; i <=part.quantity; i++) { %>
-                                                        <% if (i !=part.inCartQuantity) { %>
-                                                            <li><button class="dropdown-item" type="submit" name="quantity" value="<%= i %>">
-                                                                <%= i %>
-                                                            </button></li>
-                                                        <% } else{ %>
-                                                            <li><button class="dropdown-item disabled" aria-disabled="true">
-                                                                <%= i %> <i class="bi bi-check-lg"></i>
-                                                            </button></li>
-                                                        <% } %>
-                                                    <% } %>
-                                                </ul>
-                                            </div>
-                                        <% } else { %>
-                                            <button type="submit" class="btn btn-primary" name="quantity" value="1">Add to Cart</button>
-                                        <% } %>
-                                    </form>
-                                <% } else{ %>
-                                    <button type="button" class="btn btn-primary" disabled>Sold Out</button>
-                                <% } %>
+    <div class='container-md mt-5'>
+        <div class='row row-cols-1 row-cols-md-4 g-4' id='row'></div>
+    </div>
+    <div class="modal fade" id="addedToCartModal" tabindex="-1" aria-labelledby="addedToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addedToCartModalLabel"><i class="bi bi-check-lg"></i> Added to Cart!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container text-start">
+                        <div class="row justify-content-start">
+                            <div class="col-md-auto">
+                                <img src="" class="modal-img rounded float-start">
+                            </div>
+                            <div class="col">
+                                <p class="modal-text text-capitalize fw-semibold"></p>
                             </div>
                         </div>
                     </div>
                 </div>
-            <% } %>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" href="/ShoppingCart" role="button">View Cart</a>
+                    <button type="button" class="btn btn-bd-primary" data-bs-dismiss="modal">Continue Shopping</button>
+                </div>
+    
+            </div>
         </div>
     </div>
-    <script src="/umd/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+
+    <script src='/umd/popper.min.js'></script>
+    <script src='/js/bootstrap.min.js'></script>
+
+    <script>
+        function fetchAndDisplayParts() {
+            fetch('/shop/getParts')
+                .then(response => response.json())
+                .then(parts => {
+                    const row = document.getElementById('row')
+                    row.innerHTML = ''
+
+                    parts.forEach(part => {
+                        const col = document.createElement('div')
+                        col.className = 'col'
+
+                        const card = document.createElement('div')
+                        card.className = 'card h-100 shadow-sm border-light mb-3'
+
+                        const cardImg = document.createElement('img')
+                        cardImg.className = 'card-img-top'
+                        cardImg.setAttribute('src', part.pictureURL)
+
+                        const cardBody = document.createElement('div')
+                        cardBody.className = 'card-body d-flex flex-column'
+
+                        const cardTitle = document.createElement('h5')
+                        cardTitle.className = 'card-title text-capitalize fw-semibold'
+                        cardTitle.textContent = part.description
+
+                        const cardTextPrice = document.createElement('p')
+                        cardTextPrice.className = 'card-text fs-5'
+                        cardTextPrice.textContent = `$${part.price}`
+
+                        const margin = document.createElement('mt-auto')
+                        margin.className = 'mt-auto'
+
+                        if (part.quantity > 0) {
+                            const cardTextQuantity = document.createElement('p')
+                            cardTextQuantity.className = 'card-text text-success fw-semibold'
+                            cardTextQuantity.textContent = `${part.quantity} In Stock`
+                            
+                            margin.appendChild(cardTextQuantity)
+
+                            if (part.inCartQuantity > 0) {
+                                const dropdown = document.createElement('div')
+                                dropdown.className = 'dropdown'
+
+                                const button = document.createElement('button')
+                                button.className = 'btn btn-outline-success dropdown-toggle fw-semibold'
+                                button.setAttribute('type', 'button')
+                                button.setAttribute('data-bs-toggle', 'dropdown')
+                                button.setAttribute('aria-expanded', 'false')
+                                button.textContent = `${part.inCartQuantity} In Cart`
+
+                                const ul = document.createElement('ul')
+                                ul.className = 'dropdown-menu'
+                                
+                                for (let i = 0; i <= part.quantity; i++) {
+                                    const li = document.createElement('li')
+                                    const dropdownButton = document.createElement('button')
+
+                                    if (i != part.inCartQuantity) {
+                                        dropdownButton.className = 'dropdown-item'
+                                        dropdownButton.setAttribute('type', 'button')
+                                        dropdownButton.textContent = i 
+                                        dropdownButton.addEventListener('click', () => setInCartQuantity(part.number, i))
+                                    } else {
+                                        dropdownButton.className = 'dropdown-item disabled'
+                                        dropdownButton.setAttribute('type', 'button')
+                                        dropdownButton.setAttribute('aria-disabled', 'true')
+                                        dropdownButton.textContent = `${i} ` 
+                                        
+                                        const icon = document.createElement('i')
+                                        icon.className = 'bi bi-check-lg'
+
+                                        dropdownButton.appendChild(icon)
+                                    }
+                                    ul.appendChild(li)
+                                    li.appendChild(dropdownButton)
+                                }
+                                margin.appendChild(dropdown)
+                                dropdown.appendChild(button)
+                                button.appendChild(ul)
+                            } else {
+                                const button = document.createElement('button')
+                                button.className = 'btn btn-bd-primary'
+                                button.setAttribute('type', 'button')
+                                button.setAttribute('data-bs-toggle', 'modal')
+                                button.setAttribute('data-bs-target', '#addedToCartModal')
+                                button.setAttribute('data-bs-src', part.pictureURL)
+                                button.setAttribute('data-bs-text', part.description)
+                                button.textContent = 'Add to Cart'
+                                button.addEventListener('click', () => addToCart(part.number))
+
+                                margin.appendChild(button)
+                            }
+                        } else {
+                            const button = document.createElement('button')
+                            button.className = 'btn btn-bd-primary'
+                            button.setAttribute('type', 'button')
+                            button.setAttribute('disabled', '')
+                            button.textContent = 'Sold Out'
+
+                            margin.appendChild(button)
+                        }
+                        row.appendChild(col)
+                        col.appendChild(card)
+                        card.appendChild(cardImg)
+                        card.appendChild(cardBody)
+                        cardBody.appendChild(cardTitle)
+                        cardBody.appendChild(cardTextPrice)
+                        cardBody.appendChild(margin)
+                    })
+                })
+                .catch(error => {
+                    console.error('Error fetching parts:', error)
+                })
+
+            fetch('/shop/getCart')
+                .then(response => response.json())
+                .then(cart => {
+                    const navItemCart = document.getElementById('nav-item-cart')
+                    navItemCart.innerHTML = ''
+
+                    const badge = document.createElement('span')
+                    badge.className = 'badge text-bg-secondary me-2'
+                    badge.textContent = cart.itemCount
+
+                    const icon = document.createElement('i')
+                    icon.className = 'bi bi-cart'
+
+                    navItemCart.appendChild(badge)
+                    navItemCart.appendChild(icon)
+                })
+                .catch(error => {
+                    console.error('Error fetching cart:', error)
+                })
+        }
+
+        function addToCart(partNumber) {
+            fetch('/shop/addToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({partNumber})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+
+                    fetchAndDisplayParts()
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                })
+        }        
+
+        function setInCartQuantity(partNumber, quantity) {
+            fetch('shop/setInCartQuantity', {
+                method: `POST`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({partNumber, quantity})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+
+                    fetchAndDisplayParts()
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                })
+        }
+
+        const addedToCartModal = document.getElementById('addedToCartModal')
+        if (addedToCartModal) {
+            addedToCartModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+
+                const src = button.getAttribute('data-bs-src')
+                const text = button.getAttribute('data-bs-text')
+
+                const modalBodyImg = addedToCartModal.querySelector('.modal-img')
+                const modalBodyText = addedToCartModal.querySelector('.modal-text')
+
+                modalBodyImg.setAttribute('src', src)
+                modalBodyText.textContent = text
+            })
+        }
+
+        window.addEventListener('load', fetchAndDisplayParts)
+    </script>    
 </body>
 
 </html>
