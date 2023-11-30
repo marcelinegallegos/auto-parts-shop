@@ -111,6 +111,8 @@ app.post('/checkout', checkoutController.checkout)
 
 app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 
+app.post('/displaySearchResults', receivingController.displaySearchResults)
+
 app.get('/receivingDesk', receivingController.index)
 
 app.listen(port, () => {

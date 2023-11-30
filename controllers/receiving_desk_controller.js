@@ -22,7 +22,6 @@ exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
     const partNumber = req.body.partId
     const quantity = parseInt(req.body.quantityOnHand, 10)
     const action = req.body.action
-    console.log(action)
 
     if (action === 'increment') {
         inventoryRepo.update(partNumber, quantity + 1)
@@ -31,4 +30,20 @@ exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
     }
 
     res.redirect('/receivingDesk')
+})
+
+exports.displaySearchResults = asyncHandler(async (req, res, next) => {
+    const query = req.body.query
+    const searchBy = req.body.searchType
+    let parts
+
+    if(searchBy === 'Description') {
+        parts = await partRepo.getByDescriptionLike(query)
+    } else if(searchBy === 'Part ID') {
+        parts = await partRepo.getById(query)
+    }
+    for (part of parts) {
+        part.quantity = (await inventoryRepo.getById(part.number)).quantity
+    }
+    res.render('receivingDesk.ejs', {all: parts})
 })
