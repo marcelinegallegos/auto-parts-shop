@@ -20,7 +20,8 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
     const partNumber = req.body.partId
-    const quantity = req.body.quantityOnHand
+    const quantity = parseInt(req.body.quantityOnHand, 10)
+    const action = req.body.action
     console.log(action)
 
     if (action === 'increment') {
