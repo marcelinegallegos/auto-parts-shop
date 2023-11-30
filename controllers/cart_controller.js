@@ -24,6 +24,8 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
 exports.getCart = asyncHandler(async (req, res, next) => {
     let cart = Cart.getCart()
+    let totalWeight = 0
+    
     for (part of cart.parts) {
         part.inStockQuantity = (await inventoryRepo.getById(part.number)).quantity
     }

@@ -255,6 +255,7 @@
         <div class="total-amount">$<%= cart.totalPrice.toFixed(2) %></div>
         </div>
         <form action="/checkout" method="post">
+            <input type="hidden" name="weight" value="">
             <button class="button">Checkout</button>
         </form>
         </div>

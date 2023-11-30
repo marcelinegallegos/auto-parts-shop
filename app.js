@@ -115,6 +115,8 @@ app.post('/updateQuantity', cartController.updateQuantity)
 
 app.post('/checkout', checkoutController.checkout)
 
+app.post('/getCustomerInfo', checkoutController.getCustomerInfo)
+
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
 })
