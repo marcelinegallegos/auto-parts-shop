@@ -29,9 +29,6 @@ app.use(bodyParser.json())
 
 const receivingController = require('./controllers/receiving_desk_controller')
 const receivingDeskRouter = require('./routes/receivingDesk')
-const catalogController = require('./controllers/catalog_controller')
-const cartController = require('./controllers/cart_controller')
-const checkoutController = require('./controllers/checkout_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
@@ -39,13 +36,6 @@ app.use('/shipping_cost', shippingRouter)
 
 app.get('/', (req, res) => {
 	res.render('index');
-})
-
-app.get('/getParts', (req, res) => {
-	partRepo.getAll()
-		.then((rows) => {
-			res.render('parts.ejs', { rows: rows})
-		})
 })
 
 app.get('/api/parts', (req, res) => {
@@ -98,16 +88,6 @@ app.get('/processCC', (req, res) => {
 		res.render('credit.ejs', { data: result });
 	});
 })
-
-app.post('/addToCart', cartController.addToCart)
-
-app.get('/shoppingCart', cartController.getCart)
-
-app.post('/removeItem', cartController.removeFromCart)
-
-app.post('/updateQuantity', cartController.updateQuantity)
-
-app.post('/checkout', checkoutController.checkout)
 
 app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 

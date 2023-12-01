@@ -24,7 +24,6 @@
             --bs-btn-active-bg: #935765;
             --bs-btn-active-border-color: #935765;
         }
-
         .badge {
             --bs-badge-color: #e8c7c8;
         }
@@ -32,7 +31,7 @@
 </head>
 
 <body>
-    <div class='container-md mt-5'>
+    <div class='container-md mt-5' style="visibility: collapse;" id="container">
         <div class='row row-cols-1 row-cols-md-4 g-4' id='row'></div>
     </div>
     <div class="modal fade" id="addedToCartModal" tabindex="-1" aria-labelledby="addedToCartModalLabel" aria-hidden="true">
@@ -55,7 +54,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" href="/ShoppingCart" role="button">View Cart</a>
+                    <a class="btn btn-secondary" href="/shop/cart" role="button">View Cart</a>
                     <button type="button" class="btn btn-bd-primary" data-bs-dismiss="modal">Continue Shopping</button>
                 </div>
     
@@ -67,7 +66,7 @@
     <script src='/js/bootstrap.min.js'></script>
     <script>
         function fetchAndDisplayParts() {
-            fetch('/shop/getParts')
+            fetch('/shop/api/parts')
                 .then(response => response.json())
                 .then(parts => {
                     const row = document.getElementById('row')
@@ -105,7 +104,7 @@
                             
                             margin.appendChild(cardTextQuantity)
 
-                            if (part.inCartQuantity > 0) {
+                            if (part.quantityInCart > 0) {
                                 const dropdown = document.createElement('div')
                                 dropdown.className = 'dropdown'
 
@@ -114,7 +113,7 @@
                                 button.setAttribute('type', 'button')
                                 button.setAttribute('data-bs-toggle', 'dropdown')
                                 button.setAttribute('aria-expanded', 'false')
-                                button.textContent = `${part.inCartQuantity} In Cart`
+                                button.textContent = `${part.quantityInCart} In Cart`
 
                                 const ul = document.createElement('ul')
                                 ul.className = 'dropdown-menu'
@@ -123,11 +122,11 @@
                                     const li = document.createElement('li')
                                     const dropdownButton = document.createElement('button')
 
-                                    if (i != part.inCartQuantity) {
+                                    if (i != part.quantityInCart) {
                                         dropdownButton.className = 'dropdown-item'
                                         dropdownButton.setAttribute('type', 'button')
                                         dropdownButton.textContent = i 
-                                        dropdownButton.addEventListener('click', () => setInCartQuantity(part.number, i))
+                                        dropdownButton.addEventListener('click', () => updateQuantityInCart(part.number, i))
                                     } else {
                                         dropdownButton.className = 'dropdown-item disabled'
                                         dropdownButton.setAttribute('type', 'button')
@@ -174,13 +173,16 @@
                         cardBody.appendChild(cardTitle)
                         cardBody.appendChild(cardTextPrice)
                         cardBody.appendChild(margin)
+
+                        const container = document.getElementById('container')
+                        container.setAttribute('style', 'visibility: visibile;')
                     })
                 })
                 .catch(error => {
                     console.error('Error fetching parts:', error)
                 })
 
-            fetch('/shop/getCart')
+            fetch('/shop/api/cart')
                 .then(response => response.json())
                 .then(cart => {
                     const navItemCart = document.getElementById('nav-item-cart')
@@ -202,7 +204,7 @@
         }
 
         function addToCart(partNumber) {
-            fetch('/shop/addToCart', {
+            fetch('shop/api/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -220,13 +222,13 @@
                 })
         }        
 
-        function setInCartQuantity(partNumber, quantity) {
-            fetch('shop/setInCartQuantity', {
+        function updateQuantityInCart(partNumber, newQuantity) {
+            fetch('/shop/api/cart/update-quantity', {
                 method: `POST`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({partNumber, quantity})
+                body: JSON.stringify({partNumber, newQuantity})
             })
                 .then(response => response.json())
                 .then(data => {

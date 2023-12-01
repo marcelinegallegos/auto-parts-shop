@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
     <title>Shopping Cart</title>
     <%- include('partials/navbar') %>
     <style>
-        
         h1 {
             text-align: center;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin-bottom: 5%;
         }
-
-        
         .cart-item {
             margin: auto;
             width: 90%;
@@ -23,23 +20,19 @@
             padding: 10px;
             margin-bottom: 10px;
         }
-
         .image-box {
             width: 0%;
             text-align: center;
         }
-
         .about {
             flex-grow: 1;
             padding: 0 10px;
             text-align: left;
         }
-
         .text-details {
             width: 70%; 
             margin-left: 20%;
         }
-
         .name {
             padding-top: 5px;
             line-height: 1.2;
@@ -48,7 +41,6 @@
             font-weight: 400;
             color: #202020;
         }
-
         .weight {
             line-height: 1.2;
             font-size: 18px;
@@ -57,30 +49,24 @@
             font-weight: 400;
             color: #909090;
         }
-
-      
-
         .counter {
             width: 15%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .qty-container {
             display: flex;
             align-items: center;
             justify-content: center;
             padding-right: 1.5%;
         }
-
         .qty-container .input-qty {
             text-align: center;
             padding: 6px 10px;
             border: 1px solid #d4d4d4;
             max-width: 50px;
         }
-
         .qty-container .qty-btn-minus,
         .qty-container .qty-btn-plus {
             border: 1px solid #d4d4d4;
@@ -90,28 +76,23 @@
             width: 38px;
             transition: 0.3s;
         }
-
         .qty-container .qty-btn-plus {
             margin-left: -1px;
-        }
-        
+        }     
         .qty-container .qty-btn-minus {
             margin-right: -1px;
         }
-
         .count {
             font-size: 20px;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
-
         .prices {
             width: 100px;
             height: 100%;
             text-align: right;
         }
-
         .amount {
             padding-top: 20px;
             font-size: 26px;
@@ -119,7 +100,12 @@
             font-weight: 400;
             color: #202020;
         }
-
+        .individual-price {
+            font-size: 12px;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            color: #202020;
+        }
         .save {
             padding-top: 5px;
             font-size: 14px;
@@ -128,12 +114,10 @@
             color: #1687d9;
             cursor: pointer;
         }
-
         .remove {
             padding-top: 5px;
             
         }
-
         .remove-button {
             background: none;
             border: none;
@@ -144,7 +128,6 @@
             cursor: pointer;
             text-decoration: underline;
         }
-
         hr {
             width: 66%;
             float: right;
@@ -155,111 +138,292 @@
             margin-right: 5%;
             width: 28%;
         }
-        .total {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }
         .subtotal {
             font-size: 22px;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 700;
-            color: #202020;
-        }
-        .items {
-            font-size: 16px;
-            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 500;
             color: #909090;
-            line-height: 10px;
         }
-        .total-amount {
+        .total {
             font-size: 36px;
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
             color: #202020;
         }
-        .button {
+        .btn-bd-primary {
             margin-top: 5px;
             width: 100%;
-            height: 40px;
-            border: none;
-            background-color: #e8c7c8;
-            border-color: #e8c7c8;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 600;
-            color: #202020;
-        }
-
-        button:hover {
-            background-color: #b86d7e;
-            border-color: #b86d7e;
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-black);
+            --bs-btn-bg: #e8c7c8;
+            --bs-btn-border-color: #e8c7c8;
+            --bs-btn-hover-color: var(--bs-black);
+            --bs-btn-hover-bg: #b86d7e;
+            --bs-btn-hover-border-color: #b86d7e;
+            --bs-btn-focus-shadow-rgb: 232, 199, 200;
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #935765;
+            --bs-btn-active-border-color: #935765;
         }
     </style>
 </head>
 
 <body>
-    
-    <h1 class="mt-5">Shopping Cart</h1>
+    <h1 class='mt-5'>Shopping Cart</h1>
 
-    <% cart.parts.forEach(item => { %>
-        <div class="cart-item">
-            <div class="image-box">
-                <img src="<%= item.pictureURL %>" alt="<%= item.description %>" style="height: 120px;" />
-            </div>
-            <div class="about">
-                <div class="text-details">
-                    <h2 class="name"><%= item.description %></h2>
-                    <h3 class="weight"><%= item.weight %> lbs</h3>
-                </div>
-            </div>
-                <form action="/updateQuantity" method="post" class="qty-container">
-                    <input type="hidden" name="productId" value="<%= item.number %>">
-                    <button class="qty-btn-minus btn-light" type="submit" name="action" value="decrement">
-                        <i class="bi bi-dash-lg"></i>
-                    </button>
-                    <input type="text" name="qty" value="<%= item.quantity %>" class="input-qty" readonly/>
-                    <% if (item.quantity < item.inStockQuantity) { %>
-                        <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment">
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
-                    <% } else { %>
-                        <button class="qty-btn-plus btn-light" type="submit" name="action" value="increment" disabled>
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
-                    <% } %>
-                </form>
-            <div class="prices">
-                <div class="amount">$<%= item.price %></div>
-                <div class="remove">
-                    <form action="/removeItem" method="post">
-                        <input type="hidden" name="productId" value="<%= item.number %>">
-                        <button type="submit" class="remove-button">Remove</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    <% }); %>
-    
+    <div id='container'></div>
 
     <hr> 
-        <div class="checkout">
-        <div class="total">
-        <div>
-        <div class="subtotal">Subtotal</div>
-        <div class="items"><%= cart.itemCount %> items</div>
-        </div>
-        <div class="total-amount">$<%= cart.totalPrice.toFixed(2) %></div>
-        </div>
-        <form action="/checkout" method="post">
-            <button class="button">Checkout</button>
-        </form>
-        </div>
 
-     
+    <div class='checkout'>
+        <div class='container-fluid'>
+            <div class='row justify-content-between subtotal'>
+                <div id='item-count' class='col'>
+                    Subtotal
+                </div>
+                <div id='subtotal' class='col text-end'></div>
+            </div>
+            <div class='row justify-content-between subtotal'>
+                <div class='col'>
+                    Shipping
+                </div>
+                <div id='shipping' class='col text-end'></div>
+            </div>
+            <div class='row justify-content-between total'>
+                <div class='col'>
+                    Total
+                </div>
+                <div id='total' class='col text-end'></div>
+            </div>
+        </div>
+        <a id='checkout-button' class='btn btn-bd-primary' href='/shop/checkout' role='button'>Checkout</a>
+    </div>
 
+    <div class='toast-container position-fixed bottom-0 start-50 translate-middle-x p-3'>
+        <div id='toast' class='toast align-items-center text-bg-dark border-0' role='alert' aria-live='assertive' aria-atomic='true'>
+            <div class='d-flex'>
+                <div id='toast-body' class='toast-body fs-5'></div>
+            </div>
+        </div>
+    </div>
+
+    <script src='/umd/popper.min.js'></script>
+    <script src='/js/bootstrap.min.js'></script>
+    <script>
+        function fetchAndDisplayCart() {
+            fetch('/shop/api/cart')
+                .then(response => response.json())
+                .then(cart => {                    
+                    const container = document.getElementById('container')
+                    container.innerHTML = ''
+
+                    cart.parts.forEach(part => {
+                        const cartItem = document.createElement('div')
+                        cartItem.className = 'cart-item'
+
+                        const imageBox = document.createElement('div')
+                        imageBox.className = 'image-box'
+
+                        const img = document.createElement('img')
+                        img.setAttribute('src', part.pictureURL)                     
+                        img.setAttribute('alt', part.description)
+                        img.setAttribute('style','height: 120px;')
+
+                        const about = document.createElement('div')
+                        about.className = 'about'
+
+                        const textDetails = document.createElement('div')
+                        textDetails.className = 'text-details'
+                        
+                        const name = document.createElement('h2')
+                        name.className = 'name text-capitalize'
+                        name.textContent = part.description
+
+                        const weight = document.createElement('h3')
+                        weight.className = 'weight'
+                        weight.textContent = `${part.weight} lbs`
+
+                        const qtyContainer = document.createElement('div')
+                        qtyContainer.className = 'qty-container'
+
+                        const qtyBtnMinus = document.createElement('button')
+                        qtyBtnMinus.className = 'qty-btn-minus btn-light'
+                        qtyBtnMinus.setAttribute('type', 'button')
+                        qtyBtnMinus.addEventListener('click', () => decrementQuantity(part.number, part.quantity, part.quantityInStock))
+
+                        const minusIcon = document.createElement('i')
+                        minusIcon.className = 'bi bi-dash-lg'
+
+                        const inputQty = document.createElement('input')
+                        inputQty.className = 'input-qty'
+                        inputQty.setAttribute('type', 'text')
+                        inputQty.setAttribute('value', part.quantity)
+                        inputQty.addEventListener('change', () => setQuantity(part.number, part.quantity, part.quantityInStock))                 
+
+                        const qtyBtnPlus = document.createElement('button')
+                        qtyBtnPlus.className = 'qty-btn-plus btn-light'
+                        qtyBtnPlus.setAttribute('type', 'button')
+                        
+                        if (part.quantity < part.quantityInStock) {
+                            qtyBtnPlus.addEventListener('click', () => incrementQuantity(part.number, part.quantity, part.quantityInStock))
+                        } else {
+                            qtyBtnPlus.setAttribute('disabled', '')
+                        }
+
+                        const plusIcon = document.createElement('i')
+                        plusIcon.className = 'bi bi-plus-lg'
+
+                        const prices = document.createElement('div')
+                        prices.className = 'prices'                     
+
+                        const amount = document.createElement('div')
+                        amount.className = 'amount'    
+                        amount.textContent = `$${(part.price * part.quantity).toFixed(2)}`
+
+                        const individualPrice = document.createElement('div')
+                        individualPrice.className = 'individual-price'
+                        individualPrice.textContent = `$${part.price} each`
+                        
+                        const remove = document.createElement('div')
+                        remove.className = 'remove'
+                        
+                        const removeButton = document.createElement('button')
+                        removeButton.className = 'remove-button'
+                        removeButton.setAttribute('type', 'button')
+                        removeButton.textContent = 'Remove'
+                        removeButton.addEventListener('click', () => removePart(part.number))
+
+                        container.appendChild(cartItem)
+                        cartItem.appendChild(imageBox)
+                        imageBox.appendChild(img)
+                        cartItem.appendChild(about)
+                        about.appendChild(textDetails)
+                        textDetails.appendChild(name)
+                        textDetails.appendChild(weight)
+                        cartItem.appendChild(qtyContainer)
+                        qtyContainer.appendChild(qtyBtnMinus)
+                        qtyBtnMinus.appendChild(minusIcon)
+                        qtyContainer.appendChild(inputQty)
+                        qtyContainer.appendChild(qtyBtnPlus)
+                        qtyBtnPlus.appendChild(plusIcon)
+                        cartItem.appendChild(prices)
+                        prices.appendChild(amount)
+                        if (part.quantity > 1) {
+                            prices.appendChild(individualPrice)
+                        }
+                        prices.appendChild(remove)
+                        remove.appendChild(removeButton)
+                    })
+
+                    if (cart.itemCount == 0) {
+                        const checkoutButton = document.getElementById('checkout-button')
+                        checkoutButton.className = 'btn btn-bd-primary disabled'
+                        checkoutButton.setAttribute('aria-disabled', 'true')
+                        checkoutButton.removeAttribute('href')
+                    }
+
+                    const itemCount = document.getElementById('item-count')
+                    itemCount.textContent = `Subtotal (${cart.itemCount} ${cart.itemCount == 1 ? 'item' : 'items'})`
+
+                    const subtotal = document.getElementById('subtotal')
+                    subtotal.textContent = `$${cart.subtotal.toFixed(2)}`
+
+                    const shipping = document.getElementById('shipping')
+                    shipping.textContent = `$${cart.shipping.toFixed(2)}`
+
+                    const total = document.getElementById('total')
+                    total.textContent = `$${cart.total.toFixed(2)}`
+                })
+                .catch(error => {
+                    console.error('Error fetching cart:', error)
+                })     
+        }
+
+        function setQuantity(partNumber, quantity, quantityInStock) {
+            const input = event.target
+            newQuantity = input.value
+            if (isNaN(newQuantity)) {
+                input.value = quantity
+                return
+            }
+            else if (newQuantity <= 0) {
+                removePart(partNumber)
+                return
+            } else if (newQuantity > quantityInStock) {
+                newQuantity = quantityInStock
+            }
+            
+            updateQuantityInCart(partNumber, newQuantity)
+        }
+
+        function decrementQuantity(partNumber, quantity, quantityInStock) {
+            newQuantity = quantity - 1
+            if (newQuantity <= 0) {
+                removePart(partNumber)
+                return
+            }
+
+            updateQuantityInCart(partNumber, newQuantity)
+        } 
+
+        function incrementQuantity(partNumber, quantity, quantityInStock) {
+            newQuantity = quantity + 1
+            if (newQuantity > quantityInStock) {
+                newQuantity = quantityInStock
+            }
+
+            updateQuantityInCart(partNumber, newQuantity)
+        }
+
+        function removePart(partNumber) {
+            fetch('/shop/api/cart/remove', {
+                method: `POST`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({partNumber})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+
+                    fetchAndDisplayCart()
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                })
+            showToast('Removed item from cart.')
+        }
+
+        function updateQuantityInCart(partNumber, newQuantity) {
+            fetch('/shop/api/cart/update-quantity', {
+                method: `POST`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({partNumber, newQuantity})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+
+                    fetchAndDisplayCart()
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                })
+            showToast(`Item quantity updated to ${newQuantity}.`)
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast')
+            const toastBody = document.getElementById('toast-body')
+            toastBody.textContent = message
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast)
+            toastBootstrap.show()
+        }
+
+        window.addEventListener('load', fetchAndDisplayCart)
+    </script>
 </body>
 </html>
