@@ -24,11 +24,14 @@
             --bs-btn-active-bg: #935765;
             --bs-btn-active-border-color: #935765;
         }
+
+        .badge {
+            --bs-badge-color: #e8c7c8;
+        }
     </style>
 </head>
 
 <body>
-    
     <div class='container-md mt-5'>
         <div class='row row-cols-1 row-cols-md-4 g-4' id='row'></div>
     </div>
@@ -62,7 +65,6 @@
 
     <script src='/umd/popper.min.js'></script>
     <script src='/js/bootstrap.min.js'></script>
-
     <script>
         function fetchAndDisplayParts() {
             fetch('/shop/getParts')
@@ -256,5 +258,4 @@
         window.addEventListener('load', fetchAndDisplayParts)
     </script>    
 </body>
-
 </html>
