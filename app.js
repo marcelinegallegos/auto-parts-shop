@@ -26,7 +26,6 @@ app.use(express.static('./node_modules/bootstrap-icons/'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const shopRouter = require('./routes/shop')
 const catalogController = require('./controllers/catalog_controller')
 
 app.use("/shop", shopRouter)
