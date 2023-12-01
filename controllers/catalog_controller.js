@@ -12,10 +12,14 @@ const partRepo = new PartRepository(legacyDao)
 const inventoryRepo = new InventoryRepository(dao)
 
 exports.index = asyncHandler(async (req, res, next) => {
+    res.render('catalog.ejs')
+})
+
+exports.getParts = asyncHandler(async (req, res, next) => {
     let parts = await partRepo.getAll()
     for (part of parts) {
         part.quantity = (await inventoryRepo.getById(part.number)).quantity
-        part.inCartQuantity = Cart.getInCartQuantity(part.number)
+        part.quantityInCart = Cart.getInCartQuantity(part.number)
     }
-    res.render('catalog.ejs', { parts: parts })
+    res.json(parts)
 })

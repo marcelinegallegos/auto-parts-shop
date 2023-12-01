@@ -12,9 +12,6 @@ module.exports = class Cart {
             cart = { parts: [], itemCount: 0, totalPrice: 0, totalWeight: 0 }   
         }
 
-        const price = part[0].price
-        const weight = part[0].weight
-
         // check if the part is already in the cart
         const existingPart = cart.parts.find(cartPart => cartPart.number === part[0].number)
 
@@ -24,19 +21,39 @@ module.exports = class Cart {
             part[0].quantity = 1
             cart.parts.push(part[0])
         }
-        cart.totalPrice += price
-        cart.totalWeight += weight
-        // Round totalPrice to two decimals
-        cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-        cart.itemCount += 1
+    }
+
+    static setQuantity(partNumber, quantity) {
+        const indexOfPart = cart.parts.findIndex(p => p.number == partNumber)
+
+        if (indexOfPart >= 0) {
+            if (quantity == 0) {
+                cart.parts.splice(indexOfPart, 1)[0]
+            } else {
+                cart.parts[indexOfPart].quantity = quantity
+            }
+
+        }
     }
 
     static getCart() {
+        cart.itemCount = 0
+        cart.subtotal = 0
+        cart.shipping = 0
+
+        for (part of cart.parts)
+        {
+            cart.itemCount += part.quantity
+            cart.subtotal += part.price * part.quantity
+        }
+
+        cart.total = cart.subtotal + cart.shipping
+
         return cart;
     }
 
-    static getInCartQuantity(number) {
-        const indexOfPart = cart.parts.findIndex(p => p.number == number)
+    static getInCartQuantity(partNumber) {
+        const indexOfPart = cart.parts.findIndex(p => p.number == partNumber)
         if (indexOfPart >= 0) {
             return cart.parts[indexOfPart].quantity
         }
@@ -48,44 +65,7 @@ module.exports = class Cart {
         const indexOfPart = cart.parts.findIndex(p => p.number == partID)
 
         if (indexOfPart >= 0) {
-            const removedPart = cart.parts.splice(indexOfPart, 1)[0]
-            cart.totalPrice -= removedPart.price * removedPart.quantity
-            cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-            cart.itemCount -= removedPart.quantity
+            const removedPart = cart.parts.splice(indexOfPart, 1)[0];
         }
-    }
-
-    static increment(partID) {
-        const indexOfPart = cart.parts.findIndex(p => p.number == partID)
-
-        if (indexOfPart >= 0) {
-            cart.parts[indexOfPart].quantity += 1
-            cart.totalPrice += cart.parts[indexOfPart].price
-            cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-            cart.itemCount += 1
-        }
-    }
-
-    static decrement(partID) {
-        const indexOfPart = cart.parts.findIndex(p => p.number == partID)
-    
-        if (indexOfPart >= 0) {
-            if (cart.parts[indexOfPart].quantity > 1) {
-                cart.parts[indexOfPart].quantity -= 1
-                cart.totalPrice -= cart.parts[indexOfPart].price
-                cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-                cart.itemCount -= 1;
-            } 
-            //if quantity is 1, remove on decrement
-            else if (cart.parts[indexOfPart].quantity === 1) {
-                cart.totalPrice -= cart.parts[indexOfPart].price * cart.parts[indexOfPart].quantity
-                cart.totalPrice = Number(cart.totalPrice.toFixed(2))
-                
-                // remove the item from the cart
-                const removedPart = cart.parts.splice(indexOfPart, 1)[0]
-                cart.itemCount -= 1
-            }
-        }
-    }
-    
-};
+    }   
+}
