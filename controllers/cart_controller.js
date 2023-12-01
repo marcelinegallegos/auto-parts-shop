@@ -28,7 +28,12 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 })
 
 exports.updateQuantityInCart = asyncHandler(async (req, res, next) => {
-    Cart.setQuantity(req.body.partNumber, req.body.newQuantity)
+    try {
+        Cart.setQuantity(req.body.partNumber, req.body.newQuantity)
+    } catch (error) {
+        console.error('Error:', error)
+        res.status(500).json({ message: 'Error updatings cart' })
+    }
     res.json({ message: 'Updated cart' })
 })
 
@@ -41,18 +46,11 @@ exports.getCart = asyncHandler(async (req, res, next) => {
 })
 
 exports.removeFromCart = asyncHandler(async (req, res, next) => {
-    Cart.remove(req.body.productId)
-})
-
-exports.updateQuantity = asyncHandler(async (req, res, next) => {
-    const productId = req.body.productId
-    const action = req.body.action
-
-    if (action === 'increment') {
-        Cart.increment(productId)
-    } else if (action === 'decrement') {
-        Cart.decrement(productId)
+    try {
+        Cart.remove(req.body.partNumber)
+    } catch (error) {
+        console.error('Error:', error)
+        res.status(500).json({ message: 'Error removing part from cart' })
     }
-
-    res.redirect('/ShoppingCart')
+    res.json({ message: 'Part removed from cart successfully' })
 })
