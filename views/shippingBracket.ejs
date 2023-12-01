@@ -163,12 +163,6 @@
                     // Extract minWeight from the response
                     const minWeight = data.minWeight;
 
-                    // Check if the entered weight matches an existing cost
-                    if (enteredWeight === minWeight) {
-                        console.log('Entered weight matches an existing cost. Skipping addition to the webpage.');
-                        return;
-                    }
-
                     // Send a POST request to add a new cost with the calculated minWeight
                     fetch('/shipping_cost/add-cost', {
                         method: 'POST',
@@ -179,8 +173,8 @@
                     })
                         .then(response => response.json())
                         .then(data => {
+                            
                             console.log(data);
-                            console.log('New cost added');
 
                             // After adding a new cost, fetch and display all costs
                             fetchAndDisplayCosts();
