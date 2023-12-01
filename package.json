@@ -12,6 +12,7 @@
   },
   "author": "Raimund Ege",
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.6.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.20.2",

@@ -23,13 +23,18 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(express.static('./node_modules/bootstrap/dist/'))
 app.use(express.static('./node_modules/bootstrap-icons/'))
+app.use(express.static('./node_modules/@popperjs/core/dist'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+const receivingController = require('./controllers/receiving_desk_controller')
+const receivingDeskRouter = require('./routes/receivingDesk')
 const catalogController = require('./controllers/catalog_controller')
+const cartController = require('./controllers/cart_controller')
+const checkoutController = require('./controllers/checkout_controller')
 
-app.use("/shop", shopRouter)
-app.use("/shipping_cost", shippingRouter)
+app.use('/shop', shopRouter)
+app.use('/shipping_cost', shippingRouter)
 
 
 app.get('/', (req, res) => {
@@ -82,14 +87,6 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
-  
-
-app.all('/receivingDesk', (req, res) => {
-	inventoryRepo.getAll()
-		.then((list) => {
-			res.render('receivingDesk.ejs', { all: list })
-		})
-})
 
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
@@ -102,15 +99,21 @@ app.get('/processCC', (req, res) => {
 	});
 })
 
-app.post('/addToCart', catalogController.addToCart)
+app.post('/addToCart', cartController.addToCart)
 
-app.get('/shoppingCart', catalogController.getCart)
+app.get('/shoppingCart', cartController.getCart)
 
-app.post('/removeItem', catalogController.removeFromCart)
+app.post('/removeItem', cartController.removeFromCart)
 
-app.post('/updateQuantity', catalogController.updateQuantity)
+app.post('/updateQuantity', cartController.updateQuantity)
 
-app.post('/checkout', catalogController.checkout)
+app.post('/checkout', checkoutController.checkout)
+
+app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
+
+app.post('/displaySearchResults', receivingController.displaySearchResults)
+
+app.get('/receivingDesk', receivingController.index)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)

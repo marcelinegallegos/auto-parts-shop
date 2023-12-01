@@ -13,6 +13,14 @@ class PartRepository {
     getAll() {
         return this.dao.query(`SELECT * FROM parts`)
     }
+
+    getByDescriptionLike(description) {
+        return this.dao.query(
+            `SELECT * FROM parts WHERE LOWER(description) LIKE LOWER(?)`,
+            [`%${description}%`]
+        );
+    }
+
 }
 
 module.exports = PartRepository
