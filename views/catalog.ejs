@@ -67,7 +67,7 @@
     <script src='/js/bootstrap.min.js'></script>
     <script>
         function fetchAndDisplayParts() {
-            fetch('/shop/getParts')
+            fetch('/shop/api/parts')
                 .then(response => response.json())
                 .then(parts => {
                     const row = document.getElementById('row')
@@ -105,7 +105,7 @@
                             
                             margin.appendChild(cardTextQuantity)
 
-                            if (part.inCartQuantity > 0) {
+                            if (part.quantityInCart > 0) {
                                 const dropdown = document.createElement('div')
                                 dropdown.className = 'dropdown'
 
@@ -114,7 +114,7 @@
                                 button.setAttribute('type', 'button')
                                 button.setAttribute('data-bs-toggle', 'dropdown')
                                 button.setAttribute('aria-expanded', 'false')
-                                button.textContent = `${part.inCartQuantity} In Cart`
+                                button.textContent = `${part.quantityInCart} In Cart`
 
                                 const ul = document.createElement('ul')
                                 ul.className = 'dropdown-menu'
@@ -123,11 +123,11 @@
                                     const li = document.createElement('li')
                                     const dropdownButton = document.createElement('button')
 
-                                    if (i != part.inCartQuantity) {
+                                    if (i != part.quantityInCart) {
                                         dropdownButton.className = 'dropdown-item'
                                         dropdownButton.setAttribute('type', 'button')
                                         dropdownButton.textContent = i 
-                                        dropdownButton.addEventListener('click', () => setInCartQuantity(part.number, i))
+                                        dropdownButton.addEventListener('click', () => updateQuantityInCart(part.number, i))
                                     } else {
                                         dropdownButton.className = 'dropdown-item disabled'
                                         dropdownButton.setAttribute('type', 'button')
@@ -180,7 +180,7 @@
                     console.error('Error fetching parts:', error)
                 })
 
-            fetch('/shop/getCart')
+            fetch('/shop/api/cart')
                 .then(response => response.json())
                 .then(cart => {
                     const navItemCart = document.getElementById('nav-item-cart')
@@ -202,7 +202,7 @@
         }
 
         function addToCart(partNumber) {
-            fetch('/shop/addToCart', {
+            fetch('shop/api/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -220,13 +220,13 @@
                 })
         }        
 
-        function setInCartQuantity(partNumber, quantity) {
-            fetch('shop/setInCartQuantity', {
+        function updateQuantityInCart(partNumber, newQuantity) {
+            fetch('shop/api/cart/update-quantity', {
                 method: `POST`,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({partNumber, quantity})
+                body: JSON.stringify({partNumber, newQuantity})
             })
                 .then(response => response.json())
                 .then(data => {

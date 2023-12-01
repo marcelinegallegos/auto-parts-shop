@@ -10,7 +10,6 @@
             font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin-bottom: 5%;
         }
-
         
         .cart-item {
             margin: auto;
@@ -57,8 +56,6 @@
             font-weight: 400;
             color: #909090;
         }
-
-      
 
         .counter {
             width: 15%;
@@ -246,20 +243,21 @@
     
 
     <hr> 
-        <div class="checkout">
+
+    <div class="checkout">
         <div class="total">
-        <div>
-        <div class="subtotal">Subtotal</div>
-        <div class="items"><%= cart.itemCount %> items</div>
-        </div>
-        <div class="total-amount">$<%= cart.totalPrice.toFixed(2) %></div>
+            <div>
+                <div class="subtotal">Subtotal</div>
+                <div class="items"><%= cart.itemCount %> items</div>
+            </div>
+            <div class="total-amount">$<%= cart.totalPrice.toFixed(2) %></div>
         </div>
         <form action="/checkout" method="post">
             <button class="button">Checkout</button>
         </form>
-        </div>
-
+    </div>
      
 
+    
 </body>
 </html>
