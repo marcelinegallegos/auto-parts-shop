@@ -88,6 +88,19 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
         });
 });
 
+app.all('/orders', (req, res) => {
+    orderRepo.getAll()
+    .then((list) => {
+        res.render('orders.ejs', {
+            all: list
+        });
+    })
+    .catch((error) => {
+        console.error('Error fetching orders:', error);
+        res.status(500).send('Internal Server Error');
+    });
+})
+
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })
