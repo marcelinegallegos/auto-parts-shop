@@ -1,75 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  
-  <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
-  </link>
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-  </link>
+    <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            --bs-navbar-active-color: var(--bs-black);
+        }
 
-  <style>
+        .nav-pills {
+            --bs-nav-pills-link-active-bg: #e8c7c8;
+        }
 
-    .custom-topnav {
-      overflow: hidden;
-      background-color: #333;
-      position: relative;
-    }
-
-    .custom-cart {
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    .custom-topnav a {
-      float: left;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-
-    .custom-topnav a:hover {
-      background-color: #b86d7e;
-      color: white;
-    }
-
-    .custom-topnav a.active {
-      background-color: #e8c7c8;
-      color: white;
-    }
-   
-  </style>
+        .nav-link {
+            --bs-nav-link-font-weight: 600;
+        }
+    </style>
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/shop">Catalog</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-pills justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-item-cart" aria-current="page" href="/shop/cart">
+                        <i class="bi bi-cart"></i>
+                    </a> 
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-<div class="custom-topnav">
-  <a class="home" href="/">Home</a>
+    <script>
+        // Get the current URL path
+        var path = window.location.pathname;
 
-  <a class="catalog" id="catalog" href="/shop">Catalog</a>
-
-  <a class="custom-cart" id="nav-item-cart" href="/ShoppingCart">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-      </svg>
-  </a>
-    
-  
-</div>
-
-<div style="padding-left:16px;">
-
-  <script>
-    // Get the current URL path
-    var path = window.location.pathname;
-  
-    // Set the corresponding link as active based on the current path
-    var activeLink = document.querySelector('.custom-topnav a[href="' + path + '"]');
-    if (activeLink) {
-      activeLink.classList.add('active');
-    }
-  </script>
-  
+        // Set the corresponding link as active based on the current path
+        var activeLink = document.querySelector('.navbar a[href="' + path + '"]');
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+    </script>
 </body>
+
 </html>

@@ -38,13 +38,16 @@ module.exports = class Cart {
 
     static getCart() {
         cart.itemCount = 0
-        cart.totalPrice = 0
+        cart.subtotal = 0
+        cart.shipping = 0
 
         for (part of cart.parts)
         {
             cart.itemCount += part.quantity
-            cart.totalPrice += part.price * part.quantity
+            cart.subtotal += part.price * part.quantity
         }
+
+        cart.total = cart.subtotal + cart.shipping
 
         return cart;
     }
@@ -64,28 +67,5 @@ module.exports = class Cart {
         if (indexOfPart >= 0) {
             const removedPart = cart.parts.splice(indexOfPart, 1)[0];
         }
-    }
-
-    static increment(partID) {
-        const indexOfPart = cart.parts.findIndex(p => p.number == partID);
-
-        if (indexOfPart >= 0) {
-            cart.parts[indexOfPart].quantity += 1;
-        }
-    }
-
-    static decrement(partID) {
-        const indexOfPart = cart.parts.findIndex(p => p.number == partID);
-    
-        if (indexOfPart >= 0) {
-            if (cart.parts[indexOfPart].quantity > 1) {
-                cart.parts[indexOfPart].quantity -= 1;
-            } 
-            //if quantity is 1, remove on decrement
-            else if (cart.parts[indexOfPart].quantity === 1) {
-                cart.parts.splice(indexOfPart, 1)[0];
-            }
-        }
-    }
-    
-};
+    }   
+}
