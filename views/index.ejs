@@ -9,6 +9,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="..."></script>
     </head>
     <style>
+        .btn-container {
+            padding-left: 10px;
+            display: inline-block;
+        }
+
         .btn {
             color: #000000;
             background-color: #e8c7c8;
@@ -36,7 +41,8 @@
     <body>
         <%- include('partials/navbar') %>
 
-            <br><br>
+        <div class="btn-container">
+            <br>
             <a href="shop">
             <button type="submit" class="btn btn-primary">Shop</button></a>
             <br><br>
@@ -45,5 +51,6 @@
             <br><br>
             <a href="shippingBracket">
             <button type="submit" class="btn btn-primary">Administration</button></a>
+        </div>
     </body>
 </html>
