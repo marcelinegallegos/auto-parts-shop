@@ -1,227 +1,182 @@
 <html>
 
-<head>
-    <%- include('partials/navbar_shippingBracket') %>
-        <style>
-            .shipping-bracket {
-                flex: 1;
-                display: flex;
-                align-items: left;
-                justify-content: left;
-                margin-right: -0.5rem;
-            }
+<%- include('partials/navbar_shippingBracket') %>
+    <!DOCTYPE html>
+    <html lang="en">
 
-            .search-by {
-                flex: 1;
-                display: flex;
-                align-items: left;
-                justify-content: left;
-                margin-right: -0.5rem;
-            }
-
-            .weight-brackets {
-                flex: 1;
-                display: flex;
-                align-items: left;
-                justify-content: left;
-                margin-right: -0.5rem;
-            }
-
-            #query {
-                height: 2.8rem;
-                width: 35rem;
-                background: #f5f5f5;
-                outline: none;
-                border: none;
-                border-radius: 1.625rem;
-                padding: 0 1rem;
-                font-size: 1.rem;
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
-            .search-form {
-                display: flex;
-                align-items: center;
-            }
-
-            .search-button {
-                width: 3.5rem;
-                height: 2.8rem;
-                margin-left: -3.5rem;
-                background: none;
-                border: none;
-                outline: none;
-            }
-        </style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
         <title>Shipping Bracket Edit</title>
-</head>
+    </head>
 
-<body>
-    <div class="shipping-bracket">
-        <h3>Weight brackets for shipping</h3>
-        <br><br>
-    </div>
+    <body>
+        <div class="shipping-bracket">
+            <h3>Weight brackets for shipping</h3>
+            <br><br>
+        </div>
 
-    <!-- Display existing shipping costs -->
-    <div id="shipping-costs"></div>
+        <!-- Display existing shipping costs -->
+        <div id="shipping-costs"></div>
 
-    <div class="weight-brackets">
-        <!-- Add form for new shipping cost -->
-        <form id="add-cost-form">
-            <label for="maxWeight">Weight:</label>
-            <input type="number" id="maxWeight" min="0" placeholder="Enter weight" required>
-            <label for="maxWeight">Cost:</label>
-            <input type="number" id="cost" min="0" step="any" placeholder="Enter cost" required>
-            <button type="submit">Add</button>
-        </form>
+        <div class="weight-brackets">
+            <!-- Add form for new shipping cost -->
+            <form id="add-cost-form">
+                <label for="maxWeight">Weight:</label>
+                <input type="number" id="maxWeight" min="0" placeholder="Enter weight" required>
+                <label for="maxWeight">Cost:</label>
+                <input type="number" id="cost" min="0" step="any" placeholder="Enter cost" required>
+                <button type="submit">Add cost</button>
+            </form>
 
-    </div>
+        </div>
 
-    <script>
+        
 
-        function fetchAndDisplayCosts() {
-            fetch('/shipping_cost/get-costs')
-                .then(response => response.json())
-                .then(costs => {
-                    const shippingCostsContainer = document.getElementById('shipping-costs');
-                    shippingCostsContainer.innerHTML = '';
+        <script>
 
-                    // Sort costs based on both minWeight and maxWeight
-                    costs.sort((a, b) => {
-                        if (a.minWeight !== b.minWeight) {
-                            return a.minWeight - b.minWeight;
-                        }
-                        return a.maxWeight - b.maxWeight;
-                    });
+            function fetchAndDisplayCosts() {
+                fetch('/shipping_cost/get-costs')
+                    .then(response => response.json())
+                    .then(costs => {
+                        const shippingCostsContainer = document.getElementById('shipping-costs');
+                        shippingCostsContainer.innerHTML = '';
 
-                    let prevMaxWeight = 0;
-
-                    costs.forEach(cost => {
-                        const costDiv = document.createElement('div');
-                        costDiv.className = 'shipping-cost';
-                        costDiv.setAttribute('data-id', cost.id);
-
-                        // Use the greater of the previous maxWeight and the current minWeight as minWeight
-                        const minWeight = Math.max(prevMaxWeight, cost.minWeight);
-                        prevMaxWeight = cost.maxWeight;
-
-                        const costText = minWeight === 0 && cost.maxWeight === 1 ? 'Free Shipping' : `$${cost.cost}`;
-
-                        costDiv.innerHTML = `<span>From ${minWeight} to ${cost.maxWeight} lbs ${costText}</span>`;
-
-                        // Only add the remove button if the minWeight is not 0 or the maxWeight is not 1
-                        if (!(cost.minWeight === 0 && cost.maxWeight === 1)) {
-                            const removeButton = document.createElement('button');
-                            removeButton.className = 'remove-button';
-                            removeButton.textContent = 'Remove';
-                            removeButton.addEventListener('click', () => removeCost(cost.id));
-
-                            costDiv.appendChild(removeButton);
-                        }
-
-                        shippingCostsContainer.appendChild(costDiv);
-                    });
-
-                    // Find the greatest maxWeight and cost in the database
-                    const greatestMaxWeight = costs.length > 0 ? costs.reduce((max, cost) => Math.max(max, cost.maxWeight), 0) : 0;
-                    const greatestCost = costs.length > 0 ? costs.reduce((max, cost) => Math.max(max, cost.cost), 0) : 0;
-
-                    // Calculate cost for "Over X lbs" as double of the greatest cost
-                    const overXCost = greatestCost * 2;
-
-                    // Add "over X lbs" cost
-                    const overXDiv = document.createElement('div');
-                    overXDiv.className = 'shipping-cost';
-                    overXDiv.innerHTML = `<span>Over ${greatestMaxWeight} lbs $${overXCost}</span>`;
-                    shippingCostsContainer.appendChild(overXDiv);
-                })
-                .catch(error => {
-                    console.error('Error fetching costs:', error);
-                });
-        }
-
-
-        document.getElementById('add-cost-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const maxWeightInput = document.getElementById('maxWeight');
-            const costInput = document.getElementById('cost');
-
-            const enteredWeight = parseFloat(maxWeightInput.value);
-            const enteredCost = parseFloat(costInput.value);
-
-            // Send a POST request to get the updated information
-            fetch('/shipping_cost/get-update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ maxWeight: enteredWeight }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Extract minWeight from the response
-                    const minWeight = data.minWeight;
-
-                    // Check if the entered weight matches an existing cost
-                    if (enteredWeight === minWeight) {
-                        console.log('Entered weight matches an existing cost. Skipping addition to the webpage.');
-                        return;
-                    }
-
-                    // Send a POST request to add a new cost with the calculated minWeight
-                    fetch('/shipping_cost/add-cost', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ minWeight, maxWeight: enteredWeight, cost: enteredCost }),
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            console.log('New cost added');
-
-                            // After adding a new cost, fetch and display all costs
-                            fetchAndDisplayCosts();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
+                        // Sort costs based on both minWeight and maxWeight
+                        costs.sort((a, b) => {
+                            if (a.minWeight !== b.minWeight) {
+                                return a.minWeight - b.minWeight;
+                            }
+                            return a.maxWeight - b.maxWeight;
                         });
+
+                        let prevMaxWeight = 0;
+
+                        costs.forEach(cost => {
+                            const costDiv = document.createElement('div');
+                            costDiv.className = 'shipping-cost';
+                            costDiv.setAttribute('data-id', cost.id);
+
+                            // Use the greater of the previous maxWeight and the current minWeight as minWeight
+                            const minWeight = Math.max(prevMaxWeight, cost.minWeight);
+                            prevMaxWeight = cost.maxWeight;
+
+                            const costText = minWeight === 0 && cost.maxWeight === 1 ? 'Free Shipping' : `$${cost.cost}`;
+
+                            costDiv.innerHTML = `<span>From ${minWeight} to ${cost.maxWeight} lbs ${costText}</span>`;
+
+                            // Only add the remove button if the minWeight is not 0 or the maxWeight is not 1
+                            if (!(cost.minWeight === 0 && cost.maxWeight === 1)) {
+                                const removeButton = document.createElement('button');
+                                removeButton.className = 'remove-button';
+                                removeButton.textContent = 'Remove';
+                                removeButton.addEventListener('click', () => removeCost(cost.id));
+
+                                costDiv.appendChild(removeButton);
+                            }
+
+                            shippingCostsContainer.appendChild(costDiv);
+                        });
+
+                        // Find the greatest maxWeight and cost in the database
+                        const greatestMaxWeight = costs.length > 0 ? costs.reduce((max, cost) => Math.max(max, cost.maxWeight), 0) : 0;
+                        const greatestCost = costs.length > 0 ? costs.reduce((max, cost) => Math.max(max, cost.cost), 0) : 0;
+
+                        // Calculate cost for "Over X lbs" as double of the greatest cost
+                        const overXCost = greatestCost * 2;
+
+                        // Add "over X lbs" cost
+                        const overXDiv = document.createElement('div');
+                        overXDiv.className = 'shipping-cost';
+                        overXDiv.innerHTML = `<span>Over ${greatestMaxWeight} lbs $${overXCost}</span>`;
+                        shippingCostsContainer.appendChild(overXDiv);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching costs:', error);
+                    });
+            }
+
+
+            document.getElementById('add-cost-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const maxWeightInput = document.getElementById('maxWeight');
+                const costInput = document.getElementById('cost');
+
+                const enteredWeight = parseFloat(maxWeightInput.value);
+                const enteredCost = parseFloat(costInput.value);
+
+                // Send a POST request to get the updated information
+                fetch('/shipping_cost/get-update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ maxWeight: enteredWeight }),
                 })
-                .catch(error => {
-                    console.error('Error fetching updated information:', error);
-                });
-        });
+                    .then(response => response.json())
+                    .then(data => {
+                        // Extract minWeight from the response
+                        const minWeight = data.minWeight;
 
-        function removeCost(costId) {
-            fetch('/shipping_cost/remove-cost', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id: costId }),
-            })
-                .then(data => {
-                    console.log(data);
-                    console.log('Cost removed successfully');
+                        // Send a POST request to add a new cost with the calculated minWeight
+                        fetch('/shipping_cost/add-cost', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ minWeight, maxWeight: enteredWeight, cost: enteredCost }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.message === 'data existed') {
+                                    // Display the message to the user
+                                    alert('The entry you’re attempting to add appears to be a duplicate of existing data');
+                                }
+                                // After adding a new cost, fetch and display all costs
+                                fetchAndDisplayCosts();
+                                // Clear the text fields
+                                maxWeightInput.value = '';
+                                costInput.value = '';
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching updated information:', error);
+                    });
+            });
 
-                    // Fetch and display costs after removing a cost
-                    fetchAndDisplayCosts();
+            function removeCost(costId) {
+                fetch('/shipping_cost/remove-cost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: costId }),
                 })
-                .catch(error => {
-                    console.error('Error removing cost:', error);
-                });
-        }
+                    .then(data => {
+                        console.log(data);
+                        console.log('Cost removed successfully');
 
-        // Fetch and display existing costs on page load
-        window.addEventListener('load', fetchAndDisplayCosts);
+                        // Fetch and display costs after removing a cost
+                        fetchAndDisplayCosts();
+                    })
+                    .catch(error => {
+                        console.error('Error removing cost:', error);
+                    });
+            }
+
+            // Fetch and display existing costs on page load
+            window.addEventListener('load', fetchAndDisplayCosts);
 
 
-    </script>
+        </script>
 
 
-</body>
+    </body>
 
 
-</html>
+    </html>

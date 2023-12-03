@@ -3,12 +3,14 @@ const AppDAO = require('../models/app_dao')
 const LegacyDAO = require('../models/legacy_dao')
 const PartRepository = require('../models/part_repository')
 const InventoryRepository = require('../models/inventory_repository')
+const ShippingRepository = require('../models/shipping_repository')
 const Cart = require('../models/cart')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
 const partRepo = new PartRepository(legacyDao)
 const inventoryRepo = new InventoryRepository(dao)
+const shippingRepo = new ShippingRepository(dao)
 
 exports.index = asyncHandler(async (req, res, next) => {
     res.render('cart.ejs')
@@ -19,7 +21,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
     if (addedPart) {
         Cart.save(addedPart)
-        console.log(Cart.getCart())
+        console.log(await Cart.getCart())
         res.json({ message: 'Part added to cart successfully' })
     } else {
         console.error('Error:', error)
@@ -38,9 +40,8 @@ exports.updateQuantityInCart = asyncHandler(async (req, res, next) => {
 })
 
 exports.getCart = asyncHandler(async (req, res, next) => {
-    let cart = Cart.getCart()
-    let totalWeight = 0
-    
+
+    let cart = await Cart.getCart()
     for (part of cart.parts) {
         part.quantityInStock = (await inventoryRepo.getById(part.number)).quantity
     }
