@@ -32,6 +32,8 @@
 
         </div>
 
+        
+
         <script>
 
             function fetchAndDisplayCosts() {
@@ -134,6 +136,9 @@
                                 }
                                 // After adding a new cost, fetch and display all costs
                                 fetchAndDisplayCosts();
+                                // Clear the text fields
+                                maxWeightInput.value = '';
+                                costInput.value = '';
                             })
                             .catch(error => {
                                 console.error('Error:', error);
