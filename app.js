@@ -5,6 +5,7 @@ const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const orderRouter = require('./models/order_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
 
@@ -32,9 +33,11 @@ const receivingDeskRouter = require('./routes/receivingDesk')
 const catalogController = require('./controllers/catalog_controller')
 const cartController = require('./controllers/cart_controller')
 const checkoutController = require('./controllers/checkout_controller')
+const ordersController = require('./controllers/order_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
+// app.use('/orders', orderRouter)
 
 
 app.get('/', (req, res) => {
@@ -127,6 +130,8 @@ app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 app.post('/displaySearchResults', receivingController.displaySearchResults)
 
 app.get('/receivingDesk', receivingController.index)
+
+app.post('/displayOrdersSearchResults', ordersController.displayOrdersSearchResults)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
