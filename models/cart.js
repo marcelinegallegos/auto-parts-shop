@@ -1,6 +1,11 @@
 /**
  * Shopping Cart Model
  */
+const AppDAO = require('./app_dao')
+const ShippingRepository = require('./shipping_repository')
+
+const dao = new AppDAO('./db/database.db')
+const shippingRepo = new ShippingRepository(dao)
 
 let cart = { parts: [], itemCount: 0, totalPrice: 0 };
 module.exports = class Cart {
@@ -36,7 +41,7 @@ module.exports = class Cart {
         }
     }
 
-    static getCart(shippingRepo) {
+    static async getCart() {
         cart.itemCount = 0
         cart.totalWeight = 0
         cart.subtotal = 0
@@ -50,7 +55,24 @@ module.exports = class Cart {
             cart.subtotal += part.price * part.quantity
         }
 
-        return cart;
+        const shippingBracket = await shippingRepo.getByWeight(cart.totalWeight)
+
+        if(shippingBracket) {
+            cart.shipping = shippingBracket.cost
+        } else {
+            const minWeightBracket = await shippingRepo.getMinWeightBracket()
+            const maxWeightBracket = await shippingRepo.getMaxWeightBracket()
+
+            if (cart.totalWeight < minWeightBracket.minWeight) {
+                cart.shipping = 0
+            } else {
+                cart.shipping = maxWeightBracket.cost * 2
+            }
+        }
+
+        cart.total = cart.subtotal + cart.shipping
+
+        return cart
     }
 
     static getQuantityInCart(partNumber) {

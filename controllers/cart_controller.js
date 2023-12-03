@@ -21,7 +21,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
     if (addedPart) {
         Cart.save(addedPart)
-        console.log(Cart.getCart())
+        console.log(await Cart.getCart())
         res.json({ message: 'Part added to cart successfully' })
     } else {
         console.error('Error:', error)
@@ -40,28 +40,10 @@ exports.updateQuantityInCart = asyncHandler(async (req, res, next) => {
 })
 
 exports.getCart = asyncHandler(async (req, res, next) => {
-    let cart = Cart.getCart()
+    let cart = await Cart.getCart()
     for (part of cart.parts) {
         part.quantityInStock = (await inventoryRepo.getById(part.number)).quantity
     }
-
-    shippingBracket = await shippingRepo.getByWeight(cart.totalWeight)
-    
-    if(shippingBracket) {
-        cart.shipping = shippingBracket.cost
-    } else {
-        minWeightBracket = await shippingRepo.getMinWeightBracket()
-        maxWeightBracket = await shippingRepo.getMaxWeightBracket()
-
-        if (cart.totalWeight < minWeightBracket.minWeight) {
-            cart.shipping = 0
-        } else {
-            cart.shipping = maxWeightBracket.cost * 2
-        }
-    }
-
-    cart.total = cart.subtotal + cart.shipping
-
     res.json(cart)    
 })
 
