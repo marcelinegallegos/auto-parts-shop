@@ -114,13 +114,13 @@ router.post('/get-update', async function (req, res) {
         let maxWeightFound = 0;
         let nextCost = null;
 
-        // Looping to find the number that the user entered is within range
+        // check the number that the user entered is within range
         for (const cost of costs) {
             if (cost.maxWeight < maxWeight && cost.maxWeight > maxWeightFound) {
                 maxWeightFound = cost.maxWeight;
             }
 
-            // nextCost stores cost data so it's able to update minWeight
+            // Data store in nextCost, so it's able to update minWeight
             if (cost.minWeight < maxWeight && cost.maxWeight > maxWeight) {
                 nextCost = cost;
             }
