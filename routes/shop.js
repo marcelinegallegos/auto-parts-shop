@@ -21,4 +21,6 @@ router.get('/cart', cartController.index)
 
 router.get('/checkout', checkoutController.checkout)
 
+//router.post('/getCustomerInfo', checkoutController.getCustomerInfo)
+
 module.exports = router

@@ -34,13 +34,16 @@ exports.getCustomerInfo = asyncHandler(async (req, res, next) => {
     let cart = await Cart.getCart()
     const amount = cart.totalPrice
     const weight = cart.totalWeight
-    console.log(cart)
 
-    //insert cust info into database
-    orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
-   // console.log(await orderRepo.getAll())
-
-   // res.render('confirmation.ejs')  
+    try {
+        const orderId = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
+        console.log('Order ID:', orderId)
+    } catch (error) {
+        console.error('Error during insertion:', error)
+    }
+        
+   // res.json({ message: 'Created order ID' }) 
+   // res.render('confirmation.ejs')
 });
 
 //order_items_repository

@@ -31,6 +31,8 @@ class OrderRepository {
             [firstName, lastName, email, amount, weight, address, city, state, zip, country]
         )
     }
+    
+    
 
     update(status, id) {
         return this.dao.run(
