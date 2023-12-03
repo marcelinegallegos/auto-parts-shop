@@ -36,20 +36,19 @@ module.exports = class Cart {
         }
     }
 
-    static getCart() {
+    static getCart(shippingRepo) {
         cart.itemCount = 0
         cart.totalWeight = 0
         cart.subtotal = 0
         cart.shipping = 0
+        cart.total = 0
 
         for (part of cart.parts)
         {
             cart.itemCount += part.quantity
-            cart.totalWeight += part.weight
+            cart.totalWeight += part.weight * part.quantity
             cart.subtotal += part.price * part.quantity
         }
-
-        cart.total = cart.subtotal + cart.shipping
 
         return cart;
     }
