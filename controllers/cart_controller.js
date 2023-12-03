@@ -44,8 +44,9 @@ exports.getCart = asyncHandler(async (req, res, next) => {
     for (part of cart.parts) {
         part.quantityInStock = (await inventoryRepo.getById(part.number)).quantity
     }
-    shippingBracket = await shippingRepo.getByWeight(cart.totalWeight)
 
+    shippingBracket = await shippingRepo.getByWeight(cart.totalWeight)
+    
     if(shippingBracket) {
         cart.shipping = shippingBracket.cost
     } else {

@@ -19,7 +19,7 @@ exports.getParts = asyncHandler(async (req, res, next) => {
     let parts = await partRepo.getAll()
     for (part of parts) {
         part.quantity = (await inventoryRepo.getById(part.number)).quantity
-        part.quantityInCart = Cart.getInCartQuantity(part.number)
+        part.quantityInCart = Cart.getQuantityInCart(part.number)
     }
     res.json(parts)
 })
