@@ -31,7 +31,7 @@ exports.getCustomerInfo = asyncHandler(async (req, res, next) => {
     const country = req.body.country
 
     //call getCart() for weight and amount
-    let cart = Cart.getCart()
+    let cart = await Cart.getCart()
     const amount = cart.totalPrice
     const weight = cart.totalWeight
     console.log(cart)
