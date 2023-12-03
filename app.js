@@ -29,6 +29,7 @@ app.use(bodyParser.json())
 
 const receivingController = require('./controllers/receiving_desk_controller')
 const receivingDeskRouter = require('./routes/receivingDesk')
+const checkoutController = require('./controllers/checkout_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
