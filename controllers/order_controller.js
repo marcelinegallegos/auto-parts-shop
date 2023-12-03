@@ -15,7 +15,7 @@ const orderRepo = new OrderRepository(dao)
 exports.index = asyncHandler(async (req, res, next) => {
     let orders = await orderRepo.getAll()
     for (order of orders) {
-        order.quantity = (await inventoryRepo.getById(order.number)).quantity
+        order.quantity = (await orderRepo.getByDate(order.number)).quantity
     }
     res.render('orders.ejs', { all: orders })
 })
@@ -28,8 +28,22 @@ exports.displayOrdersSearchResults = asyncHandler(async (req, res, next) => {
     if(searchBy) {
         orders = await orderRepo.getByDate(query)
     }
-    // for (order of orders) {
-    //     order.quantity = (await inventoryRepo.getById(order.number)).quantity
-    // }
+    for (order of orders) {
+        order.date = (await orderRepo.getByDate(order.number)).date
+    }
+    res.render('orders.ejs', {all: orders})
+})
+
+exports.displayOrdersStatus = asyncHandler(async (req, res, next) => {
+    const query = req.body.query
+    const searchBy = req.body.searchType
+    let orders
+
+    if(searchBy) {
+        orders = await orderRepo.getByStatus(query)
+    }
+    for (order of orders) {
+        order.status = (await orderRepo.getByStatus(order.status)).status
+    }
     res.render('orders.ejs', {all: orders})
 })

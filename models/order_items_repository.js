@@ -7,20 +7,20 @@ class OrderItemsRepository {
         const sql = `
         CREATE TABLE IF NOT EXISTS orderItems (
             orderId INTEGER NOT NULL,
-            partNumber INTEGER NOT NULL,
+            orderPartNumber INTEGER NOT NULL,
             quantity INTEGER NOT NULL,
-            PRIMARY KEY (orderId, partNumber),
+            PRIMARY KEY (orderId, orderPartNumber),
             FOREIGN KEY (orderId) REFERENCES orders(id)
                 ON DELETE CASCADE
         )`
         return this.dao.run(sql)
     }
 
-    create(orderId, partNumber, quantity) {
+    create(orderId, orderPartNumber, quantity) {
         return this.dao.run(
-            `INSERT INTO orderItems (orderId, partNumber, quantity)
+            `INSERT INTO orderItems (orderId, orderPartNumber, quantity)
                 VALUES (?, ?, ?)`,
-            [orderId, partNumber, quantity]
+            [orderId, orderPartNumber, quantity]
         )
     }
 

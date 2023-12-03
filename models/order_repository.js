@@ -54,19 +54,18 @@ class OrderRepository {
     }
 
     getByDate(orderDate) {
-        return this.dao.get(
-            // `SELECT * FROM orders where CURDATE() > CURDATE('now' - 30 day)`,
-            `SELECT * FROM orders`
-            // [orderDate]
-        )
+        return this.dao.all(
+            `SELECT * FROM orders WHERE date BETWEEN strftime('%Y-%m-%d', 'now', '-? days') AND strftime('%Y-%m-%d', 'now', 'localtime')`,
+            [orderDate]
+        );
     }
 
-    // getByDate(date) {
-    //     return this.dao.all(
-    //         `SELECT * FROM orders`
-    //         // [date]
-    //     )
-    // }
+    getByStatus(status) {
+        return this.dao.get(
+            `SELECT * FROM orders WHERE status ?`,
+            [status]
+        )
+    }
 
     getAll() {
         return this.dao.all(`SELECT * FROM orders`)

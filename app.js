@@ -133,6 +133,8 @@ app.get('/receivingDesk', receivingController.index)
 
 app.post('/displayOrdersSearchResults', ordersController.displayOrdersSearchResults)
 
+app.post('/displayOrdersStatus', ordersController.displayOrdersStatus)
+
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
 })

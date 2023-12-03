@@ -76,6 +76,29 @@
                 <input type="submit">
             </div>
             </div>
+        </form>
+        
+        <form action="/displayOrdersStatus" method="post" class="search-form">
+            Filter by shipping status:
+            <br/>
+            <div class="radio-container"></div>
+            <div class="radio-buttons">
+                <input type="radio"
+                        id="pending"
+                        name="searchType"
+                        value="pending" checked>
+                <label for="pending">pending</label>
+                <br/>
+                <input type="radio"
+                    id="shipped"
+                    name="searchType"
+                    value="shipped">
+                <label for="shipped">shipped</label>
+                <input type="submit">
+            </div>
+            </div>
+        </form>
+
         <!-- <div class="search-box">
                 <input type="search" id="query" name="query" placeholder="Search">
                 <button class="search-button">
@@ -89,9 +112,9 @@
         <div class="order-display">
             <table>
                 <tr>
+                    <th style="text-align: center;">Status</th>
                     <th style="text-align: center;">Order ID</th>
                     <th style="text-align: center;">Weight</th>
-                    <th style="text-align: center;">Status</th>
                 </tr>
                 <% for (var order in all) { %>
                     <tr>
