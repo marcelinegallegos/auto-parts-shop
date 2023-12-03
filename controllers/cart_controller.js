@@ -40,6 +40,7 @@ exports.updateQuantityInCart = asyncHandler(async (req, res, next) => {
 })
 
 exports.getCart = asyncHandler(async (req, res, next) => {
+
     let cart = await Cart.getCart()
     for (part of cart.parts) {
         part.quantityInStock = (await inventoryRepo.getById(part.number)).quantity

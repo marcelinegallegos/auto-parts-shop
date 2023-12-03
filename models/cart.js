@@ -7,24 +7,24 @@ const ShippingRepository = require('./shipping_repository')
 const dao = new AppDAO('./db/database.db')
 const shippingRepo = new ShippingRepository(dao)
 
-let cart = { parts: [], itemCount: 0, totalPrice: 0 };
+let cart = { parts: [], itemCount: 0, totalPrice: 0, totalWeight: 0 }
 module.exports = class Cart {
 
     static save(part) {
 
         //if cart is empty, initialize it
         if (!cart) {    
-            cart = { parts: [], itemCount: 0, totalPrice: 0 };    
+            cart = { parts: [], itemCount: 0, totalPrice: 0, totalWeight: 0 }   
         }
 
         // check if the part is already in the cart
-        const existingPart = cart.parts.find(cartPart => cartPart.number === part[0].number);
+        const existingPart = cart.parts.find(cartPart => cartPart.number === part[0].number)
 
         if (existingPart) {
-            existingPart.quantity += 1;
+            existingPart.quantity += 1
         } else {
-            part[0].quantity = 1;
-            cart.parts.push(part[0]);
+            part[0].quantity = 1
+            cart.parts.push(part[0])
         }
     }
 
@@ -85,7 +85,7 @@ module.exports = class Cart {
 
     static remove(partID) {
         
-        const indexOfPart = cart.parts.findIndex(p => p.number == partID);
+        const indexOfPart = cart.parts.findIndex(p => p.number == partID)
 
         if (indexOfPart >= 0) {
             const removedPart = cart.parts.splice(indexOfPart, 1)[0];
