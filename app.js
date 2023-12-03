@@ -79,6 +79,18 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
         });
 });
 
+app.all('/viewPackingList/:orderId', (req, res) => {
+    const orderId = req.params.orderId
+    orderRepo.getById(orderId)
+    .then((orderDetails) => {
+        res.render('viewPackingList', { orderDetails })
+    })
+    .catch(error => {
+        console.error('Error viewing packing list:', error)
+        res.status(500).json({error: 'Internal Server Error'})
+    })
+})
+
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })
