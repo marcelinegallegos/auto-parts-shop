@@ -55,6 +55,20 @@ class OrderRepository {
         )
     }
 
+    getByDate(orderDate) {
+        return this.dao.all(
+            `SELECT * FROM orders WHERE date BETWEEN datetime('now', '-' || ? || ' days') AND datetime()`,
+            [orderDate]
+        );
+    }
+
+    getByStatus(status) {
+        return this.dao.get(
+            `SELECT * FROM orders WHERE status ?`,
+            [status]
+        )
+    }
+
     getAll() {
         return this.dao.all(`SELECT * FROM orders`)
     }

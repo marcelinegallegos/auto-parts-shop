@@ -5,6 +5,7 @@ const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const orderRouter = require('./models/order_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
 const warehouseRouter = require('./routes/warehouse')
@@ -30,6 +31,7 @@ app.use(bodyParser.json())
 
 const receivingController = require('./controllers/receiving_desk_controller')
 const receivingDeskRouter = require('./routes/receivingDesk')
+const ordersController = require('./controllers/order_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
@@ -63,6 +65,19 @@ app.all('/viewPackingList/:orderId', (req, res) => {
     })
 })
 
+app.all('/orders', (req, res) => {
+    orderRepo.getAll()
+    .then((list) => {
+        res.render('orders.ejs', {
+            all: list
+        });
+    })
+    .catch((error) => {
+        console.error('Error fetching orders:', error);
+        res.status(500).send('Internal Server Error');
+    });
+})
+
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })
@@ -79,6 +94,10 @@ app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 app.post('/displaySearchResults', receivingController.displaySearchResults)
 
 app.get('/receivingDesk', receivingController.index)
+
+app.post('/displayOrdersSearchResults', ordersController.displayOrdersSearchResults)
+
+app.post('/displayOrdersStatus', ordersController.displayOrdersStatus)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
