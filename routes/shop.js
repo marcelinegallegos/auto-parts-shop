@@ -17,6 +17,8 @@ router.post('/api/cart/update-quantity', cartController.updateQuantityInCart)
 
 router.post('/api/cart/remove', cartController.removeFromCart)
 
+router.post('/api/orders/add', checkoutController.addOrder)
+
 router.get('/cart', cartController.index)
 
 router.get('/checkout', checkoutController.checkout)
