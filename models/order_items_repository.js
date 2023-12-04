@@ -32,14 +32,14 @@ class OrderItemsRepository {
     }
 
     getById(orderId) {
-        return this.dao.query(
+        return this.dao.all(
             `SELECT * FROM orderItems WHERE orderId = ?`,
             [orderId]
         )
     }
 
     getAll() {
-        return this.dao.query(`SELECT * FROM orderItems`)
+        return this.dao.all(`SELECT * FROM orderItems`)
     }
 
 }

@@ -5,6 +5,7 @@ const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const OrderItemsRepo = require('./models/order_items_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
 const warehouseRouter = require('./routes/warehouse')
@@ -13,6 +14,7 @@ const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
 const partRepo = new PartRepository(legacyDao)
 const orderRepo = new OrderRepo(dao)
+const orderItemsRepo = new OrderItemsRepo(dao)
 const inventoryRepo = new InventoryRepo(dao)
 
 const app = express()
@@ -83,9 +85,9 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
 
 app.all('/viewPackingList/:orderId', (req, res) => {
     const orderId = req.params.orderId
-    orderRepo.getById(orderId)
-    .then((orderDetails) => {
-        res.render('viewPackingList', { orderDetails })
+    orderItemsRepo.getById(orderId)
+    .then((list) => {
+        res.render('viewPackingList', { all : list })
     })
     .catch(error => {
         console.error('Error viewing packing list:', error)

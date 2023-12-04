@@ -3,7 +3,21 @@
         <style></style>
         <title>View Packing List</title>
         <body>
-            Order <%= orderDetails.id %>
+            <h3>Order Packing List</h3>
+            <table border="1", padding="15px">
+                <tr>
+                    <th style="text-align: center; padding: 20px">Part Number</th>
+                    <th style="text-align: center; padding: 20px">Part Description</th>
+                    <th style="padding: 20px">Quantity Ordered</th>
+                </tr>
+                <% for (part in all) { %>
+                    <tr>
+                        <th style="text-align: center; padding: 20px"><%= all[part].partNumber %></th>
+                        <th style="text-align: center; padding: 20px">Description will go here</th>
+                        <th style="text-align: center; padding: 20px"><%= all[part].quantity %></th>
+                    </tr>
+                <% } %>
+            </table>
         </body>
     </head>
 </html>
