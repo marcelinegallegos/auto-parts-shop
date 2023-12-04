@@ -52,6 +52,47 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
+// Route to render the workstation view
+app.all('/workstation', (req, res) => {
+    orderRepo.getAll()
+        .then((list) => {
+            res.render('workstation.ejs', {
+                all: list
+            });
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
+// Route to update order status
+app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
+    const orderId = req.params.orderId;
+    const currentStatus = req.params.currentStatus;
+
+    orderRepo.update('shipped', orderId)
+        .then(() => {
+            res.json({ message: 'Order status updated successfully' });
+        })
+        .catch(error => {
+            console.error('Error updating order status:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
+app.all('/viewPackingList/:orderId', (req, res) => {
+    const orderId = req.params.orderId
+    orderRepo.getById(orderId)
+    .then((orderDetails) => {
+        res.render('viewPackingList', { orderDetails })
+    })
+    .catch(error => {
+        console.error('Error viewing packing list:', error)
+        res.status(500).json({error: 'Internal Server Error'})
+    })
+})
+
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })
