@@ -7,6 +7,5 @@ const orderRepo = new OrderRepository(dao)
 
 exports.index = (req, res, next) => {
     const orderId = req.query.orderId
-    console.log(orderId)
     res.render('confirmation.ejs')
 }

@@ -1,12 +1,22 @@
 const asyncHandler = require('express-async-handler')
 const AppDAO = require('../models/app_dao')
+const LegacyDAO = require('../models/legacy_dao')
 const OrderRepository = require('../models/order_repository')
+const OrderItemsRepository = require('../models/order_items_repository')
+const PartRepository = require('../models/part_repository')
 const Cart = require('../scripts/cart')
 
 const dao = new AppDAO('./db/database.db')
+const legacyDao = new LegacyDAO()
 const orderRepo = new OrderRepository(dao)
+const orderItemsRepo = new OrderItemsRepository(dao)
+const partRepo = new PartRepository(legacyDao)
+
+
+
 
 //render checkout page
+
 exports.checkout = (req, res, next) => {
     res.render('checkout.ejs')
 }
@@ -24,20 +34,22 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
 
     //call getCart() for weight and amount
     let cart = await Cart.getCart()
-    const amount = cart.totalPrice
+    const amount = cart.total
     const weight = cart.totalWeight
 
     try {
+        //add order to order repository and get order id
         const orderId = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
-        console.log('Order ID:', orderId)
+
+        //add order to order_items repository
+        for (part of cart.parts) {
+            await orderItemsRepo.create(orderId.id, part.number, part.quantity)
+        }
+
+        //clear the cart
+
         res.redirect(`/shop/confirmation/?orderId=${orderId.id}`)
     } catch (error) {
         console.error('Error during insertion:', error)
     }
-        
-   // res.json({ message: 'Created order ID' }) 
 });
-
-//order_items_repository
-
-//get shipping charges
