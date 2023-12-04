@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const processCredit = require('../scripts/credit')
 const AppDAO = require('../models/app_dao')
 const LegacyDAO = require('../models/legacy_dao')
 const OrderRepository = require('../models/order_repository')
@@ -31,6 +32,8 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     const state = req.body.state
     const zip = req.body.zip
     const country = req.body.country
+    const cc = req.body.cc
+    const exp = req.body.exp
 
     //call getCart() for weight and amount
     let cart = await Cart.getCart()
@@ -38,17 +41,24 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     const weight = cart.totalWeight
 
     try {
-        //add order to order repository and get order id
-        const orderId = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
-
+        const order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
+          
+        console.log('Order ID:', order)
+      
         //add order to order_items repository
         for (part of cart.parts) {
-            await orderItemsRepo.create(orderId.id, part.number, part.quantity)
+            await orderItemsRepo.create(order.id, part.number, part.quantity)
         }
 
-        //clear the cart
+        const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
+        if (data.authorization)
+        {
+            orderRepo.update('authorized', order.id)
+            res.redirect(`/shop/confirmation/?orderId=${order.id}`)
+        } else {
+            console.log(data.errors)
+        }
 
-        res.redirect(`/shop/confirmation/?orderId=${orderId.id}`)
     } catch (error) {
         console.error('Error during insertion:', error)
     }

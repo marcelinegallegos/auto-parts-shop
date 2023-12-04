@@ -1,6 +1,5 @@
 <html>
-
-<%- include('partials/navbar_shippingBracket') %>
+    <%- include('partials/navbar_administrator') %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -32,7 +31,7 @@
 
         </div>
 
-        
+
 
         <script>
 
@@ -84,7 +83,11 @@
                         const greatestCost = costs.length > 0 ? costs.reduce((max, cost) => Math.max(max, cost.cost), 0) : 0;
 
                         // Calculate cost for "Over X lbs" as double of the greatest cost
-                        const overXCost = greatestCost * 2;
+                        let overXCost = greatestCost * 2;
+
+                        if (overXCost == 0) {
+                            overXCost = 2;
+                        }
 
                         // Add "over X lbs" cost
                         const overXDiv = document.createElement('div');

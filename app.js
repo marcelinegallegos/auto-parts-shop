@@ -69,6 +69,21 @@ app.all('/viewPackingList/:orderId', asyncHandler(async (req, res, next) => {
     }
 }))
 
+app.all('/viewInvoice/:orderId', asyncHandler(async (req, res, next) => {
+    const orderId = req.params.orderId
+    try {
+        let items = await orderItemsRepo.getById(orderId)
+        let order = await orderRepo.getById(orderId)
+        for (item of items) {
+            item.description = ((await partRepo.getById(item.partNumber))[0].description)
+            item.price = ((await partRepo.getById(item.partNumber))[0].price)
+        }
+        res.render('viewInvoice', { all : items , order: order})
+    } catch {
+        console.error('Error viewing invoice:', error)
+    }
+}))
+
 app.all('/orders', (req, res) => {
     orderRepo.getAll()
     .then((list) => {
@@ -82,15 +97,12 @@ app.all('/orders', (req, res) => {
     });
 })
 
-app.all('/shippingBracket', (req, res) => {
-	res.render('shippingBracket');
+app.get('/adminHomepage', (req, res) => {
+    res.render('adminHomepage');
 })
 
-const credit = require('./controllers/credit');
-app.get('/processCC', (req, res) => {
-	credit.processSample((result) => {
-		res.render('credit.ejs', { data: result });
-	});
+app.all('/shippingBracket', (req, res) => {
+	res.render('shippingBracket');
 })
 
 app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
