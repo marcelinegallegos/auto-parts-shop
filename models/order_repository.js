@@ -55,7 +55,7 @@ class OrderRepository {
 
     getByDate(orderDate) {
         return this.dao.all(
-            `SELECT * FROM orders WHERE date BETWEEN strftime('%Y-%m-%d', 'now', '-? days') AND strftime('%Y-%m-%d', 'now', 'localtime')`,
+            `SELECT * FROM orders WHERE date BETWEEN datetime('now', '-' || ? || ' days') AND datetime()`,
             [orderDate]
         );
     }

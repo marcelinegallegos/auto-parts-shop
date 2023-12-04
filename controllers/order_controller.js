@@ -21,16 +21,9 @@ exports.index = asyncHandler(async (req, res, next) => {
 })
 
 exports.displayOrdersSearchResults = asyncHandler(async (req, res, next) => {
-    const query = req.body.query
-    const searchBy = req.body.searchType
-    let orders
-
-    if(searchBy) {
-        orders = await orderRepo.getByDate(query)
-    }
-    for (order of orders) {
-        order.date = (await orderRepo.getByDate(order.number)).date
-    }
+    const dateRange = req.body.dateRange
+    const orders = await orderRepo.getByDate(dateRange)
+    
     res.render('orders.ejs', {all: orders})
 })
 
