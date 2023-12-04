@@ -1,9 +1,27 @@
 <html>
     <head>
-        <style></style>
+        <style>
+        .text-capitalize {
+            text-transform: capitalize;
+        }
+        </style>
         <title>View Packing List</title>
         <body>
-            Order <%= orderDetails.id %>
+            <h3>Order Packing List</h3>
+            <table border="1", padding="15px">
+                <tr>
+                    <th style="text-align: center; padding: 20px">Part Number</th>
+                    <th style="text-align: center; padding: 20px">Part Description</th>
+                    <th style="padding: 20px">Quantity Ordered</th>
+                </tr>
+                <% for (part in all) { %>
+                    <tr>
+                        <th style="text-align: center; padding: 20px"><%= all[part].partNumber %></th>
+                        <th style="text-align: center; padding: 20px" class="text-capitalize"><%= all[part].description %></th>
+                        <th style="text-align: center; padding: 20px"><%= all[part].quantity %></th>
+                    </tr>
+                <% } %>
+            </table>
         </body>
     </head>
 </html>

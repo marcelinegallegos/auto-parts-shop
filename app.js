@@ -1,10 +1,12 @@
 const express = require('express')
+const asyncHandler = require('express-async-handler')
 const bodyParser = require('body-parser')
 const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao')
 const PartRepository = require('./models/part_repository')
 const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
+const OrderItemsRepo = require('./models/order_items_repository')
 const orderRouter = require('./models/order_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
@@ -14,6 +16,7 @@ const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
 const partRepo = new PartRepository(legacyDao)
 const orderRepo = new OrderRepo(dao)
+const orderItemsRepo = new OrderItemsRepo(dao)
 const inventoryRepo = new InventoryRepo(dao)
 
 const app = express()
@@ -55,15 +58,16 @@ app.get('/warehouseHomepage', (req, res) => {
 
 app.all('/viewPackingList/:orderId', (req, res) => {
     const orderId = req.params.orderId
-    orderRepo.getById(orderId)
-    .then((orderDetails) => {
-        res.render('viewPackingList', { orderDetails })
-    })
-    .catch(error => {
+    try {
+        let items = await orderItemsRepo.getById(orderId)
+        for (item of items) {
+            item.description = ((await partRepo.getById(item.partNumber))[0].description)
+        }
+        res.render('viewPackingList', { all : items })
+    } catch {
         console.error('Error viewing packing list:', error)
-        res.status(500).json({error: 'Internal Server Error'})
-    })
-})
+    }
+}))
 
 app.all('/orders', (req, res) => {
     orderRepo.getAll()
