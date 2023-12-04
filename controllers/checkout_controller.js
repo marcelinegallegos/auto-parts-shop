@@ -30,12 +30,12 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     try {
         const orderId = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
         console.log('Order ID:', orderId)
+        res.redirect(`/shop/confirmation/?orderId=${orderId.id}`)
     } catch (error) {
         console.error('Error during insertion:', error)
     }
         
    // res.json({ message: 'Created order ID' }) 
-   // res.render('confirmation.ejs')
 });
 
 //order_items_repository
