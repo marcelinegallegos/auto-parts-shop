@@ -1,8 +1,8 @@
 /**
  * Shopping Cart Model
  */
-const AppDAO = require('./app_dao')
-const ShippingRepository = require('./shipping_repository')
+const AppDAO = require('../models/app_dao')
+const ShippingRepository = require('../models/shipping_repository')
 
 const dao = new AppDAO('./db/database.db')
 const shippingRepo = new ShippingRepository(dao)

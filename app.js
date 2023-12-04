@@ -7,6 +7,7 @@ const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
+const warehouseRouter = require('./routes/warehouse')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -33,6 +34,7 @@ const checkoutController = require('./controllers/checkout_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
+app.use('/warehouse', warehouseRouter)
 
 
 app.get('/', (req, res) => {

@@ -4,7 +4,7 @@ const LegacyDAO = require('../models/legacy_dao')
 const PartRepository = require('../models/part_repository')
 const InventoryRepository = require('../models/inventory_repository')
 const ShippingRepository = require('../models/shipping_repository')
-const Cart = require('../models/cart')
+const Cart = require('../scripts/cart')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
