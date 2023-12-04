@@ -1,4 +1,5 @@
 const express = require('express')
+const asyncHandler = require('express-async-handler')
 const bodyParser = require('body-parser')
 const AppDAO = require('./models/app_dao')
 const LegacyDAO = require('./models/legacy_dao')
@@ -83,17 +84,18 @@ app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
         });
 });
 
-app.all('/viewPackingList/:orderId', (req, res) => {
+app.all('/viewPackingList/:orderId', asyncHandler(async (req, res, next) => {
     const orderId = req.params.orderId
-    orderItemsRepo.getById(orderId)
-    .then((list) => {
-        res.render('viewPackingList', { all : list })
-    })
-    .catch(error => {
+    try {
+        let items = await orderItemsRepo.getById(orderId)
+        for (item of items) {
+            item.description = ((await partRepo.getById(item.partNumber))[0].description)
+        }
+        res.render('viewPackingList', { all : items })
+    } catch {
         console.error('Error viewing packing list:', error)
-        res.status(500).json({error: 'Internal Server Error'})
-    })
-})
+    }
+}))
 
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
