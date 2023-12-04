@@ -36,8 +36,8 @@ function main() {
             })
         })
         .then(() => orderRepo.createTable())
-        .then(() => orderRepo.create("Jane", "Doe", "janedoe@gmail.com", 999.99, 50, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
-        .then(() => orderRepo.create("John", "Doe", "johndoe@gmail.com", 39.99, 20, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
+        .then(() => orderRepo.create("Jane", "Doe", "gallegos.marceline@gmail.com", 999.99, 50, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
+        .then(() => orderRepo.create("John", "Doe", "gallegos.marceline@gmail.com", 39.99, 20, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
         .catch((err) => {
             console.error(err.message)
         })
