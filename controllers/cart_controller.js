@@ -21,7 +21,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
     if (addedPart) {
         Cart.save(addedPart)
-        console.log(await Cart.getCart())
+       // console.log(await Cart.getCart())
         res.json({ message: 'Part added to cart successfully' })
     } else {
         console.error('Error:', error)
