@@ -7,6 +7,7 @@ const OrderRepo = require('./models/order_repository')
 const InventoryRepo = require('./models/inventory_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
+const warehouseRouter = require('./routes/warehouse')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -33,6 +34,7 @@ const checkoutController = require('./controllers/checkout_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
+app.use('/warehouse', warehouseRouter)
 
 
 app.get('/', (req, res) => {
@@ -49,35 +51,6 @@ app.get('/api/parts', (req, res) => {
 app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
-
-// Route to render the workstation view
-app.all('/workstation', (req, res) => {
-    orderRepo.getAll()
-        .then((list) => {
-            res.render('workstation.ejs', {
-                all: list
-            });
-        })
-        .catch((error) => {
-            console.error('Error fetching orders:', error);
-            res.status(500).send('Internal Server Error');
-        });
-});
-
-// Route to update order status
-app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
-    const orderId = req.params.orderId;
-    const currentStatus = req.params.currentStatus;
-
-    orderRepo.update('shipped', orderId)
-        .then(() => {
-            res.json({ message: 'Order status updated successfully' });
-        })
-        .catch(error => {
-            console.error('Error updating order status:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        });
-});
 
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
