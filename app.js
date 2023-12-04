@@ -56,7 +56,7 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
-app.all('/viewPackingList/:orderId', (req, res) => {
+app.all('/viewPackingList/:orderId', asyncHandler(async (req, res, next) => {
     const orderId = req.params.orderId
     try {
         let items = await orderItemsRepo.getById(orderId)
