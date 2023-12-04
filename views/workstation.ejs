@@ -97,7 +97,7 @@
                         </div>
                       </div>
                     <td style="text-align: center;">
-                        <input type="button" class="btn btn-primary" id="shipped" name="shipped" value="Mark Shipped" onclick="markShipped('<%= all[part].id %>', '<%= all[part].status %>', '<%= all[part].email %>')"></td>
+                        <button type="button" class="btn btn-primary" id="button_<%= all[part].id %>" onclick="markShipped('<%= all[part].id %>', '<%= all[part].status %>', '<%= all[part].email %>')" <%= all[part].status=="shipped" ? "disabled" : "" %>>Mark Shipped</button></td>
                 </tr>
                 <% }; %>
             </table>
@@ -120,6 +120,8 @@
                         if (orderStatusElement) {
                             orderStatusElement.innerText = 'shipped'; // Update to the new status
                         }
+                        const button = document.getElementById(`button_${orderId}`)
+                        button.setAttribute('disabled', '')
                     })
                     .catch(error => {
                         console.error('Error:', error);

@@ -30,7 +30,7 @@ exports.updateOrderStatus = (req, res, next) => {
     orderRepo.update('shipped', orderId)
         .then(() => {
             res.json({ message: 'Order status updated successfully' });
-            mail.sendShippingEmail(email)
+           // mail.sendShippingEmail(email)
         })
         .catch(error => {
             console.error('Error updating order status:', error);
