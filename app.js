@@ -69,6 +69,21 @@ app.all('/viewPackingList/:orderId', asyncHandler(async (req, res, next) => {
     }
 }))
 
+app.all('/viewInvoice/:orderId', asyncHandler(async (req, res, next) => {
+    const orderId = req.params.orderId
+    try {
+        let items = await orderItemsRepo.getById(orderId)
+        let order = await orderRepo.getById(orderId)
+        for (item of items) {
+            item.description = ((await partRepo.getById(item.partNumber))[0].description)
+            item.price = ((await partRepo.getById(item.partNumber))[0].price)
+        }
+        res.render('viewInvoice', { all : items , order: order})
+    } catch {
+        console.error('Error viewing invoice:', error)
+    }
+}))
+
 app.all('/orders', (req, res) => {
     orderRepo.getAll()
     .then((list) => {
