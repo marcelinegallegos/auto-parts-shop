@@ -5,6 +5,7 @@ const InventoryRepository = require('./models/inventory_repository')
 const PartRepository = require('./models/part_repository')
 const OrderRepository = require('./models/order_repository')
 const ShippingRepository = require('./models/shipping_repository')
+const OrderItemsRepository = require('./models/order_items_repository')
 
 function main() {
     const legacyDao = new LegacyDAO()
@@ -13,6 +14,7 @@ function main() {
     const partRepo = new PartRepository(legacyDao)
     const orderRepo = new OrderRepository(dao)
     const shippingRepo = new ShippingRepository(dao)
+    const orderItemsRepo = new OrderItemsRepository(dao)
 
     shippingRepo.createTable();
 
@@ -38,6 +40,12 @@ function main() {
         .then(() => orderRepo.createTable())
         .then(() => orderRepo.create("Jane", "Doe", "janedoe@gmail.com", 999.99, 50, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
         .then(() => orderRepo.create("John", "Doe", "johndoe@gmail.com", 39.99, 20, "123 Main Street", "Dekalb", "IL", "60115", "United States"))
+        .then(() => orderItemsRepo.createTable())
+        .then(() => orderItemsRepo.create("1", "1", "2"))
+        .then(() => orderItemsRepo.create("1", "2", "1"))
+        .then(() => orderItemsRepo.create("2", "4", "5"))
+        .then(() => orderItemsRepo.create("2", "6", "1"))
+        .then(() => orderItemsRepo.create("2", "5", "1"))
         .catch((err) => {
             console.error(err.message)
         })
