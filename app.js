@@ -8,6 +8,7 @@ const InventoryRepo = require('./models/inventory_repository')
 const orderRouter = require('./models/order_repository')
 const shopRouter = require('./routes/shop')
 const shippingRouter = require('./routes/shipping_cost')
+const warehouseRouter = require('./routes/warehouse')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -30,25 +31,15 @@ app.use(bodyParser.json())
 
 const receivingController = require('./controllers/receiving_desk_controller')
 const receivingDeskRouter = require('./routes/receivingDesk')
-const catalogController = require('./controllers/catalog_controller')
-const cartController = require('./controllers/cart_controller')
-const checkoutController = require('./controllers/checkout_controller')
 const ordersController = require('./controllers/order_controller')
 
 app.use('/shop', shopRouter)
 app.use('/shipping_cost', shippingRouter)
-// app.use('/orders', orderRouter)
+app.use('/warehouse', warehouseRouter)
 
 
 app.get('/', (req, res) => {
 	res.render('index');
-})
-
-app.get('/getParts', (req, res) => {
-	partRepo.getAll()
-		.then((rows) => {
-			res.render('parts.ejs', { rows: rows})
-		})
 })
 
 app.get('/api/parts', (req, res) => {
@@ -62,34 +53,17 @@ app.get('/warehouseHomepage', (req, res) => {
 	res.render('warehouseHomepage.ejs');
 })
 
-// Route to render the workstation view
-app.all('/workstation', (req, res) => {
-    orderRepo.getAll()
-        .then((list) => {
-            res.render('workstation.ejs', {
-                all: list
-            });
-        })
-        .catch((error) => {
-            console.error('Error fetching orders:', error);
-            res.status(500).send('Internal Server Error');
-        });
-});
-
-// Route to update order status
-app.post('/updateOrderStatus/:orderId/:currentStatus', (req, res) => {
-    const orderId = req.params.orderId;
-    const currentStatus = req.params.currentStatus;
-
-    orderRepo.update('shipped', orderId)
-        .then(() => {
-            res.json({ message: 'Order status updated successfully' });
-        })
-        .catch(error => {
-            console.error('Error updating order status:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        });
-});
+app.all('/viewPackingList/:orderId', (req, res) => {
+    const orderId = req.params.orderId
+    orderRepo.getById(orderId)
+    .then((orderDetails) => {
+        res.render('viewPackingList', { orderDetails })
+    })
+    .catch(error => {
+        console.error('Error viewing packing list:', error)
+        res.status(500).json({error: 'Internal Server Error'})
+    })
+})
 
 app.all('/orders', (req, res) => {
     orderRepo.getAll()
@@ -114,16 +88,6 @@ app.get('/processCC', (req, res) => {
 		res.render('credit.ejs', { data: result });
 	});
 })
-
-app.post('/addToCart', cartController.addToCart)
-
-app.get('/shoppingCart', cartController.getCart)
-
-app.post('/removeItem', cartController.removeFromCart)
-
-app.post('/updateQuantity', cartController.updateQuantity)
-
-app.post('/checkout', checkoutController.checkout)
 
 app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
 

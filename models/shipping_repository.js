@@ -47,6 +47,13 @@ class ShippingRepository {
         )
     }
 
+    getByWeight(weight) {
+        return this.dao.get(
+            `SELECT * FROM shipping WHERE ? BETWEEN minWeight AND maxWeight`,
+            [weight]
+        )
+    }
+
     getAll() {
         return this.dao.all(`SELECT * FROM shipping`)
     }
@@ -55,12 +62,13 @@ class ShippingRepository {
         return this.dao.all(`SELECT * FROM shipping ORDER BY minWeight`)
     }
 
-    getOverlappingRange(minWeight, maxWeight) {
-         const sql = 'SELECT * FROM shipping WHERE ((minWeight <= ? AND maxWeight >= ?) OR (minWeight <= ? AND maxWeight >= ?))';
-         const params = [minWeight, minWeight, maxWeight, maxWeight];
-         return this.dao.get(sql, params);
-}
+    getMinWeightBracket() {
+        return this.dao.get(`SELECT * FROM shipping WHERE minWeight = ( SELECT MIN(minWeight) FROM shipping );`)
+    }
 
+    getMaxWeightBracket() {
+        return this.dao.get(`SELECT * FROM shipping WHERE maxWeight = ( SELECT MAX(maxWeight) FROM shipping );`)
+    }
 
 }
 
