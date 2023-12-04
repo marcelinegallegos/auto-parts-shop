@@ -28,15 +28,8 @@ exports.displayOrdersSearchResults = asyncHandler(async (req, res, next) => {
 })
 
 exports.displayOrdersStatus = asyncHandler(async (req, res, next) => {
-    const query = req.body.query
-    const searchBy = req.body.searchType
-    let orders
+    const status = req.body.status
+    const orders = await orderRepo.getByStatus(status)
 
-    if(searchBy) {
-        orders = await orderRepo.getByStatus(query)
-    }
-    for (order of orders) {
-        order.status = (await orderRepo.getByStatus(order.status)).status
-    }
     res.render('orders.ejs', {all: orders})
 })

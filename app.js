@@ -78,6 +78,10 @@ app.all('/orders', (req, res) => {
     });
 })
 
+app.get('/adminHomepage', (req, res) => {
+    res.render('adminHomepage');
+})
+
 app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })

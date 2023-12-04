@@ -63,8 +63,8 @@ class OrderRepository {
     }
 
     getByStatus(status) {
-        return this.dao.get(
-            `SELECT * FROM orders WHERE status ?`,
+        return this.dao.all(
+            `SELECT * FROM orders WHERE status = ?`,
             [status]
         )
     }
