@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <style>
+        .text-capitalize {
+            text-transform: capitalize;
+        }
+        </style>
+        <title>Invoice</title>
+        <body>
+            <h3>Order Invoice</h3>
+            <b>Email</b><br>
+            <%= order.email %><br><br>
+            <b>Name</b><br>
+            <%= order.firstName %> <%= order.lastName %>
+            <br><br>
+            <b>Address</b><br>
+            <%= order.address %><br>
+            <%= order.city %>, 
+            <%= order.state %>, 
+            <%= order.zip %>
+            <br><br>
+            <table border="1", padding="15px">
+                <tr>
+                    <th style="text-align: center; padding: 20px">Part Description</th>
+                    <th style="padding: 20px">Quantity Ordered</th>
+                    <th style="text-align: center; padding: 20px">Unit Price</th>
+                </tr>
+                <% for (part in all) { %>
+                    <tr>
+                        <th style="text-align: center; padding: 20px" class="text-capitalize"><%= all[part].description %></th>
+                        <th style="text-align: center; padding: 20px"><%= all[part].quantity %></th>
+                        <th style="text-align: center; padding: 20px"><%= all[part].price %></th>
+                    </tr>
+                <% } %>
+            </table>
+            <br>
+            <b>Total</b><br>
+            <%= order.amount %>
+        </body>
+    </head>
+</html>

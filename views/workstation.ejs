@@ -91,7 +91,8 @@
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                            Invoice and Shipping Label Printed!
+                            Invoice and Shipping Label Printed!<br>
+                            <input type="button" class="btn btn-primary" id="invoiceDetail" name="invoiceDetail" value="View Invoice" onclick="showInvoice('<%= all[part].id %>')">
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -136,6 +137,11 @@
 
             function showPackingList(orderId) {
                 const newPageUrl = `/viewPackingList/${orderId}`
+                window.open(newPageUrl, "_blank")
+            }
+
+            function showInvoice(orderId) {
+                const newPageUrl = `/viewInvoice/${orderId}`
                 window.open(newPageUrl, "_blank")
             }
         </script>
