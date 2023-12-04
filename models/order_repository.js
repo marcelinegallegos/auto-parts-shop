@@ -31,6 +31,8 @@ class OrderRepository {
             [firstName, lastName, email, amount, weight, address, city, state, zip, country]
         )
     }
+    
+    
 
     update(status, id) {
         return this.dao.run(
@@ -50,6 +52,20 @@ class OrderRepository {
         return this.dao.get(
             `SELECT * FROM orders WHERE id = ?`,
             [id]
+        )
+    }
+
+    getByDate(orderDate) {
+        return this.dao.all(
+            `SELECT * FROM orders WHERE date BETWEEN datetime('now', '-' || ? || ' days') AND datetime()`,
+            [orderDate]
+        );
+    }
+
+    getByStatus(status) {
+        return this.dao.get(
+            `SELECT * FROM orders WHERE status ?`,
+            [status]
         )
     }
 

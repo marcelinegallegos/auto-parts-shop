@@ -1,18 +1,10 @@
 const asyncHandler = require('express-async-handler')
 const AppDAO = require('../models/app_dao')
-const LegacyDAO = require('../models/legacy_dao')
-const PartRepository = require('../models/part_repository')
-const InventoryRepository = require('../models/inventory_repository')
 const OrderRepository = require('../models/order_repository')
-const ShippingRepository = require('../models/order_repository')
 const Cart = require('../scripts/cart')
 
 const dao = new AppDAO('./db/database.db')
-const legacyDao = new LegacyDAO()
-const partRepo = new PartRepository(legacyDao)
-const inventoryRepo = new InventoryRepository(dao)
 const orderRepo = new OrderRepository(dao)
-const shippingRepo = new ShippingRepository(dao)
 
 //render checkout page
 exports.checkout = (req, res, next) => {
@@ -20,7 +12,7 @@ exports.checkout = (req, res, next) => {
 }
 
 //insert into order_respository
-exports.getCustomerInfo = asyncHandler(async (req, res, next) => {
+exports.addOrder = asyncHandler(async (req, res, next) => {
     const firstName = req.body.firstName
     const lastName = req.body.lastName
     const email = req.body.email
@@ -34,13 +26,16 @@ exports.getCustomerInfo = asyncHandler(async (req, res, next) => {
     let cart = await Cart.getCart()
     const amount = cart.totalPrice
     const weight = cart.totalWeight
-    console.log(cart)
 
-    //insert cust info into database
-    orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
-   // console.log(await orderRepo.getAll())
-
-   // res.render('confirmation.ejs')  
+    try {
+        const orderId = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
+        console.log('Order ID:', orderId)
+    } catch (error) {
+        console.error('Error during insertion:', error)
+    }
+        
+   // res.json({ message: 'Created order ID' }) 
+   // res.render('confirmation.ejs')
 });
 
 //order_items_repository
