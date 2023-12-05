@@ -29,13 +29,13 @@
                     <tr>
                         <td style="text-align: center; padding: 20px" class="text-capitalize"><%= all[part].description %></td>
                         <td style="text-align: center; padding: 20px"><%= all[part].quantity %></td>
-                        <td style="text-align: center; padding: 20px"><%= all[part].price %></td>
+                        <td style="text-align: center; padding: 20px">$<%= all[part].price %></td>
                     </tr>
                 <% } %>
             </table>
             <br>
             <b>Total</b><br>
-            <%= order.amount %>
+            $<%= order.amount %>
         </body>
     </head>
 </html>
