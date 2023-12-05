@@ -1,8 +1,73 @@
 <html>
     <head>
-        <title>Order Confirmation</title>
+        <title>Order Summary</title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet"></link>
+        <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
+
+        <style>
+
+            .custom-container {
+                margin: auto;
+            }
+        </style>
+
     </head>
     <body>
-        <h1>Order Confirmed</h1>
+    
+    <div class="container-fluid bg-light shadow-sm">
+        <div class="py-5 text-center">
+            <h1 class="mb-4"><i class="bi bi-check-circle"style="color:green; font-size: 4rem;"></i> </h1>
+            <h1 class="mb-2">Thank you for your order!</h1>
+            <p class="lead">You should receive a confirmation email shortly.</p>
+        </div>
+    </div>
+
+    <div class="container custom-container">
+            <div class="row mt-5 justify-content-center">
+                <div class="col-4 border py-5 px-5">
+                    <i class="bi bi-geo-alt" style="color:#b86d7e; font-size: 2rem;"></i>
+                    <h4 class="mt-3">Shipping Information</h4>
+                    <p class="mt-4 mb-0"><strong>John Doe</strong></p>
+                    <p class="my-0">123 E. Main St.</p>
+                    <p class="my-0">Dekalb, IL 60115</p>
+                    <p class="my-0">United States</p>
+                    <p class="my-0">email@email.com</p>
+                </div>
+                <div class="col-4 border py-5 px-5">
+                    <i class="bi bi-credit-card" style="color:#b86d7e; font-size: 2rem;"></i>
+                    <h4 class="mt-3">Payment Information</h4>
+                    <p class="mt-4 mb-0"><strong>John Doe</strong></p>
+                    <p class="my-0">XXXX-XXXX-XXXX-3493</p>
+                    <p class="my-0">Discover</p>
+                </div>
+                <div class="col-4 border py-5 px-5">
+                    <i class="bi bi-card-heading" style="color:#b86d7e; font-size: 2rem;"></i>
+                    <h4 class="mt-3">Order Details</h4>
+                    <div class="row g-1">
+                        <div class="col-auto ">
+                            <p class="mt-4 mb-0"><strong>Order date:</strong></p>
+                            <p class="my-0"><strong>Order number:</strong></p>
+                            <p class="my-0"><strong>Order total:</strong></p>
+                        </div>
+                        <div class="col-auto mx-4">
+                            <p class="mt-4 mb-0 pl-3">12-05-2023</p>
+                            <p class="my-0">23</p>
+                            <p class="my-0">$765.53</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="container">
+        <div class="pt-5 pb-2">
+            <h3>Order Summary</h3>
+        </div>
+    </div>
+    <div class="container border">
+
+    </div>
+
+        <script src='/js/bootstrap.min.js'></script>
     </body>
 </html>
