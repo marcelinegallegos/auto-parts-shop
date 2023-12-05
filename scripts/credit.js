@@ -1,17 +1,16 @@
-const axios = require('axios');
+const axios = require('axios')
 
 function generateUniqueId() {
-    const timestamp = new Date().getTime();
-    const random = Math.floor(Math.random() * 1000); 
-    return `${timestamp}-${random}`;
+    const timestamp = new Date().getTime()
+    const random = Math.floor(Math.random() * 1000)
+    return `${timestamp}-${random}`
 }
 
 async function processCredit(cc, name, exp, amount) {
-    const transId = generateUniqueId();
-    console.log('transid: ', transId)
+    const trans = generateUniqueId()
     const response = await axios.post('http://blitz.cs.niu.edu/creditcard', {
-        'vendor': 'VE001-99',
-        'trans': transId,
+        'vendor': 'FA2023-1A',
+        'trans': trans,
         'cc': cc,
         'name': name,
         'exp': exp,

@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <style>
+        </style>
+    <title>Shipping Label</title>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>Group 1A, Inc.</td>
+                <td></td>
+                <td><%= order.weight %> lb</td>
+            </tr>
+            <tr>
+                <td>123 Express Road</td>
+            </tr>
+            <tr>
+                <td>Dekalb, IL, 60115</td>
+            </tr>
+            <tr><td></td></tr>
+            <tr>
+                <td></td>
+                <td style="text-align: center;"><%= order.firstName %> <%= order.lastName %></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: center;"><%= order.address %></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: center;"><%= order.city %>, <%= order.state %>, <%= order.zip %></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: center;">
+                    <img src="https://www.techadvisor.com/wp-content/uploads/2022/06/how-to-scan-codes-phone.jpg?quality=50&strip=all" alt="barcode" width="200" height="auto">
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
