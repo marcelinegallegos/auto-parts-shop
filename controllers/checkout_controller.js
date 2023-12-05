@@ -48,10 +48,12 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         for (part of cart.parts) {
             await orderItemsRepo.create(order.id, part.number, part.quantity)
         }
+
+        //clear cart for next order
+        Cart.empty()
+
         res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&cc=${cc}&exp=${exp}`})
     } else {
         res.status(400).json(data.errors)
     }
-        //clear cart for next order
-        Cart.empty()
 })
