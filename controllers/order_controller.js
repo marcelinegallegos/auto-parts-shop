@@ -20,14 +20,21 @@ exports.index = asyncHandler(async (req, res, next) => {
     res.render('orders.ejs', { all: orders })
 })
 
-exports.displayOrdersSearchResults = asyncHandler(async (req, res, next) => {
+exports.displayOrderFilterDate = asyncHandler(async (req, res, next) => {
     const dateRange = req.body.dateRange
     const orders = await orderRepo.getByDate(dateRange)
     
     res.render('orders.ejs', {all: orders})
 })
 
-exports.displayOrdersStatus = asyncHandler(async (req, res, next) => {
+exports.displayOrderFilterAmount = asyncHandler(async (req, res, next) => {
+    const amount = req.body.amount
+    const orders = await orderRepo.getByAmount(amount)
+    
+    res.render('orders.ejs', {all: orders})
+})
+
+exports.displayOrderFilterStatus = asyncHandler(async (req, res, next) => {
     const status = req.body.status
     const orders = await orderRepo.getByStatus(status)
 

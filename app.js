@@ -126,9 +126,11 @@ app.post('/displaySearchResults', receivingController.displaySearchResults)
 
 app.get('/receivingDesk', receivingController.index)
 
-app.post('/displayOrdersSearchResults', ordersController.displayOrdersSearchResults)
+app.post('/displayOrderFilterDate', ordersController.displayOrderFilterDate)
 
-app.post('/displayOrdersStatus', ordersController.displayOrdersStatus)
+app.post('/displayOrderFilterAmount', ordersController.displayOrderFilterAmount)
+
+app.post('/displayOrderFilterStatus', ordersController.displayOrderFilterStatus)
 
 app.listen(port, () => {
 	console.log(`Express server listening at http://localhost:${port}`)
