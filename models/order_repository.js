@@ -19,7 +19,7 @@ class OrderRepository {
             state TEXT NOT NULL,
             zip TEXT NOT NULL,
             country TEXT NOT NULL            
-            CHECK(status IN ('pending', 'authorized', 'shipped', 'cancelled'))
+            CHECK(status IN ('pending', 'shipped', 'cancelled'))
         )`
         return this.dao.run(sql)
     }

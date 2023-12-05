@@ -40,26 +40,18 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     const amount = cart.total
     const weight = cart.totalWeight
 
-    try {
+    const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
+    if (data.authorization) {
         const order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
-          
+
         console.log('Order ID:', order)
-      
+
         //add order to order_items repository
         for (part of cart.parts) {
             await orderItemsRepo.create(order.id, part.number, part.quantity)
         }
-
-        const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
-        if (data.authorization)
-        {
-            orderRepo.update('authorized', order.id)
-            res.redirect(`/shop/confirmation/?orderId=${order.id}`)
-        } else {
-            console.log(data.errors)
-        }
-
-    } catch (error) {
-        console.error('Error during insertion:', error)
+        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}`})
+    } else {
+        res.status(400).json(data.errors)
     }
-});
+})
