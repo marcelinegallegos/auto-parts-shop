@@ -62,6 +62,13 @@ class OrderRepository {
         );
     }
 
+    getByAmount(amount) {
+        return this.dao.all(
+            `SELECT * FROM orders WHERE amount < ?`,
+            [amount]
+        )
+    }
+
     getByStatus(status) {
         return this.dao.all(
             `SELECT * FROM orders WHERE status = ?`,
