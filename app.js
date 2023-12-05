@@ -84,6 +84,21 @@ app.all('/viewInvoice/:orderId', asyncHandler(async (req, res, next) => {
     }
 }))
 
+app.all('/viewShippingLabel/:orderId', asyncHandler(async (req, res, next) => {
+    const orderId = req.params.orderId
+    try {
+        let items = await orderItemsRepo.getById(orderId)
+        let order = await orderRepo.getById(orderId)
+        for (item of items) {
+            item.description = ((await partRepo.getById(item.partNumber))[0].description)
+            item.price = ((await partRepo.getById(item.partNumber))[0].price)
+        }
+        res.render('viewShippingLabel', { all : items , order: order})
+    } catch {
+        console.error('Error viewing shipping label:', error)
+    }
+}))
+
 app.all('/orders', (req, res) => {
     orderRepo.getAll()
     .then((list) => {
