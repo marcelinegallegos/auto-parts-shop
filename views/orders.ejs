@@ -106,9 +106,10 @@
                         id="amount" 
                         name="amount" 
                         placeholder="Filter for orders less than">
-                    <input type="submit">
-                  </div>
                 </div>
+                <!-- <input type="button" class="btn btn-primary" id="submit" name="Submit" value="submit"> -->
+                <input type="submit">
+            </div>
         </form>
     </td>    
     </table>
@@ -132,6 +133,12 @@
                         name="dateRange"
                         value="90">
                     <label for="Last 3 Months">Last 3 Months</label>
+                    <br/>
+                    <input type="radio"
+                        id="Last Year"
+                        name="dateRange"
+                        value="365">
+                    <label for="Last Year">Last Year</label>
                     <input type="submit">
                 </div>
                 </div>
@@ -146,6 +153,7 @@
                     <th style="text-align: center;">Cost</th>
                     <th style="text-align: center;">Weight</th>
                     <th style="text-align: center;">Date and Time</th>
+                    <th style="text-align: center;">View Invoice</th>
                 </tr>
                 <% for (var order in all) { %>
                     <tr>
@@ -154,8 +162,15 @@
                         <td style="text-align: right;"> $<%= all[order].amount %> </td>
                         <td style="text-align: right;"> <%= all[order].weight %> </td>
                         <td style="text-align: center;"><%= all[order].date %> </td>
+                        <td style="text-align: center;"><input type="button" class="btn btn-primary" id="invoiceDetail" name="invoiceDetail" value="View Invoice" onclick="showInvoice('<%= all[order].id %>')"></td>
                     </tr>
                 <% } %>
             </table>
+        <script>
+            function showInvoice(orderId) {
+                const newPageUrl = `/viewInvoice/${orderId}`
+                window.open(newPageUrl, "_blank")
+            }
+        </script>
     </body>
 </html>
