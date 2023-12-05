@@ -59,6 +59,10 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
             console.log(data.errors)
         }
 
+        //clear cart for next order
+        Cart.empty()
+        console.log(await Cart.getCart())
+
     } catch (error) {
         console.error('Error during insertion:', error)
     }

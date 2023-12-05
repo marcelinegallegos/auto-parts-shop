@@ -90,5 +90,11 @@ module.exports = class Cart {
         if (indexOfPart >= 0) {
             const removedPart = cart.parts.splice(indexOfPart, 1)[0];
         }
-    }   
+    }
+    
+    static empty() {
+        for (part of cart.parts) {
+            cart.parts.splice(part)
+        }
+    }
 }
