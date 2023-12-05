@@ -51,7 +51,7 @@
         <div class='container custom-container'>
             <div id='liveAlertPlaceholder'></div>
             <h4 class='mb-3'>Shipping Information</h4>
-            <form id='checkout-form' class='was-validated' novalidate>
+            <form id='checkout-form' class='needs-validation' novalidate>
                 <div class='row g-3'>
                     <div class='col-sm-6'>
                         <label for='firstName' class='form-label'>First Name</label>
@@ -67,7 +67,7 @@
                 <div class='col-12'>
                     <label for='email' class='form-label'>Email</label>
                     <input type='text' id='email' name='email' class='form-control' placeholder='username@email.com' pattern='[\w.%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$' required>
-                    <div class='invalid-feedback'>Required</div>
+                    <div class='invalid-feedback'>Please enter a valid email</div>
                 </div>
 
                 <div class='col-sm-12'>
@@ -154,7 +154,7 @@
                     <div class='col-sm-6'>
                         <label for='zip' class='form-label'>Zip Code</label>
                         <input type='text' id='zip' name='zip' class='form-control' placeholder='12345' pattern='^\d{5}(?:-\d{4})?$'required>
-                        <div class='invalid-feedback'>Required</div>
+                        <div class='invalid-feedback'>Please enter a valid ZIP code</div>
                     </div>
                 </div>
 
@@ -164,19 +164,19 @@
                 <div class='col-sm-12'>
                     <label for='cc' class='form-label'>Credit Card Number</label>
                     <input type='text' id='cc' name='cc' class='form-control' pattern='\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b' required>
-                    <div class='invalid-feedback'>Required</div>
+                    <div class='invalid-feedback'>Please enter a valid credit card number</div>
                 </div>
                 
                 <div class='row g-3'>
                     <div class='col-sm-6'>
                         <label for='exp' class='form-label'>Expiration</label>
                         <input type='text' id='exp' name='exp' class='form-control' placeholder='01/2023' pattern='(0?[1-9]|1[0-2])\/\d{4}' required>
-                        <div class='invalid-feedback'>Required</div>
+                        <div class='invalid-feedback'>Please enter a valid expiration date</div>
                     </div>
                     <div class='col-sm-6'>
                         <label for='cvv' class='form-label'>CVV</label>
                         <input type='text' id='cvv' class='form-control' placeholder='123' pattern='\d{3}'required>
-                        <div class='invalid-feedback'>Required</div>
+                        <div class='invalid-feedback'>Please enter a valid CVV</div>
                     </div>
                 </div>
                 <hr class='my-4'>

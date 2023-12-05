@@ -37,7 +37,7 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
 
     //call getCart() for weight and amount
     let cart = await Cart.getCart()
-    const amount = cart.total
+    const amount = cart.total.toFixed(2)
     const weight = cart.totalWeight
 
     const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
