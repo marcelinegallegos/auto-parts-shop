@@ -54,14 +54,15 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         if (data.authorization)
         {
             orderRepo.update('authorized', order.id)
-            res.redirect(`/shop/confirmation/?orderId=${order.id}`)
+           // res.redirect(`/shop/confirmation/?orderId=${order.id}`)
+           res.redirect(`/shop/confirmation/?orderId=${order.id}&cc=${cc}&exp=${exp}`)
+
         } else {
             console.log(data.errors)
         }
 
         //clear cart for next order
         Cart.empty()
-        console.log(await Cart.getCart())
 
     } catch (error) {
         console.error('Error during insertion:', error)

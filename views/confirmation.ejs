@@ -27,17 +27,17 @@
                 <div class="col-4 border py-5 px-5">
                     <i class="bi bi-geo-alt" style="color:#b86d7e; font-size: 2rem;"></i>
                     <h4 class="mt-3">Shipping Information</h4>
-                    <p class="mt-4 mb-0"><strong>John Doe</strong></p>
-                    <p class="my-0">123 E. Main St.</p>
-                    <p class="my-0">Dekalb, IL 60115</p>
-                    <p class="my-0">United States</p>
-                    <p class="my-0">email@email.com</p>
+                    <p class="mt-4 mb-0"><strong> <%= order.firstName %> <%= order.lastName %></strong></p>
+                    <p class="my-0"><%= order.address %></p>
+                    <p class="my-0"><%= order.city %>, <%= order.state %></p>
+                    <p class="my-0"> <%= order.zip %></p>
+                    <p class="my-0"><%= order.email %></p>
                 </div>
                 <div class="col-4 border py-5 px-5">
                     <i class="bi bi-credit-card" style="color:#b86d7e; font-size: 2rem;"></i>
                     <h4 class="mt-3">Payment Information</h4>
-                    <p class="mt-4 mb-0"><strong>John Doe</strong></p>
-                    <p class="my-0">XXXX-XXXX-XXXX-3493</p>
+                    <p class="mt-4 mb-0"><strong><%= order.firstName %> <%= order.lastName %></strong></p>
+                    <p class="my-0">XXXX-XXXX-XXXX-<%=lastFour%></p>
                     <p class="my-0">Discover</p>
                 </div>
                 <div class="col-4 border py-5 px-5">
@@ -50,9 +50,9 @@
                             <p class="my-0"><strong>Order total:</strong></p>
                         </div>
                         <div class="col-auto mx-4">
-                            <p class="mt-4 mb-0 pl-3">12-05-2023</p>
-                            <p class="my-0">23</p>
-                            <p class="my-0">$765.53</p>
+                            <p class="mt-4 mb-0 pl-3"><%= order.date.slice(0, 10)%></p>
+                            <p class="my-0"><%= order.id %></p>
+                            <p class="my-0">$<%= order.amount %></p>
                         </div>
                     </div>
                 </div>
