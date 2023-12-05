@@ -71,44 +71,46 @@
     <body>
     
     <table>
-        <td>
-            <form action="/displayOrderFilterStatus" method="post" class="search-form">
-                Filter by Shipping Status:
-                <br/>
-                <div class="radio-container"></div>
-                <div class="radio-buttons">
-                    <input type="radio"
-                        id="pending"
-                        name="status"
-                        value="pending" checked>
-                    <label for="pending">pending</label>
-                    <br/>
-                    <input type="radio"
-                        id="shipped"
-                        name="status"
-                        value="shipped">
-                    <label for="shipped">shipped</label>
-                    <input type="submit">
-                </div>
-                </div>
-            </form>
-        </td>
+        
+    <td style="text-align: left;">
+        Filter by Shipping Status:
+        <form action="/displayOrderFilterStatus" method="post" class="search-form">
+            <br/>
+            <button type="submit" 
+            class="btn btn-primary" 
+            id="pending" 
+            name="status" 
+            value="pending">
+            pending</button>
+            <br/><br/>
+            <button type="submit" 
+            class="btn btn-primary" 
+            id="shipped" 
+            name="status" 
+            value="shipped">
+            shipped</button>
+        </form>
+    </td>
     </table>
 
     <table>   
     <td>
         <form action="/displayOrderFilterAmount" method="post" class="search-form">
             Filter by Order Cost:
-            <br/>
+            <br/><br/>
             <div class="search-container">
                 <div class="radio-buttons">
                     <input type="text" 
                         id="amount" 
                         name="amount" 
                         placeholder="Filter for orders less than">
+                    </input>
+                    <input type="submit" 
+                        class="btn btn-primary" 
+                        id="amount" 
+                        name="amount">
+                    </input>
                 </div>
-                <!-- <input type="button" class="btn btn-primary" id="submit" name="Submit" value="submit"> -->
-                <input type="submit">
             </div>
         </form>
     </td>    
@@ -122,24 +124,27 @@
                 <br/>
                 <div class="radio-container"></div>
                 <div class="radio-buttons">
-                    <input type="radio"
-                        id="Last 30 Days"
-                        name="dateRange"
-                        value="30" checked>
-                    <label for="Last 30 Days">Last 30 Days</label>
                     <br/>
-                    <input type="radio"
-                        id="Last 3 Months"
-                        name="dateRange"
+                        <button type="submit" 
+                        class="btn btn-primary" 
+                        id="30" 
+                        name="dateRange" 
+                        value="30">
+                        Last 30 Days</button>
+                    <br/><br/>
+                        <button type="submit" 
+                        class="btn btn-primary" 
+                        id="90" 
+                        name="dateRange" 
                         value="90">
-                    <label for="Last 3 Months">Last 3 Months</label>
-                    <br/>
-                    <input type="radio"
-                        id="Last Year"
-                        name="dateRange"
+                        Last 3 Months</button>
+                    <br/><br/>
+                        <button type="submit" 
+                        class="btn btn-primary" 
+                        id="365" 
+                        name="dateRange" 
                         value="365">
-                    <label for="Last Year">Last Year</label>
-                    <input type="submit">
+                        Last Year</button>
                 </div>
                 </div>
             </form>
@@ -162,7 +167,14 @@
                         <td style="text-align: right;"> $<%= all[order].amount %> </td>
                         <td style="text-align: right;"> <%= all[order].weight %> </td>
                         <td style="text-align: center;"><%= all[order].date %> </td>
-                        <td style="text-align: center;"><input type="button" class="btn btn-primary" id="invoiceDetail" name="invoiceDetail" value="View Invoice" onclick="showInvoice('<%= all[order].id %>')"></td>
+                        <td style="text-align: center;">
+                            <input type="button" 
+                            class="btn btn-primary" 
+                            id="invoiceDetail" 
+                            name="invoiceDetail" 
+                            value="View Invoice" 
+                            onclick="showInvoice('<%= all[order].id %>')">
+                        </td>
                     </tr>
                 <% } %>
             </table>
@@ -170,6 +182,11 @@
             function showInvoice(orderId) {
                 const newPageUrl = `/viewInvoice/${orderId}`
                 window.open(newPageUrl, "_blank")
+            }
+            function shippingStatus(status) {
+                const newPageUrl = `displayOrderFilterStatus`
+                window.open(newPageUrl, "_self")
+
             }
         </script>
     </body>
