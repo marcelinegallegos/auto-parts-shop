@@ -44,14 +44,14 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     if (data.authorization) {
         const order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
 
-        console.log('Order ID:', order)
-
         //add order to order_items repository
         for (part of cart.parts) {
             await orderItemsRepo.create(order.id, part.number, part.quantity)
         }
-        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}`})
+        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&cc=${cc}&exp=${exp}`})
     } else {
         res.status(400).json(data.errors)
     }
+        //clear cart for next order
+        Cart.empty()
 })
