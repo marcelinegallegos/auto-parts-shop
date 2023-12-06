@@ -11,46 +11,39 @@ const partRepo = new PartRepository(legacyDao)
 const inventoryRepo = new InventoryRepository(dao)
 
 exports.index = asyncHandler(async (req, res, next) => {
-    let parts = await partRepo.getAll()
+    res.render('receiving_desk.ejs')
+})
+
+exports.getInventory = asyncHandler(async (req, res, next) => {
+    const query = req.body.query
+    const searchBy = req.body.searchBy
+    console.log(query)
+    console.log(searchBy)
+    let parts
+
+    if (searchBy == 'Description') {
+        parts = await partRepo.getByDescriptionLike(query)
+    } else if (searchBy === 'Part ID') {
+        parts = await partRepo.getById(query)
+        console.log('made it')
+    }
+    console.log(parts)
     for (part of parts) {
         part.quantity = (await inventoryRepo.getById(part.number)).quantity
     }
-    res.render('receivingDesk.ejs', { all: parts })
+
+    res.json(parts)
 })
 
 exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
-    const partNumber = req.body.partId
-    const quantity = parseInt(req.body.quantityOnHand, 10)
-    const action = req.body.action
+    const partNumber = req.body.partNumber 
+    const newQuantity = req.body.newQuantity
 
-    if (action === 'increment') {
-        inventoryRepo.update(partNumber, quantity + 1)
-    } else if (action === 'decrement') {
-        if (quantity <= 0)
-        {
-            inventoryRepo.update(partNumber, 0)
-        }
-        else
-        {
-            inventoryRepo.update(partNumber, quantity - 1)
-        }
+    try {
+        await inventoryRepo.update(partNumber, newQuantity)
+    } catch (error) {
+        console.error('Error:', error)
+        res.status(500).json({ message: 'Error updating inventory' })
     }
-
-    res.redirect('/receivingDesk')
-})
-
-exports.displaySearchResults = asyncHandler(async (req, res, next) => {
-    const query = req.body.query
-    const searchBy = req.body.searchType
-    let parts
-
-    if(searchBy === 'Description') {
-        parts = await partRepo.getByDescriptionLike(query)
-    } else if(searchBy === 'Part ID') {
-        parts = await partRepo.getById(query)
-    }
-    for (part of parts) {
-        part.quantity = (await inventoryRepo.getById(part.number)).quantity
-    }
-    res.render('receivingDesk.ejs', {all: parts})
+    res.json({ message: 'Updated inventory' })
 })

@@ -120,12 +120,6 @@ app.all('/shippingBracket', (req, res) => {
 	res.render('shippingBracket');
 })
 
-app.post('/updateQuantityOnHand', receivingController.updateQuantityOnHand)
-
-app.post('/displaySearchResults', receivingController.displaySearchResults)
-
-app.get('/receivingDesk', receivingController.index)
-
 app.post('/displayOrderFilterDate', ordersController.displayOrderFilterDate)
 
 app.post('/displayOrderFilterAmount', ordersController.displayOrderFilterAmount)
