@@ -34,11 +34,13 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
     const country = req.body.country
     const cc = req.body.cc
     const exp = req.body.exp
+    const lastFour = cc.slice(-4)
 
-    //call getCart() for weight and amount
+    //call getCart() for weight, amount, and shipping
     let cart = await Cart.getCart()
     const amount = cart.total.toFixed(2)
     const weight = cart.totalWeight
+    const shipping = cart.shipping
 
     const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
     if (data.authorization) {
@@ -52,7 +54,7 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         //clear cart for next order
         Cart.empty()
 
-        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&cc=${cc}&exp=${exp}`})
+        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&lastFour=${lastFour}&exp=${exp}&shipping=${shipping}`})
     } else {
         res.status(400).json(data.errors)
     }
