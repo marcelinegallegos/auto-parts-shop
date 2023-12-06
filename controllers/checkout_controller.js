@@ -68,7 +68,7 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
             item.description = part.description
             item.totalPrice = (part.price * item.quantity).toFixed(2)
         }
-        //mail.sendConfirmationEmail(email, order, items)
+        mail.sendConfirmationEmail(email, order, items)
 
         res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&lastFour=${lastFour}&exp=${exp}&shipping=${shipping}&brand=${brand}`})
     } else {

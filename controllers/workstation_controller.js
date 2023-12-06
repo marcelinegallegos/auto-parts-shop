@@ -47,7 +47,7 @@ exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
         item.description = part.description
         item.totalPrice = (part.price * item.quantity).toFixed(2)
     }
-    //mail.sendShippingEmail(emailAddr, order, items)
+    mail.sendShippingEmail(emailAddr, order, items)
     res.json({ message: 'Order status updated successfully' })
 })
 
