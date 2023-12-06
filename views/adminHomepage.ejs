@@ -1,9 +1,8 @@
 <html>
     <head>
-        <%- include('partials/navbar_administrator') %>
         <title>Administrator Log In Page</title>
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="...">
+        <link href="/css/bootstrap.min.css" rel="stylesheet"></link>
+        <%- include('partials/navbar_administrator') %>
 
         <style>
         .btn {
@@ -21,14 +20,14 @@
     </head>
 
     <body>
-        <h3>Administrator Login</h3>
-        Log into:<br><br>
-        <a class="btn btn-primary" href="/shippingBracket" role="button">Shipping Bracket</a>
+        <h3 class="ms-3 mt-3 mb-3">Administrator Login</h3>
+        <p class="ms-3">Log into:</p>
+        <a class="btn btn-primary ms-3" href="/shippingBracket" role="button">Shipping Bracket</a>
         </form>
         <br>
         <br>
         <a href="/orders">
-        <button type="submit" class="btn btn-primary">Orders</button>
+        <button type="submit" class="btn btn-primary ms-3">Orders</button>
         </form>
         <br>
     </body>
