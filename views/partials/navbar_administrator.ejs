@@ -1,72 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/font/bootstrap-icons.min.css" rel="stylesheet">
-  </link>
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-  </link>
+    <link href="/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            --bs-navbar-active-color: var(--bs-black);
+        }
 
-<style>
-    body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    }
+        .nav-pills {
+            --bs-nav-pills-link-active-bg: #e8c7c8;
+        }
 
-    .topnav {
-    overflow: hidden;
-    background-color: #333;
-    position: relative;
-    }
-
-    .cart {
-    position: absolute;
-    top: 0;
-    right: 0;
-    }
-
-    .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    }
-
-    .topnav a:hover {
-    background-color: #b86d7e;
-    color: rgb(255, 255, 255);
-    }
-
-    .topnav a.active {
-    background-color: #e8c7c8;
-    color: rgb(0, 0, 0);
-    }
-
-
-
-
-</style>
+        .nav-link {
+            --bs-nav-link-font-weight: 600;
+        }
+    </style>
 </head>
+
 <body>
-
-<div class="topnav">
-    <a href="/">Home</a>
-    <a href="/adminHomepage">Admin Home</a>
-    <a href="/shippingBracket">Shipping Bracket</a>
-    <a href="/orders">Orders</a>
-</div>
-
-<div style="padding-left:16px">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body sticky-top" data-bs-theme="dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/adminHomepage">Admin Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/shippingBracket">Shipping Bracket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/orders">Orders</a>
+                </li>
+            </ul>
+           
+        </div>
+    </nav>
 
     <script>
         // Get the current URL path
         var path = window.location.pathname;
-      
+
         // Set the corresponding link as active based on the current path
-        var activeLink = document.querySelector('.topnav a[href="' + path + '"]');
+        var activeLink = document.querySelector('.navbar a[href="' + path + '"]');
         if (activeLink) {
-          activeLink.classList.add('active');
+            activeLink.classList.add('active');
         }
-      </script>
+    </script>
+</body>
+
+</html>
