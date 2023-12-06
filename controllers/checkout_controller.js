@@ -7,6 +7,7 @@ const OrderItemsRepository = require('../models/order_items_repository')
 const PartRepository = require('../models/part_repository')
 const Cart = require('../scripts/cart')
 const Mail = require('../scripts/mail')
+const InventoryRepository = require('../models/inventory_repository')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
@@ -14,6 +15,7 @@ const orderRepo = new OrderRepository(dao)
 const orderItemsRepo = new OrderItemsRepository(dao)
 const partRepo = new PartRepository(legacyDao)
 const mail = new Mail()
+const inventoryRepo = new InventoryRepository(dao)
 
 
 
@@ -50,6 +52,7 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         //add order to order_items repository
         for (part of cart.parts) {
             await orderItemsRepo.create(order.id, part.number, part.quantity)
+            await inventoryRepo.update(part.number, (await inventoryRepo.getById(part.number)).quantity - part.quantity)
         }
 
         //clear cart for next order
