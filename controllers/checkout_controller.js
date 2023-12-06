@@ -6,12 +6,14 @@ const OrderRepository = require('../models/order_repository')
 const OrderItemsRepository = require('../models/order_items_repository')
 const PartRepository = require('../models/part_repository')
 const Cart = require('../scripts/cart')
+const Mail = require('../scripts/mail')
 
 const dao = new AppDAO('./db/database.db')
 const legacyDao = new LegacyDAO()
 const orderRepo = new OrderRepository(dao)
 const orderItemsRepo = new OrderItemsRepository(dao)
 const partRepo = new PartRepository(legacyDao)
+const mail = new Mail()
 
 
 
@@ -42,7 +44,8 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
 
     const data = await processCredit(cc, `${firstName} ${lastName}`, exp, amount)
     if (data.authorization) {
-        const order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
+        let order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
+        order.amount = amount
 
         //add order to order_items repository
         for (part of cart.parts) {
@@ -51,6 +54,14 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
 
         //clear cart for next order
         Cart.empty()
+
+        let items = await orderItemsRepo.getById(order.id)
+        for (item of items) {
+            part = (await partRepo.getById(item.partNumber))[0]
+            item.description = part.description
+            item.totalPrice = (part.price * item.quantity).toFixed(2)
+        }
+        //mail.sendConfirmationEmail(email, order, items)
 
         res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&cc=${cc}&exp=${exp}`})
     } else {

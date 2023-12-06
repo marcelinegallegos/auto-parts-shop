@@ -108,6 +108,15 @@
             </table>
         </div>
 
+        <div class='toast-container position-fixed bottom-0 start-50 translate-middle-x p-3'>
+            <div id='toast' class='toast align-items-center text-bg-dark border-0' role='alert' aria-live='assertive'
+                aria-atomic='true'>
+                <div class='d-flex'>
+                    <div id='toast-body' class='toast-body fs-5'></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bootstrap JavaScript (popper.js and Bootstrap JS) -->
         <script src='/umd/popper.min.js'></script>
         <script src='/js/bootstrap.min.js'></script>
@@ -127,6 +136,7 @@
                         const orderStatusElement = document.getElementById(`orderStatus_${orderId}`);
                         if (orderStatusElement) {
                             orderStatusElement.innerText = 'shipped'; // Update to the new status
+                            showToast('Customer emailed.')
                         }
                         const button = document.getElementById(`button_${orderId}`)
                         button.setAttribute('disabled', '')
@@ -149,6 +159,14 @@
             function showShippingLabel(orderId) {
               const newPageUrl = `/viewShippingLabel/${orderId}`
               window.open(newPageUrl, "_blank")
+            }
+
+            function showToast(message) {
+                const toast = document.getElementById('toast')
+                const toastBody = document.getElementById('toast-body')
+                toastBody.textContent = message
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast)
+                toastBootstrap.show()
             }
         </script>
     </body>
