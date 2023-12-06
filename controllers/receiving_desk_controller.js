@@ -47,19 +47,3 @@ exports.updateQuantityOnHand = asyncHandler(async (req, res, next) => {
     }
     res.json({ message: 'Updated inventory' })
 })
-
-exports.displaySearchResults = asyncHandler(async (req, res, next) => {
-    const query = req.body.query
-    const searchBy = req.body.searchType
-    let parts
-
-    if(searchBy === 'Description') {
-        parts = await partRepo.getByDescriptionLike(query)
-    } else if(searchBy === 'Part ID') {
-        parts = await partRepo.getById(query)
-    }
-    for (part of parts) {
-        part.quantity = (await inventoryRepo.getById(part.number)).quantity
-    }
-    res.render('receivingDesk.ejs', {parts: parts})
-})

@@ -14,6 +14,4 @@ router.post('/api/inventory/search', receivingDeskContoller.getInventory)
 
 router.post('/api/inventory/update-quantity', receivingDeskContoller.updateQuantityOnHand)
 
-// router.post('/api/inventory/search', receivingDeskContoller.getSearchResults)
-
 module.exports = router
