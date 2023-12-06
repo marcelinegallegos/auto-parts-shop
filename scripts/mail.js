@@ -29,13 +29,27 @@ class Mail {
         from: 'fa2023.csci467.group1a@gmail.com',
         to: emailAddr,
         subject: 'Your order has shipped',
-        template: 'email',
+        template: 'shipping',
         context: {
             order : order, items : items
         }
     })
 
-    console.log('Message sent: %s', info.messageId)
+        console.log('Message sent: %s', info.messageId)
+    }
+
+    async sendConfirmationEmail(emailAddr, order, items) {
+        const info = await this.transporter.sendMail({
+            from: 'fa2023.csci467.group1a@gmail.com',
+            to: emailAddr,
+            subject: 'Order Confirmed',
+            template: 'confirmation',
+            context: {
+                order: order, items: items
+            }
+        })
+
+        console.log('Message sent: %s', info.messageId)
     }
 }
 
