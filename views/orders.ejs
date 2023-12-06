@@ -71,7 +71,22 @@
     <body>
     
     <table>
-        
+    <td>
+        Return all orders:
+        <form action="/orders" method="post" class="search-form">
+            <br/>
+                <button type="submit" 
+                class="btn btn-primary" 
+                id="pending" 
+                name="status" 
+                value="pending">
+                Get All Orders</button>
+            <br/>
+        </form>
+    </td>
+    </table>
+
+    <table>
     <td style="text-align: left;">
         Filter by Shipping Status:
         <form action="/displayOrderFilterStatus" method="post" class="search-form">
