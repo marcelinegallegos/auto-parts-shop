@@ -9,6 +9,7 @@
             .custom-container {
                 margin: auto;
             }
+
         </style>
 
     </head>
@@ -23,51 +24,103 @@
     </div>
 
     <div class="container custom-container">
-            <div class="row mt-5 justify-content-center">
-                <div class="col-4 border py-5 px-5">
-                    <i class="bi bi-geo-alt" style="color:#b86d7e; font-size: 2rem;"></i>
-                    <h4 class="mt-3">Shipping Information</h4>
-                    <p class="mt-4 mb-0"><strong> <%= order.firstName %> <%= order.lastName %></strong></p>
-                    <p class="my-0"><%= order.address %></p>
-                    <p class="my-0"><%= order.city %>, <%= order.state %></p>
-                    <p class="my-0"> <%= order.zip %></p>
-                    <p class="my-0"><%= order.email %></p>
+        <div class="row mt-5 justify-content-center">
+            <div class="col-4 border py-5 px-5">
+                <i class="bi bi-geo-alt" style="color:#b86d7e; font-size: 2rem;"></i>
+                <h4 class="mt-3">Shipping Information</h4>
+                <p class="mt-4 mb-0"><strong> <%= order.firstName %> <%= order.lastName %></strong></p>
+                <p class="my-0"><%= order.address %></p>
+                <p class="my-0"><%= order.city %>, <%= order.state %></p>
+                <p class="my-0"> <%= order.zip %></p>
+                <p class="my-0"><%= order.email %></p>
+            </div>
+            <div class="col-4 border py-5 px-5">
+                <i class="bi bi-credit-card" style="color:#b86d7e; font-size: 2rem;"></i>
+                <h4 class="mt-3">Payment Information</h4>
+                <p class="mt-4 mb-0"><strong><%= order.firstName %> <%= order.lastName %></strong></p>
+                <p class="my-0">XXXX-XXXX-XXXX-<%=lastFour%></p>
+                <p class="my-0">Discover</p>
+            </div>
+            <div class="col-4 border py-5 px-5">
+                <i class="bi bi-card-heading" style="color:#b86d7e; font-size: 2rem;"></i>
+                <h4 class="mt-3">Order Details</h4>
+                <div class="row g-1">
+                    <div class="col-auto ">
+                        <p class="mt-4 mb-0"><strong>Order date:</strong></p>
+                        <p class="my-0"><strong>Order number:</strong></p>
+                        <p class="my-0"><strong>Order total:</strong></p>
+                    </div>
+                    <div class="col-auto mx-4 text-right-column">
+                        <p class="mt-4 mb-0 pl-3"><%= order.date.slice(0, 10)%></p>
+                        <p class="my-0"><%= order.id %></p>
+                        <p class="my-0">$<%= order.amount %></p>
+                    </div>
                 </div>
-                <div class="col-4 border py-5 px-5">
-                    <i class="bi bi-credit-card" style="color:#b86d7e; font-size: 2rem;"></i>
-                    <h4 class="mt-3">Payment Information</h4>
-                    <p class="mt-4 mb-0"><strong><%= order.firstName %> <%= order.lastName %></strong></p>
-                    <p class="my-0">XXXX-XXXX-XXXX-<%=lastFour%></p>
-                    <p class="my-0">Discover</p>
+            </div>
+        </div>
+
+        <div class="container mb-5">
+            <div class="row gx-5">
+                <div class="col-7">
+                    <div class="pt-5 pb-3">
+                        <h3>Order Summary</h3>
+                    </div>
+                
+                    <div class="container border-top custom-container">
+                        <% for (part in all) { %>
+                            <div class="row mt-5 justify-content-center">
+                                <div class="col-sm-2 py-2">
+                                    <img src="<%= all[part].pictureURL %>">
+                                </div>
+                                <div class="col-5">
+                                    <h5 class="text-capitalize mx-5"><strong><%= all[part].description %></h5></strong>
+                                    <p class="lead mx-5">Qty: <%= all[part].quantity %></p>
+                                </div>
+                                <div class="col-sm-1 py-3 ms-auto">
+                                    <p class="lead text-right">$<%= all[part].price %></p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
-                <div class="col-4 border py-5 px-5">
-                    <i class="bi bi-card-heading" style="color:#b86d7e; font-size: 2rem;"></i>
-                    <h4 class="mt-3">Order Details</h4>
-                    <div class="row g-1">
-                        <div class="col-auto ">
-                            <p class="mt-4 mb-0"><strong>Order date:</strong></p>
-                            <p class="my-0"><strong>Order number:</strong></p>
-                            <p class="my-0"><strong>Order total:</strong></p>
+
+                <div class="col-1"></div>
+                
+                <div class="col border mt-5 mb-2 p-5 h-100">
+                    <div class="row border-bottom mb-4 pb-4">
+                        <div class="col">
+                            <h3>Payment Overview</h3>
                         </div>
-                        <div class="col-auto mx-4">
-                            <p class="mt-4 mb-0 pl-3"><%= order.date.slice(0, 10)%></p>
-                            <p class="my-0"><%= order.id %></p>
-                            <p class="my-0">$<%= order.amount %></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <p style="font-size: 1.2rem; color: gray;">Subtotal:</p>
+                        </div>
+                        <div class="col-sm-1 ms-auto me-5">
+                            <p style="font-size: 1.2rem; color: gray">$<%= subtotal %></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <p style="font-size: 1.2rem; color: gray;">Shipping:</p>
+                        </div>
+                        <div class="col-sm-1 ms-auto me-5">
+                            <p style="font-size: 1.2rem; color: gray;">$<%= Number(shipping).toFixed(2) %></p>
+                        </div>
+                    </div>
+                    <div class="row border-top pt-3">
+                        <div class="col">
+                            <h4 style="color: #5A5A5A">Total:</h4>
+                        </div>
+                        <div class="col-sm-1 ms-auto me-5">
+                            <p style="font-size: 1.2rem; color: gray;">$<%= order.amount %></p>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
-
-    <div class="container">
-        <div class="pt-5 pb-2">
-            <h3>Order Summary</h3>
         </div>
     </div>
-    <div class="container border">
-
-    </div>
-
+ 
         <script src='/js/bootstrap.min.js'></script>
     </body>
 </html>

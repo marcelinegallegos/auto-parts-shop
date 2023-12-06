@@ -13,19 +13,22 @@ const partRepo = new PartRepository(legacyDao)
 
 exports.index = asyncHandler(async (req, res, next) => {
     const orderId = req.query.orderId
-    const cc = req.query.cc
+    const lastFour = req.query.lastFour
     const exp = req.query.exp
-    const lastFour = cc.slice(-4)
+    const shipping = req.query.shipping
 
     try {
-        let items = await orderItemsRepo.getById(orderId)
+        let items = await orderItemsRepo.getById(orderId)  
         let order = await orderRepo.getById(orderId)
+        let subtotal = order.amount - shipping
 
         for (item of items) {
             item.description = ((await partRepo.getById(item.partNumber))[0].description)
             item.price = ((await partRepo.getById(item.partNumber))[0].price)
+            item.pictureURL = ((await partRepo.getById(item.partNumber))[0].pictureURL)
         }
-        res.render('confirmation.ejs', { all: items, order: order, lastFour: lastFour})
+        
+        res.render('confirmation.ejs', { all: items, order: order, lastFour: lastFour, shipping: shipping, subtotal: subtotal})
     } catch {
         console.error('Error viewing invoice:', error)
     }
