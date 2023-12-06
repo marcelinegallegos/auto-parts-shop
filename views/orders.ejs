@@ -69,7 +69,6 @@
         <h1>Orders</h1>
     </head>
     <body>
-    
     <table>
     <td>
         Return all orders:
@@ -127,76 +126,76 @@
 
 
     <table>   
-        <td>
-            <form action="/displayOrderFilterDate" method="post" class="search-form">
-                Filter by Order Date:
+    <td>
+        <form action="/displayOrderFilterDate" method="post" class="search-form">
+            Filter by Order Date:
+            <br/>
+            <div class="radio-container"></div>
+            <div class="radio-buttons">
                 <br/>
-                <div class="radio-container"></div>
-                <div class="radio-buttons">
-                    <br/>
-                        <button type="submit" 
-                        class="btn btn-primary" 
-                        id="30" 
-                        name="dateRange" 
-                        value="30">
-                        Last 30 Days</button>
-                    <br/><br/>
-                        <button type="submit" 
-                        class="btn btn-primary" 
-                        id="90" 
-                        name="dateRange" 
-                        value="90">
-                        Last 3 Months</button>
-                    <br/><br/>
-                        <button type="submit" 
-                        class="btn btn-primary" 
-                        id="365" 
-                        name="dateRange" 
-                        value="365">
-                        Last Year</button>
-                </div>
-                </div>
-            </form>
-        </td>    
+                    <button type="submit" 
+                    class="btn btn-primary" 
+                    id="30" 
+                    name="dateRange" 
+                    value="30">
+                    Last 30 Days</button>
+                <br/><br/>
+                    <button type="submit" 
+                    class="btn btn-primary" 
+                    id="90" 
+                    name="dateRange" 
+                    value="90">
+                    Last 3 Months</button>
+                <br/><br/>
+                    <button type="submit" 
+                    class="btn btn-primary" 
+                    id="365" 
+                    name="dateRange" 
+                    value="365">
+                    Last Year</button>
+            </div>
+            </div>
+        </form>
+    </td>    
     </table>
     
-            <table>
-                <tr>
-                    <th style="text-align: center;">Order ID</th>                    
-                    <th style="text-align: center;">Status</th>
-                    <th style="text-align: center;">Cost</th>
-                    <th style="text-align: center;">Weight</th>
-                    <th style="text-align: center;">Date and Time</th>
-                    <th style="text-align: center;">View Invoice</th>
-                </tr>
-                <% for (var order in all) { %>
-                    <tr>
-                        <td style="text-align: right;"> <%= all[order].id %> </td>                        
-                        <td style="text-align: right;"> <%= all[order].status %> </td>
-                        <td style="text-align: right;"> $<%= all[order].amount %> </td>
-                        <td style="text-align: right;"> <%= all[order].weight %> </td>
-                        <td style="text-align: center;"><%= all[order].date %> </td>
-                        <td style="text-align: center;">
-                            <input type="button" 
-                            class="btn btn-primary" 
-                            id="invoiceDetail" 
-                            name="invoiceDetail" 
-                            value="View Invoice" 
-                            onclick="showInvoice('<%= all[order].id %>')">
-                        </td>
-                    </tr>
-                <% } %>
-            </table>
-        <script>
-            function showInvoice(orderId) {
-                const newPageUrl = `/viewInvoice/${orderId}`
-                window.open(newPageUrl, "_blank")
-            }
-            function shippingStatus(status) {
-                const newPageUrl = `displayOrderFilterStatus`
-                window.open(newPageUrl, "_self")
+    <table>
+    <tr>
+        <th style="text-align: center;">Order ID</th>                    
+        <th style="text-align: center;">Status</th>
+        <th style="text-align: center;">Cost</th>
+        <th style="text-align: center;">Weight</th>
+        <th style="text-align: center;">Date and Time</th>
+        <th style="text-align: center;">View Invoice</th>
+    </tr>
+        <% for (var order in all) { %>
+        <tr>
+            <td style="text-align: right;"> <%= all[order].id %> </td>                        
+            <td style="text-align: right;"> <%= all[order].status %> </td>
+            <td style="text-align: right;"> $<%= all[order].amount %> </td>
+            <td style="text-align: right;"> <%= all[order].weight %> </td>
+            <td style="text-align: center;"><%= all[order].date %> </td>
+            <td style="text-align: center;">
+                <input type="button" 
+                class="btn btn-primary" 
+                id="invoiceDetail" 
+                name="invoiceDetail" 
+                value="View Invoice" 
+                onclick="showInvoice('<%= all[order].id %>')">
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <script>
+        function showInvoice(orderId) {
+            const newPageUrl = `/viewInvoice/${orderId}`
+            window.open(newPageUrl, "_blank")
+        }
+        function shippingStatus(status) {
+            const newPageUrl = `displayOrderFilterStatus`
+            window.open(newPageUrl, "_self")
 
-            }
-        </script>
+        }
+    </script>
     </body>
 </html>
