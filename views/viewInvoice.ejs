@@ -8,6 +8,8 @@
         <title>Invoice</title>
         <body>
             <h3>Order Invoice</h3>
+            <b>Date</b><br>
+            <%= order.date %><br><br>
             <b>Email</b><br>
             <%= order.email %><br><br>
             <b>Name</b><br>
@@ -17,7 +19,8 @@
             <%= order.address %><br>
             <%= order.city %>, 
             <%= order.state %>, 
-            <%= order.zip %>
+            <%= order.zip %><br>
+            <%= order.country %>
             <br><br>
             <table border="1", padding="15px">
                 <tr>
