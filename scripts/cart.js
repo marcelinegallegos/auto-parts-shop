@@ -66,7 +66,11 @@ module.exports = class Cart {
             if (cart.totalWeight < minWeightBracket.minWeight) {
                 cart.shipping = 0
             } else {
-                cart.shipping = maxWeightBracket.cost * 2
+                if (maxWeightBracket.cost == 0) {
+                    cart.shipping = 2
+                } else {
+                    cart.shipping = maxWeightBracket.cost * 2
+                }
             }
         }
 
