@@ -92,7 +92,7 @@
 
                         const cardTextPrice = document.createElement('p')
                         cardTextPrice.className = 'card-text fs-5'
-                        cardTextPrice.textContent = `$${part.price}`
+                        cardTextPrice.textContent = `$${part.price.toFixed(2)}`
 
                         const margin = document.createElement('mt-auto')
                         margin.className = 'mt-auto'
