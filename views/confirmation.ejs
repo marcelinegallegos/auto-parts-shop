@@ -10,6 +10,21 @@
                 margin: auto;
             }
 
+            .btn-bd-primary {
+                --bs-btn-font-weight: 600;
+                --bs-btn-padding-x: 5rem;
+                --bs-btn-color: var(--bs-black);
+                --bs-btn-bg: #e8c7c8;
+                --bs-btn-border-color: #e8c7c8;
+                --bs-btn-hover-color: var(--bs-white);
+                --bs-btn-hover-bg: #b86d7e;
+                --bs-btn-hover-border-color: #b86d7e;
+                --bs-btn-focus-shadow-rgb: 232, 199, 200;
+                --bs-btn-active-color: var(--bs-btn-hover-color);
+                --bs-btn-active-bg: #935765;
+                --bs-btn-active-border-color: #935765;
+            }
+
         </style>
 
     </head>
@@ -39,7 +54,7 @@
                 <h4 class="mt-3">Payment Information</h4>
                 <p class="mt-4 mb-0"><strong><%= order.firstName %> <%= order.lastName %></strong></p>
                 <p class="my-0">XXXX-XXXX-XXXX-<%=lastFour%></p>
-                <p class="my-0">Discover</p>
+                <p class="my-0 text-capitalize"><%= brand %></p>
             </div>
             <div class="col-4 border py-5 px-5">
                 <i class="bi bi-card-heading" style="color:#b86d7e; font-size: 2rem;"></i>
@@ -86,41 +101,50 @@
 
                 <div class="col-1"></div>
                 
-                <div class="col border mt-5 mb-2 p-5 h-100">
-                    <div class="row border-bottom mb-4 pb-4">
-                        <div class="col">
-                            <h3>Payment Overview</h3>
+                <div class="col mt-5 mb-3 h-100">
+                    <div class="container border p-5">
+                        <div class="row border-bottom mb-4 pb-4">
+                            <div class="col">
+                                <h3>Payment Overview</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                                <p style="font-size: 1.2rem; color: gray;">Subtotal:</p>
+                            </div>
+                            <div class="col-sm-1 ms-auto me-5">
+                                <p style="font-size: 1.2rem; color: gray">$<%= Number(subtotal).toFixed(2) %></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                                <p style="font-size: 1.2rem; color: gray;">Shipping:</p>
+                            </div>
+                            <div class="col-sm-1 ms-auto me-5">
+                                <p style="font-size: 1.2rem; color: gray;">$<%= Number(shipping).toFixed(2) %></p>
+                            </div>
+                        </div>
+                        <div class="row border-top pt-3">
+                            <div class="col">
+                                <h4 style="color: #5A5A5A">Total:</h4>
+                            </div>
+                            <div class="col-sm-1 me-5">
+                                <p style="font-size: 1.2rem; color: gray;">$<%= order.amount %></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-1">
-                            <p style="font-size: 1.2rem; color: gray;">Subtotal:</p>
-                        </div>
-                        <div class="col-sm-1 ms-auto me-5">
-                            <p style="font-size: 1.2rem; color: gray">$<%= subtotal %></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-1">
-                            <p style="font-size: 1.2rem; color: gray;">Shipping:</p>
-                        </div>
-                        <div class="col-sm-1 ms-auto me-5">
-                            <p style="font-size: 1.2rem; color: gray;">$<%= Number(shipping).toFixed(2) %></p>
-                        </div>
-                    </div>
-                    <div class="row border-top pt-3">
-                        <div class="col">
-                            <h4 style="color: #5A5A5A">Total:</h4>
-                        </div>
-                        <div class="col-sm-1 ms-auto me-5">
-                            <p style="font-size: 1.2rem; color: gray;">$<%= order.amount %></p>
+
+                    <div class="container text-center">
+                        <div class="row justify-content-center">
+                            <div class="col mt-5 align-self-center">
+                                <a class="btn btn-bd-primary btn-lg" href="/shop">Continue Shopping</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
- 
         <script src='/js/bootstrap.min.js'></script>
     </body>
 </html>

@@ -16,6 +16,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     const lastFour = req.query.lastFour
     const exp = req.query.exp
     const shipping = req.query.shipping
+    const brand = req.query.brand
 
     try {
         let items = await orderItemsRepo.getById(orderId)  
@@ -28,7 +29,7 @@ exports.index = asyncHandler(async (req, res, next) => {
             item.pictureURL = ((await partRepo.getById(item.partNumber))[0].pictureURL)
         }
         
-        res.render('confirmation.ejs', { all: items, order: order, lastFour: lastFour, shipping: shipping, subtotal: subtotal})
+        res.render('confirmation.ejs', { all: items, order: order, lastFour: lastFour, shipping: shipping, subtotal: subtotal, brand: brand})
     } catch {
         console.error('Error viewing invoice:', error)
     }

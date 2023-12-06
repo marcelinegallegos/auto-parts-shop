@@ -51,6 +51,8 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         let order = await orderRepo.create(firstName, lastName, email, amount, weight, address, city, state, zip, country)
         order.amount = amount
 
+        let brand = data.brand
+
         //add order to order_items repository
         for (part of cart.parts) {
             await orderItemsRepo.create(order.id, part.number, part.quantity)
@@ -68,7 +70,7 @@ exports.addOrder = asyncHandler(async (req, res, next) => {
         }
         //mail.sendConfirmationEmail(email, order, items)
 
-        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&lastFour=${lastFour}&exp=${exp}&shipping=${shipping}`})
+        res.status(200).json({'url' : `/shop/confirmation/?orderId=${order.id}&lastFour=${lastFour}&exp=${exp}&shipping=${shipping}&brand=${brand}`})
     } else {
         res.status(400).json(data.errors)
     }
