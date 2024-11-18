@@ -1,16 +1,17 @@
 {
-  "name": "express-starter-product",
+  "name": "auto-parts-shop",
   "version": "1.0.0",
-  "description": "Sample server for CSCI 467",
+  "description": "An e-commerce system for browsing, ordering, and managing auto parts.",
   "main": "app.js",
   "scripts": {
     "start": "set PORT=3100 && node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RaimundEge/express-starter-product.git"
+    "url": "git+https://github.com/marcelinegallegos/auto-parts-ship.git"
   },
-  "author": "Raimund Ege",
+  "author": "Huajie Huang, Kendra Ferguson, Marceline Gallegos, Joe Robin, Megan Moisant",
+  "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "axios": "^1.6.2",
